@@ -1,0 +1,21 @@
+# macOS #
+.DS_Store
+
+# Object file
+*.o
+
+# Ada Library Information
+*.ali
+
+#ignore everything in Obj
+Code/obj/
+
+# Relocated build tree (all object files for every project land here)
+build/
+
+# Alire workspace state (alire.toml IS committed; this directory is not)
+/alire/
+
+# Python bytecode
+__pycache__/
+*.pyc

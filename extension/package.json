@@ -1,0 +1,147 @@
+{
+  "name": "microbit-flasher",
+  "displayName": "micro:bit v2 Flasher",
+  "description": "Flash the micro:bit v2 over WebUSB from inside VS Code, including Codespaces",
+  "version": "0.1.10",
+  "publisher": "AIUnderstand",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aiunderstand/Ada-Embedded-Project-MicroBitV2.git"
+  },
+  "homepage": "https://github.com/aiunderstand/Ada-Embedded-Project-MicroBitV2#readme",
+  "keywords": [
+    "micro:bit",
+    "microbit",
+    "webusb",
+    "ada",
+    "codespaces",
+    "flash"
+  ],
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "browser": "./extension.js",
+  "activationEvents": [
+    "onStartupFinished",
+    "onDebugResolve:cortex-debug"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "microbit.connect",
+        "title": "micro:bit: Connect board",
+        "category": "micro:bit",
+        "icon": "$(plug)"
+      },
+      {
+        "command": "microbit.disconnect",
+        "title": "micro:bit: Disconnect board",
+        "category": "micro:bit",
+        "icon": "$(debug-disconnect)"
+      },
+      {
+        "command": "microbit.flash",
+        "title": "micro:bit: Build and flash",
+        "category": "micro:bit",
+        "icon": "$(zap)"
+      },
+      {
+        "command": "microbit.status",
+        "title": "micro:bit: Show connection status",
+        "category": "micro:bit"
+      },
+      {
+        "command": "microbit.serial",
+        "title": "micro:bit: Open serial console",
+        "category": "micro:bit"
+      },
+      {
+        "command": "microbit.chooseProject",
+        "title": "micro:bit: Choose project to build and flash",
+        "category": "micro:bit",
+        "icon": "$(folder)"
+      },
+      {
+        "command": "microbit.gdb.attach",
+        "title": "micro:bit: (internal) gdb attach",
+        "category": "micro:bit"
+      },
+      {
+        "command": "microbit.gdb.packet",
+        "title": "micro:bit: (internal) gdb packet",
+        "category": "micro:bit"
+      },
+      {
+        "command": "microbit.gdb.interrupt",
+        "title": "micro:bit: (internal) gdb interrupt",
+        "category": "micro:bit"
+      },
+      {
+        "command": "microbit.gdb.detach",
+        "title": "micro:bit: (internal) gdb detach",
+        "category": "micro:bit"
+      },
+      {
+        "command": "microbit.gdb.ping",
+        "title": "micro:bit: (internal) gdb ping",
+        "category": "micro:bit"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "microbit.flash",
+        "key": "ctrl+alt+f"
+      }
+    ],
+    "viewsContainers": {
+      "panel": [
+        {
+          "id": "microbit",
+          "title": "micro:bit",
+          "icon": "$(circuit-board)"
+        }
+      ]
+    },
+    "views": {
+      "microbit": [
+        {
+          "type": "webview",
+          "id": "microbitSerial",
+          "name": "Serial",
+          "icon": "$(circuit-board)",
+          "contextualTitle": "micro:bit serial"
+        }
+      ]
+    },
+    "menus": {
+      "commandPalette": [
+        { "command": "microbit.gdb.attach", "when": "false" },
+        { "command": "microbit.gdb.packet", "when": "false" },
+        { "command": "microbit.gdb.interrupt", "when": "false" },
+        { "command": "microbit.gdb.detach", "when": "false" },
+        { "command": "microbit.gdb.ping", "when": "false" }
+      ],
+      "view/title": [
+        {
+          "command": "microbit.connect",
+          "when": "view == microbitSerial && !microbit.connected",
+          "group": "navigation@1"
+        },
+        {
+          "command": "microbit.disconnect",
+          "when": "view == microbitSerial && microbit.connected",
+          "group": "navigation@1"
+        },
+        {
+          "command": "microbit.flash",
+          "when": "view == microbitSerial",
+          "group": "navigation@2"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,755 @@
+//  micro:bit v2 flasher -- a VS Code *web* extension.
+//
+//  Why a web extension: in a Codespace the terminal, the build and the files all
+//  live on a remote machine with no USB port. A web extension is different --
+//  VS Code loads it into the web extension host running in *your browser*, on
+//  your own laptop, where the board is actually plugged in. So navigator.usb is
+//  reachable from here even though it is not reachable from the Codespace shell.
+//
+//  Authorising a device needs a user gesture, which an extension does not have.
+//  VS Code exposes a built-in command for exactly this:
+//
+//      workbench.experimental.requestUsbDevice({ filters: [...] })
+//
+//  It is marked experimental but is present in current VS Code, and is the same
+//  mechanism the ESP-IDF Web extension uses. After the user picks the board,
+//  navigator.usb.getDevices() returns it here and flashing proceeds normally.
+
+/* global createUSBConnection, GdbServer */
+
+const vscode = require("vscode");
+
+const MICROBIT_VID = 0x0d28; // DAPLink interface chip on the micro:bit v2
+const HEX_PATH = "build/main.hex";
+
+let output;
+let connection = null;
+let status;
+let projectItem; // status bar: which project Ctrl+Alt+F builds and flashes
+
+function log(line) {
+  output.appendLine(line);
+}
+
+function setStatus(text, busy) {
+  status.text = busy ? `$(sync~spin) ${text}` : `$(circuit-board) ${text}`;
+  status.show();
+}
+
+let connected = false;
+
+/** One place for "are we connected": the view's buttons, its status line, the status bar. */
+function setConnected(value) {
+  connected = value;
+  vscode.commands.executeCommand("setContext", "microbit.connected", value);
+  setStatus(value ? "Flash micro:bit (connected)" : "Flash micro:bit", false);
+  if (serialView) {
+    serialView.webview.postMessage({ type: "status", connected: value });
+  }
+}
+
+// ---------------------------------------------------------------- serial
+//
+// The board's UART comes over the same authorised USB device: DAPLink bridges
+// it through the CMSIS-DAP interface, and the bundled library delivers it as
+// "serialdata" events and accepts text back through serialWrite(). The console
+// is a webview view in the bottom panel -- an output area, an input field,
+// Send and Clear. The extension holds the USB connection; the view only shows
+// and asks, so a webview's lack of USB access does not matter here.
+
+const SERIAL_VIEW = "microbitSerial"; // contributes.views id; VS Code adds "<id>.focus"
+const SERIAL_BACKLOG_MAX = 64 * 1024;
+let serialView = null;  // the WebviewView while it exists
+let serialBacklog = ""; // what has been shown, so a re-created view can redraw
+
+function serialReceived(data) {
+  serialBacklog = (serialBacklog + data).slice(-SERIAL_BACKLOG_MAX);
+  if (serialView) {
+    serialView.webview.postMessage({ type: "data", text: data });
+  }
+}
+
+const SERIAL_CHAR_GAP_MS = 10;
+let serialQueue = Promise.resolve();
+
+/**
+ * Send to the board one character at a time, a few milliseconds apart.
+ *
+ * There is no flow control between DAPLink and the nRF52, and the board's
+ * UART driver polls a FIFO of a few bytes. A whole line arrives in under a
+ * millisecond at 115200 baud; a program that prints something per character
+ * cannot keep up, and the first real session ended with the program wedged
+ * after two characters of "hello". Keystrokes from a terminal never came that
+ * fast, which is why the earlier console looked fine.
+ */
+function serialSend(text) {
+  if (!connection) {
+    log("serial: not connected, nothing sent");
+    return Promise.resolve();
+  }
+  const usb = connection;
+  serialQueue = serialQueue
+    .then(async () => {
+      for (const ch of text) {
+        await usb.serialWrite(ch);
+        await new Promise((resolve) => setTimeout(resolve, SERIAL_CHAR_GAP_MS));
+      }
+    })
+    .catch((err) => log(`serial write failed: ${err.message}`));
+  return serialQueue;
+}
+
+/** Show the console. The first time this resolves the view; never steals focus after that. */
+function openSerialConsole() {
+  if (serialView) {
+    serialView.show(true);
+    return;
+  }
+  vscode.commands.executeCommand(`${SERIAL_VIEW}.focus`);
+}
+
+function nonce() {
+  const bytes = new Uint8Array(16);
+  (globalThis.crypto || {}).getRandomValues?.(bytes);
+  return Array.from(bytes, (b) => b.toString(16).padStart(2, "0")).join("") || String(Date.now());
+}
+
+function serialHtml(cspSource) {
+  const n = nonce();
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy"
+      content="default-src 'none'; style-src ${cspSource} 'unsafe-inline'; script-src 'nonce-${n}';">
+<style>
+  html, body { height: 100%; margin: 0; }
+  body { display: flex; flex-direction: column; font-family: var(--vscode-editor-font-family, monospace);
+         font-size: var(--vscode-editor-font-size, 13px); color: var(--vscode-editor-foreground);
+         background: var(--vscode-editor-background); }
+  #status { padding: 3px 8px; font-size: 90%; opacity: 0.8; border-bottom: 1px solid var(--vscode-panel-border, #444); }
+  #status.on::before { content: "\u25cf "; color: var(--vscode-testing-iconPassed, #3c3); }
+  #status.off::before { content: "\u25cb "; }
+  #out { flex: 1; margin: 0; padding: 6px 8px; overflow: auto; white-space: pre-wrap; word-break: break-all; }
+  #out .sent { opacity: 0.6; }
+  form { display: flex; gap: 6px; padding: 6px 8px; border-top: 1px solid var(--vscode-panel-border, #444); }
+  input { flex: 1; font: inherit; padding: 4px 6px; color: var(--vscode-input-foreground);
+          background: var(--vscode-input-background); border: 1px solid var(--vscode-input-border, transparent); }
+  input:focus { outline: 1px solid var(--vscode-focusBorder); }
+  button { font: inherit; padding: 4px 12px; border: none; cursor: pointer;
+           color: var(--vscode-button-foreground); background: var(--vscode-button-background); }
+  button:hover { background: var(--vscode-button-hoverBackground); }
+  button.secondary { color: var(--vscode-button-secondaryForeground); background: var(--vscode-button-secondaryBackground); }
+  button.secondary:hover { background: var(--vscode-button-secondaryHoverBackground); }
+</style>
+</head>
+<body>
+<div id="status" class="off">Not connected \u2014 press Ctrl+Alt+F, or Connect in this view's header</div>
+<pre id="out" aria-live="polite"></pre>
+<form id="form" autocomplete="off">
+  <input id="in" type="text" placeholder="Type a line and press Enter to send it to the micro:bit" aria-label="Text to send">
+  <button type="submit" id="send">Send</button>
+  <button type="button" id="clear" class="secondary">Clear</button>
+</form>
+<script nonce="${n}">
+  const vscode = acquireVsCodeApi();
+  const out = document.getElementById("out");
+  const form = document.getElementById("form");
+  const input = document.getElementById("in");
+  const MAX = 200 * 1024;
+  function append(text, cls) {
+    const atBottom = out.scrollTop + out.clientHeight >= out.scrollHeight - 24;
+    const node = cls ? Object.assign(document.createElement("span"), { className: cls, textContent: text })
+                     : document.createTextNode(text);
+    out.appendChild(node);
+    while (out.textContent.length > MAX && out.firstChild) out.removeChild(out.firstChild);
+    if (atBottom) out.scrollTop = out.scrollHeight;
+  }
+  window.addEventListener("message", (e) => {
+    const m = e.data;
+    if (m.type === "data") append(m.text);
+    else if (m.type === "clear") out.textContent = "";
+    else if (m.type === "status") {
+      const el = document.getElementById("status");
+      el.className = m.connected ? "on" : "off";
+      el.textContent = m.connected ? "Connected to the micro:bit"
+        : "Not connected \u2014 press Ctrl+Alt+F, or Connect in this view's header";
+    }
+  });
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const text = input.value;
+    input.value = "";
+    append("\u203a " + text + "\\n", "sent");
+    vscode.postMessage({ type: "send", text });
+    input.focus();
+  });
+  document.getElementById("clear").addEventListener("click", () => {
+    out.textContent = "";
+    vscode.postMessage({ type: "clear" });
+    input.focus();
+  });
+  vscode.postMessage({ type: "ready" });
+</script>
+</body>
+</html>`;
+}
+
+const serialViewProvider = {
+  resolveWebviewView(view) {
+    serialView = view;
+    view.webview.options = { enableScripts: true };
+    view.webview.html = serialHtml(view.webview.cspSource);
+    view.webview.onDidReceiveMessage((m) => {
+      if (m.type === "ready") {
+        // A new view (first open, or re-created after the panel was closed)
+        // starts from what has been received so far.
+        view.webview.postMessage({ type: "status", connected });
+        if (serialBacklog) view.webview.postMessage({ type: "data", text: serialBacklog });
+      } else if (m.type === "send") {
+        // Enter sends CR LF, the terminator Put_Line itself writes, so a Get
+        // loop that stops on either character works.
+        serialSend(`${m.text}\r\n`);
+      } else if (m.type === "clear") {
+        serialBacklog = "";
+      }
+    });
+    view.onDidDispose(() => {
+      if (serialView === view) serialView = null;
+    });
+  },
+};
+
+/** The first workspace folder, or undefined when no folder is open. */
+function workspaceRoot() {
+  const folders = vscode.workspace.workspaceFolders;
+  return folders && folders.length ? folders[0].uri : undefined;
+}
+
+async function hexExists() {
+  const root = workspaceRoot();
+  if (!root) return false;
+  try {
+    await vscode.workspace.fs.stat(vscode.Uri.joinPath(root, ...HEX_PATH.split("/")));
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+async function readTextIfPresent(relPath) {
+  const root = workspaceRoot();
+  if (!root) return "";
+  try {
+    const bytes = await vscode.workspace.fs.readFile(vscode.Uri.joinPath(root, ...relPath.split("/")));
+    return new TextDecoder().decode(bytes).trim();
+  } catch {
+    return "";
+  }
+}
+
+async function readHex() {
+  const root = workspaceRoot();
+  if (!root) {
+    throw new Error("No folder is open.");
+  }
+  const uri = vscode.Uri.joinPath(root, ...HEX_PATH.split("/"));
+  let bytes;
+  try {
+    bytes = await vscode.workspace.fs.readFile(uri);
+  } catch {
+    throw new Error(
+      `${HEX_PATH} not found. Build first: press Ctrl+Shift+B, or run ` +
+        "python3 tools/mb.py build"
+    );
+  }
+  const text = new TextDecoder().decode(bytes);
+  const lines = text.split(/\r?\n/).filter((l) => l.trim() !== "");
+  if (!lines.length || !lines[0].startsWith(":")) {
+    throw new Error(`${HEX_PATH} is not an Intel HEX file.`);
+  }
+  if (lines[lines.length - 1].toUpperCase() !== ":00000001FF") {
+    throw new Error(`${HEX_PATH} is truncated (no end-of-file record).`);
+  }
+  return text;
+}
+
+const usbAvailable = () => typeof navigator !== "undefined" && !!navigator.usb;
+
+/** The micro:bit this browser has already authorised, if any. Never prompts. */
+async function authorisedDevice() {
+  const devices = await navigator.usb.getDevices();
+  return devices.find((d) => d.vendorId === MICROBIT_VID);
+}
+
+/**
+ * The connection, if it still is one. Unplugging the board leaves the
+ * library's object behind with a status other than "Connected" -- its
+ * disconnect handler, installed by initialize(), records that -- and a
+ * re-plugged board is a new USBDevice, so such an object is dropped here and
+ * the next use reconnects instead of failing on a device Chrome has closed.
+ */
+function liveConnection() {
+  if (connection && connection.status !== "Connected") {
+    log(`the previous connection is ${connection.status}; it will be re-made`);
+    try {
+      connection.dispose?.();
+    } catch {
+      // nothing left to release
+    }
+    connection = null;
+    setConnected(false);
+  }
+  return connection;
+}
+
+/** Ensure we have a USB connection, authorising a device if needed. */
+async function ensureConnected() {
+  if (liveConnection()) {
+    return connection;
+  }
+  if (!usbAvailable()) {
+    throw new Error(
+      "This VS Code cannot reach USB devices. Flashing from here needs a " +
+        "Chromium-based browser (Chrome, Edge or Opera). In desktop VS Code, " +
+        "flash with: python3 tools/mb.py flash"
+    );
+  }
+
+  // Already-authorised devices need no prompt.
+  let device = await authorisedDevice();
+  if (!device) {
+    log("Asking you to choose the micro:bit...");
+    await vscode.commands.executeCommand(
+      "workbench.experimental.requestUsbDevice",
+      { filters: [{ vendorId: MICROBIT_VID }] }
+    );
+    device = await authorisedDevice();
+  }
+  if (!device) {
+    throw new Error("No micro:bit was selected.");
+  }
+  return connectTo(device);
+}
+
+/**
+ * Connect to a board this browser has already authorised, or return null.
+ * For the places that have no user gesture to spend on the picker: the
+ * reconnect at activation, and a debug session arriving through gdb.
+ */
+async function connectIfAuthorised() {
+  if (liveConnection()) {
+    return connection;
+  }
+  if (!usbAvailable()) {
+    return null;
+  }
+  const device = await authorisedDevice();
+  return device ? connectTo(device) : null;
+}
+
+async function connectTo(device) {
+  // pauseOnHidden touches window/document, which do not exist in a worker.
+  //
+  // Left to itself the library asks for a device with
+  // navigator.usb.requestDevice(), which exists on a page and not in a worker
+  // ("navigator.usb.requestDevice is not a function", from a real Codespace).
+  // The workbench has just authorised one, so hand it over -- that path also
+  // reports a failed connection instead of swallowing it and asking again --
+  // and route the library's own log into the output channel.
+  const usb = createUSBConnection({
+    pauseOnHidden: false,
+    deviceSelectionMode: "UseAnyAllowed",
+    logging: { log: (m) => log(`  [usb] ${m}`), event: () => {} },
+  });
+  usb.usbDevice = device;
+  usb.addEventListener("status", ({ status: s }) => {
+    log(`connection: ${s}`);
+    setConnected(s === "Connected");
+  });
+  usb.addEventListener("serialdata", ({ data }) => serialReceived(data));
+  usb.addEventListener("serialreset", () => serialReceived("\n--- program restarted ---\n"));
+  // Installs the library's WebUSB "disconnect" handler, which is what turns
+  // an unplugged board into a status other than "Connected" (worker-safe: it
+  // touches window only where one exists). Without it the object would
+  // claim to be connected to a device that no longer is.
+  await usb.initialize?.();
+  await usb.connect();
+  connection = usb;
+  return usb;
+}
+
+async function cmdConnect() {
+  output.show(true);
+  try {
+    setStatus("connecting", true);
+    await ensureConnected();
+    log("Connected. Serial output is in the micro:bit Serial view.");
+    openSerialConsole();
+    setConnected(true);
+  } catch (err) {
+    setConnected(false);
+    log(`Error: ${err.message}`);
+    vscode.window.showErrorMessage(`micro:bit: ${err.message}`);
+  }
+}
+
+async function cmdDisconnect() {
+  if (gdb) {
+    // Otherwise the core is left halted on breakpoints nothing can clear.
+    log("Ending the debug session first.");
+    await cmdGdbDetach();
+  }
+  const usb = connection;
+  connection = null;
+  setConnected(false);
+  if (usb) {
+    try {
+      await usb.disconnect();
+      log("Disconnected.");
+    } catch (err) {
+      log(`disconnect: ${err.message}`);
+    }
+  }
+}
+
+const BUILD_TASK = "Build";
+const CHOOSE_TASK = "Choose project..."; // tasks.json label; its input shows the list
+
+/** What mb.py will build next: build/project.txt, or the template. */
+async function refreshProjectItem() {
+  const chosen = (await readTextIfPresent("build/project.txt")) || "template";
+  projectItem.text = `$(folder) ${chosen}`;
+  projectItem.tooltip = `Ctrl+Alt+F builds and flashes: ${chosen}. Click to choose another project, or 'template' for your own program.`;
+  projectItem.show();
+}
+
+/**
+ * Run the "Choose project..." task and refresh the item when it ends. Run
+ * Build Task (Ctrl+Shift+B) would not show it: with a default build task VS
+ * Code runs that at once, no picker, and nobody finds "Tasks: Run Task".
+ */
+async function cmdChooseProject() {
+  const sub = vscode.tasks.onDidEndTaskProcess((e) => {
+    if (e.execution.task.name === CHOOSE_TASK) {
+      sub.dispose();
+      refreshProjectItem();
+    }
+  });
+  await vscode.commands.executeCommand("workbench.action.tasks.runTask", CHOOSE_TASK);
+}
+const BUILD_TIMEOUT_MS = 10 * 60 * 1000; // a cold Codespace build can take minutes
+
+/** Run the workspace "Build" task and wait for it; null when there is none. */
+async function runBuildTask() {
+  let task;
+  try {
+    const all = await vscode.tasks.fetchTasks();
+    task = all.find((t) => t.name === BUILD_TASK);
+  } catch {
+    return null;
+  }
+  if (!task) {
+    return null; // no task to run; fall back to whatever is already built
+  }
+  log("Building...");
+  setStatus("building", true);
+  // Not vscode.tasks.executeTask: in the *web worker* extension host that only
+  // accepts CustomExecution tasks and throws NotSupported for a shell/process
+  // task, which is what "Build" is. The workbench command runs any task, on the
+  // remote, from any host; completion arrives as an ordinary task event.
+  const finished = new Promise((resolve) => {
+    const timer = setTimeout(() => { sub.dispose(); resolve(null); }, BUILD_TIMEOUT_MS);
+    const sub = vscode.tasks.onDidEndTaskProcess((e) => {
+      if (e.execution.task.name === BUILD_TASK) {
+        clearTimeout(timer);
+        sub.dispose();
+        resolve(e.exitCode === 0);
+      }
+    });
+  });
+  await vscode.commands.executeCommand("workbench.action.tasks.runTask", BUILD_TASK);
+  log(`Task "${BUILD_TASK}" started; waiting for it to finish...`);
+  const result = await finished;
+  refreshProjectItem();
+  return result;
+}
+
+/** Flash an Intel HEX text, with a progress notification. Ctrl+Alt+F and gdb's `load` both end here. */
+function flashHex(usb, hex) {
+  return vscode.window.withProgress(
+    { location: vscode.ProgressLocation.Notification, title: "Flashing micro:bit" },
+    async (progress) => {
+      let last = 0;
+      await usb.flash(async () => hex, {
+        // Partial flashing is a MakeCode feature that relies on that
+        // toolchain's flash layout; a GNAT-built hex must be flashed in full.
+        partial: false,
+        progress: (stage, fraction) => {
+          const pct = Math.round((fraction ?? 0) * 100);
+          progress.report({ increment: pct - last, message: String(stage) });
+          last = pct;
+        },
+      });
+    }
+  );
+}
+
+async function cmdFlash() {
+  output.show(true);
+  try {
+    // Flashing under gdb's feet would answer its pending `continue` with a
+    // stop mid-flash and leave it debugging a program that is no longer there.
+    if (gdb) {
+      throw new Error("A debug session is running. Stop it first (Shift+F5); F5 rebuilds and reflashes.");
+    }
+    // The board first: Chrome shows the USB picker only while it is handling
+    // the user's gesture, a window of about five seconds, and a full build is
+    // longer than that. Asking now, straight from the keypress, keeps the first
+    // flash on a machine inside it; once authorised there is no picker at all.
+    const usb = await ensureConnected();
+    // Then build, so one action does the whole job and a stale hex can never
+    // be flashed silently. Previously this failed with "build first" if you
+    // forgot, and the status-bar button could flash yesterday's firmware.
+    const built = await runBuildTask();
+    if (built === false) {
+      throw new Error("The build failed; see the terminal. Nothing was flashed.");
+    }
+    if (built === null && !(await hexExists())) {
+      throw new Error(
+        "Nothing to flash. Build first: Ctrl+Shift+B, or python3 tools/mb.py build"
+      );
+    }
+    const hex = await readHex();
+    await flashHex(usb, hex);
+    // mb.py records which project it staged; with "Choose project..." in
+    // play, the student needs to see what actually went to the board.
+    const project = await readTextIfPresent("build/last-project.txt");
+    const what = project ? `${HEX_PATH} (${project})` : HEX_PATH;
+    log(`Flashed ${what}.`);
+    openSerialConsole();
+    vscode.window.showInformationMessage(`micro:bit flashed: ${project || "build/main.hex"}.`);
+  } catch (err) {
+    // The stack goes to the output channel: "NotSupported" alone says nothing
+    // about which VS Code API refused, and that is the question in a web host.
+    log(`Error: ${err.stack || err.message}`);
+    vscode.window.showErrorMessage(`micro:bit: ${err.message}`);
+  } finally {
+    // Never leave the "building" spinner behind after a failure.
+    const connected = connection && connection.status === "Connected";
+    setStatus(connected ? "Flash micro:bit (connected)" : "Flash micro:bit", false);
+  }
+}
+
+// ------------------------------------------------------------- debugging
+//
+// F5 in a Codespace. arm-eabi-gdb runs in the Codespace, where the ELF is,
+// and talks to a TCP port the companion extension opens there. The companion
+// forwards every gdb packet to microbit.gdb.packet, and GdbServer
+// (gdbserver.js, bundled ahead of this file) answers it over the USB
+// connection the flasher already holds. VS Code routes a command to whichever
+// extension host registered it, which is how the Codespace half reaches the
+// browser half.
+
+let gdb = null; // the GdbServer while gdb is attached
+
+/**
+ * What GdbServer needs from the board, looked up on every call: the library
+ * replaces its device object when it reconnects to flash.
+ */
+function debugTarget() {
+  const dev = () => {
+    if (!connection || !connection.device) {
+      throw new Error("the micro:bit is not connected");
+    }
+    return connection.device;
+  };
+  return {
+    readMem32: (addr) => dev().adi.readMem32(addr),
+    writeMem32: (addr, value) => dev().adi.writeMem32(addr, value),
+    readBlock: (addr, words) => dev().adi.readBlock(addr, words),
+    writeBlock: (addr, words) => dev().adi.writeBlock(addr, words),
+    readCoreRegister: (sel) => dev().cortexM.readCoreRegister(sel),
+    writeCoreRegister: (sel, value) => dev().cortexM.writeCoreRegister(sel, value),
+    flash: (hex) => {
+      dev(); // the same "not connected" error as the others, before any toast
+      return flashHex(connection, hex);
+    },
+  };
+}
+
+async function cmdGdbAttach() {
+  output.show(true);
+  // No user gesture reaches this point -- F5 went through gdb, a socket and
+  // the companion -- so the picker cannot be shown from here. Normally the
+  // debug-configuration provider above already connected the board at the
+  // keypress; this is the fallback for a dismissed picker, or a flasher that
+  // had not finished starting when F5 was pressed.
+  if (!(await connectIfAuthorised())) {
+    throw new Error(
+      "Connect the micro:bit first: press F5 again and choose the board in the " +
+        "picker, or press Connect in the Serial view's header."
+    );
+  }
+  if (gdb) {
+    await gdb.detach();
+  }
+  gdb = new GdbServer(debugTarget(), { log });
+  await gdb.attach();
+  return "attached";
+}
+
+function cmdGdbPacket(body) {
+  if (!gdb) {
+    throw new Error("no debug session");
+  }
+  return gdb.handle(body);
+}
+
+async function cmdGdbInterrupt() {
+  if (gdb) {
+    await gdb.interrupt();
+  }
+}
+
+async function cmdGdbDetach() {
+  const session = gdb;
+  gdb = null;
+  if (session) {
+    await session.detach();
+  }
+}
+
+// The attach above arrives through gdb, the companion and a socket, seconds
+// after the keypress, and Chrome shows the USB picker only while it is
+// handling a gesture -- so the attach cannot ask for the board. F5 itself is
+// a gesture, though. VS Code asks every debug-configuration provider for the
+// type to resolve the configuration before it builds or starts anything, and
+// a provider registered here, in the browser, runs inside that window. So the
+// board is asked for at F5, exactly as Ctrl+Alt+F asks before building; by
+// the time gdb attaches, the connection already exists.
+const debugConfigurationProvider = {
+  async resolveDebugConfiguration(folder, config) {
+    // Desktop VS Code, or a browser without WebUSB: pyocd owns the board
+    // there, and holding it over WebUSB would take it away from pyocd.
+    if (!config || vscode.env.uiKind !== vscode.UIKind.Web || !usbAvailable()) {
+      return config;
+    }
+    try {
+      await ensureConnected();
+    } catch (err) {
+      log(`F5: ${err.message}`);
+      vscode.window.showErrorMessage(
+        `micro:bit: ${err.message} Debugging needs the board: plug it in and press F5 again.`
+      );
+      return undefined; // cancels the launch; the message says why
+    }
+    return config;
+  },
+};
+
+async function cmdStatus() {
+  output.show(true);
+  log("--- status ---");
+  log(`navigator.usb available: ${typeof navigator !== "undefined" && !!navigator.usb}`);
+  if (typeof navigator !== "undefined" && navigator.usb) {
+    const devices = await navigator.usb.getDevices();
+    log(`authorised devices: ${devices.length}`);
+    for (const d of devices) {
+      log(
+        `  ${d.productName || "(unnamed)"} ` +
+          `vid=0x${d.vendorId.toString(16)} pid=0x${d.productId.toString(16)}`
+      );
+    }
+  }
+  log(`connection: ${connection ? connection.status : "none"}`);
+  log(`gdb: ${gdb ? (gdb.running ? "attached, program running" : "attached, program stopped") : "not attached"}`);
+  // The companion lives in the Codespace; this round trip is what every gdb
+  // packet costs, so it is the number to quote when stepping feels slow.
+  try {
+    const t0 = Date.now();
+    await vscode.commands.executeCommand("microbit.companion.ping");
+    log(`companion round trip: ${Date.now() - t0} ms`);
+  } catch {
+    log("companion: not reachable (desktop VS Code, or the companion is not installed)");
+  }
+}
+
+function activate(context) {
+  output = vscode.window.createOutputChannel("micro:bit");
+  status = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
+  status.command = "microbit.flash";
+  status.tooltip = "Build and flash to the micro:bit";
+  setStatus("Flash micro:bit", false);
+  projectItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 99);
+  projectItem.command = "microbit.chooseProject";
+  refreshProjectItem();
+
+  context.subscriptions.push(
+    output,
+    status,
+    projectItem,
+    vscode.commands.registerCommand("microbit.connect", cmdConnect),
+    vscode.commands.registerCommand("microbit.disconnect", cmdDisconnect),
+    vscode.commands.registerCommand("microbit.flash", cmdFlash),
+    vscode.commands.registerCommand("microbit.status", cmdStatus),
+    vscode.commands.registerCommand("microbit.serial", openSerialConsole),
+    vscode.commands.registerCommand("microbit.chooseProject", cmdChooseProject),
+    // For the companion, not for people: hidden from the command palette.
+    vscode.commands.registerCommand("microbit.gdb.attach", cmdGdbAttach),
+    vscode.commands.registerCommand("microbit.gdb.packet", cmdGdbPacket),
+    vscode.commands.registerCommand("microbit.gdb.interrupt", cmdGdbInterrupt),
+    vscode.commands.registerCommand("microbit.gdb.detach", cmdGdbDetach),
+    vscode.commands.registerCommand("microbit.gdb.ping", () => "pong"),
+    // Asks for the board at F5, inside the keypress's gesture window.
+    vscode.debug.registerDebugConfigurationProvider("cortex-debug", debugConfigurationProvider),
+    vscode.window.registerWebviewViewProvider(SERIAL_VIEW, serialViewProvider,
+      { webviewOptions: { retainContextWhenHidden: true } })
+  );
+
+  // Reconnect silently if the board was authorised earlier in this browser, so
+  // the device picker appears once ever rather than once per session, and serial
+  // output starts flowing without the student doing anything.
+  (async () => {
+    try {
+      if (usbAvailable() && (await authorisedDevice())) {
+        log("Board already authorised; connecting...");
+        await connectIfAuthorised();
+      }
+    } catch (err) {
+      log(`(could not reconnect automatically: ${err.message})`);
+    }
+  })();
+
+  log("micro:bit flasher ready.");
+  if (typeof navigator === "undefined" || !navigator.usb) {
+    log(
+      "note: navigator.usb is not available in this extension host, so this " +
+        "extension cannot flash here. That is expected in desktop VS Code; use " +
+        "python3 tools/mb.py flash instead."
+    );
+  }
+}
+
+function deactivate() {
+  if (gdb) {
+    gdb.detach().catch(() => {});
+  }
+  if (connection) {
+    connection.disconnect().catch(() => {});
+  }
+}
+
+module.exports = {
+  activate,
+  deactivate,
+  // For tools/test_extension.mjs, which has no board to emit serial data.
+  _serial: {
+    received: serialReceived,
+    open: openSerialConsole,
+    setConnection: (c) => { connection = c; },
+  },
+  _debug: {
+    setSession: (s) => { gdb = s; },
+  },
+};
