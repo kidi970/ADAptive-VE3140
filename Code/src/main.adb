@@ -4,7 +4,6 @@ use MicroBit;
 -- Project name: [project name]
 -- Project members: [name, name, .. ]
 
-
 --This is a project template for the MicroBit v2, built against the embedded-nrf52833
 --runtime (a Ravenscar/Jorvik-style profile) so we have a language-supported real-time
 --OS for embedded targets. The runtime ships with the gnat_arm_elf toolchain that Alire
@@ -18,10 +17,12 @@ use MicroBit;
 --  5) How to integrate your Ada project with a Unity project over USB
 
 -- Open a View > Cross Platforms > Serial Ports to see Put_Line output. Set the baud rate to 115.200
+
 procedure Main with Priority => 0 is
 
 begin
    Put_Line (" <-- The zero means: Let's get started...");
+   Put_Line (" Hei Nicolay");
    loop
       null;
    end loop;
