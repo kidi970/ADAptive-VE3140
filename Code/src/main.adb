@@ -10,6 +10,7 @@ procedure Main is
    package Front_Sensor is new MicroBit.Ultrasonic (MB_P13, MB_P1);
 
    Front_Distance : Distance_cm := 0;
+   Reading_1, Reading_2, Reading_3 : Distance_cm := 0;
    Status : I2C_Status;
 
    Port : constant Any_I2C_Port := MicroBit.I2C.ControllerExt;
@@ -25,6 +26,17 @@ procedure Main is
 
    Zero_Block : constant I2C_Data (1 .. 17) := (1 => 16#40#, others => 16#00#);
 
+
+   function Median (A, B, C : Distance_cm) return Distance_cm is
+   begin
+      if (A <= B and then B <= C) or else (C <= B and then B <= A) then
+         return B;
+      elsif (B <= A and then A <= C) or else (C <= A and then A <= B) then
+         return A;
+      else
+         return C;
+      end if;
+   end Median;
 
 
    procedure Draw_Char (C : Character) is
@@ -227,7 +239,27 @@ begin
 
 
    loop
-      Front_Distance := Front_Sensor.Read;
+
+      Reading_1 := Front_Sensor.Read;
+      delay 0.07;
+
+      Reading_2 := Front_Sensor.Read;
+      delay 0.07;
+
+      Reading_3 := Front_Sensor.Read;
+
+      Front_Distance := Median (Reading_1, Reading_2, Reading_3);
+
+      Put_Line
+        ("RAW:"
+         & Distance_cm'Image (Reading_1)
+         & ","
+         & Distance_cm'Image (Reading_2)
+         & ","
+         & Distance_cm'Image (Reading_3)
+         & " | FILTERED:"
+         & Distance_cm'Image (Front_Distance));
+
 
       if Front_Distance >= 2 and then Front_Distance <= 400 then
          Put_Line ("FRONT:" & Distance_cm'Image (Front_Distance) & " cm");
