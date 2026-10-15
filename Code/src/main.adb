@@ -10,8 +10,33 @@ procedure Main is
    package Front_Sensor is new MicroBit.Ultrasonic (MB_P13, MB_P1);
 
    Front_Distance : Distance_cm := 0;
+
+   -- Movement states
+   type Movement_State is (Stop, Forward, Reverse_Drive, Turn);
+
+   -- Current movement state
+   Current_State : Movement_State := Stop;
+
+   function State_Text (State : Movement_State) return String is
+   begin
+      case State is
+         when Stop          =>
+            return "STOP";
+
+         when Forward       =>
+            return "FORWARD";
+
+         when Reverse_Drive =>
+            return "REVERSE";
+
+         when Turn          =>
+            return "TURN";
+      end case;
+   end State_Text;
+
+
    Reading_1, Reading_2, Reading_3 : Distance_cm := 0;
-   Status : I2C_Status;
+   Status                          : I2C_Status;
 
    Port : constant Any_I2C_Port := MicroBit.I2C.ControllerExt;
 
@@ -26,7 +51,6 @@ procedure Main is
 
    Zero_Block : constant I2C_Data (1 .. 17) := (1 => 16#40#, others => 16#00#);
 
-
    function Median (A, B, C : Distance_cm) return Distance_cm is
    begin
       if (A <= B and then B <= C) or else (C <= B and then B <= A) then
@@ -37,7 +61,6 @@ procedure Main is
          return C;
       end if;
    end Median;
-
 
    procedure Draw_Char (C : Character) is
       Pixels : I2C_Data (1 .. 7) := (1 => 16#40#, others => 0);
@@ -100,6 +123,32 @@ procedure Main is
          when '9'    =>
             Pixels (2 .. 6) := (16#06#, 16#49#, 16#49#, 16#29#, 16#1E#);
 
+
+         when 'S'    =>
+            Pixels (2 .. 6) := (16#46#, 16#49#, 16#49#, 16#49#, 16#31#);
+
+         when 'A'    =>
+            Pixels (2 .. 6) := (16#7E#, 16#11#, 16#11#, 16#11#, 16#7E#);
+
+         when 'U'    =>
+            Pixels (2 .. 6) := (16#3F#, 16#40#, 16#40#, 16#40#, 16#3F#);
+
+         when 'P'    =>
+            Pixels (2 .. 6) := (16#7F#, 16#09#, 16#09#, 16#09#, 16#06#);
+
+         when 'W'    =>
+            Pixels (2 .. 6) := (16#7F#, 16#20#, 16#18#, 16#20#, 16#7F#);
+
+         when 'D'    =>
+            Pixels (2 .. 6) := (16#7F#, 16#41#, 16#41#, 16#22#, 16#1C#);
+
+         when 'E'    =>
+            Pixels (2 .. 6) := (16#7F#, 16#49#, 16#49#, 16#49#, 16#41#);
+
+         when 'V'    =>
+            Pixels (2 .. 6) := (16#1F#, 16#20#, 16#40#, 16#20#, 16#1F#);
+
+
          when others =>
             null;
       end case;
@@ -109,22 +158,55 @@ procedure Main is
 
    procedure Show_Front (Message : String) is
    begin
-      -- Select OLED page 5 and column 0
-      Send ("PAGE", (16#00#, 16#B5#));
+      -- Select page 1
+      Send ("PAGE", (16#00#, 16#B1#));
+
+      -- Start at column 0
       Send ("COLUMN", (16#00#, 16#00#, 16#10#));
 
-      -- Clear 128 columns
+      -- Clear previous distance
       for Block in 1 .. 8 loop
          Send ("CLEAR", Zero_Block);
       end loop;
 
-      -- Start writing at column 22
+      -- Restore page 1 after clearing
+      Send ("PAGE", (16#00#, 16#B1#));
+
+      -- Start at column 22
       Send ("COLUMN", (16#00#, 16#06#, 16#11#));
 
+      -- Draw distance
       for C of Message loop
          Draw_Char (C);
       end loop;
    end Show_Front;
+
+   procedure Show_Status (Message : String) is
+   begin
+      -- Select page 6
+      Send ("STATUS PAGE", (16#00#, 16#B6#));
+
+      -- Start at column 0
+      Send ("COLUMN", (16#00#, 16#00#, 16#10#));
+
+      -- Clear previous status
+      for Block in 1 .. 8 loop
+         Send ("CLEAR", Zero_Block);
+      end loop;
+
+      -- IMPORTANT: Select page 6 AGAIN after clearing
+      Send ("STATUS PAGE", (16#00#, 16#B6#));
+
+      -- Start at column 20
+      Send ("COLUMN", (16#00#, 16#04#, 16#11#));
+
+      -- Draw status text
+      for C of Message loop
+         Draw_Char (C);
+      end loop;
+   end Show_Status;
+
+
 
    -- Font: ADAptive (5x7)
    Title_Data : constant I2C_Data :=
@@ -237,6 +319,9 @@ begin
 
    Put_Line ("ADAptive displayed");
 
+   Put_Line ("STATUS: " & State_Text (Current_State));
+
+   Show_Status ("STATUS: " & State_Text (Current_State));
 
    loop
 
@@ -259,7 +344,6 @@ begin
          & Distance_cm'Image (Reading_3)
          & " | FILTERED:"
          & Distance_cm'Image (Front_Distance));
-
 
       if Front_Distance >= 2 and then Front_Distance <= 400 then
          Put_Line ("FRONT:" & Distance_cm'Image (Front_Distance) & " cm");
