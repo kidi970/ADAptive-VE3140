@@ -1,25 +1,89 @@
 with MicroBit;         use MicroBit;
 with MicroBit.Ultrasonic;
+with MicroBit.DisplayRT;
 with MicroBit.Types;   use MicroBit.Types;
 with MicroBit.Console; use MicroBit.Console;
 with MicroBit.I2C;
 with HAL;              use HAL;
 with HAL.I2C;          use HAL.I2C;
+with MicroBit.MotorDriver;
 
 procedure Main is
    package Front_Sensor is new MicroBit.Ultrasonic (MB_P13, MB_P1);
 
+   -- Distance measurements from servo scanning
    Front_Distance : Distance_cm := 0;
 
+   Distance_A     : Distance_cm := 0;
+   Distance_Front : Distance_cm := 0;
+   Distance_B     : Distance_cm := 0;
+
+   -- Selected direction after scanning
+   type Scan_Direction is (Side_A, Straight, Side_B, Blocked);
+
+   Best_Direction : Scan_Direction := Blocked;
    -- Movement states
-   type Movement_State is (Stop, Forward, Reverse_Drive, Turn);
+   type Movement_State is (Stop, Forward, Reverse_Drive, Scan, Turn, Verify);
+
 
    -- Current movement state
    Current_State : Movement_State := Stop;
 
+   procedure Show_Direction (Direction : Character) is
+      use MicroBit.DisplayRT;
+
+      procedure Draw (Row : Coord; Pattern : String) is
+      begin
+         for X in Pattern'Range loop
+            if Pattern (X) = '1' then
+               Set (Coord (X - Pattern'First), Row);
+            end if;
+         end loop;
+      end Draw;
+
+   begin
+      Clear;
+
+      case Direction is
+         when 'L'    =>
+            Draw (0, "00100");
+            Draw (1, "01000");
+            Draw (2, "11111");
+            Draw (3, "01000");
+            Draw (4, "00100");
+
+         when 'R'    =>
+            Draw (0, "00100");
+            Draw (1, "00010");
+            Draw (2, "11111");
+            Draw (3, "00010");
+            Draw (4, "00100");
+
+         when 'F'    =>
+            Draw (0, "00100");
+            Draw (1, "01110");
+            Draw (2, "10101");
+            Draw (3, "00100");
+            Draw (4, "00100");
+
+         when others =>
+            Draw (0, "10001");
+            Draw (1, "01010");
+            Draw (2, "00100");
+            Draw (3, "01010");
+            Draw (4, "10001");
+      end case;
+   end Show_Direction;
+
    function State_Text (State : Movement_State) return String is
    begin
       case State is
+         when Scan          =>
+            return "SCAN";
+
+         when Verify        =>
+            return "VERIFY";
+
          when Stop          =>
             return "STOP";
 
@@ -33,7 +97,6 @@ procedure Main is
             return "TURN";
       end case;
    end State_Text;
-
 
    Reading_1, Reading_2, Reading_3 : Distance_cm := 0;
    Status                          : I2C_Status;
@@ -52,14 +115,43 @@ procedure Main is
    Zero_Block : constant I2C_Data (1 .. 17) := (1 => 16#40#, others => 16#00#);
 
    function Median (A, B, C : Distance_cm) return Distance_cm is
+      function Valid (D : Distance_cm) return Boolean is
+      begin
+         return D >= 2 and then D <= 200;
+      end Valid;
+
+      function Close (X, Y : Distance_cm) return Boolean is
+      begin
+         return
+           (X >= Y and then X - Y <= 15) or else (Y > X and then Y - X <= 15);
+      end Close;
+
+      Result : Distance_cm := 0;
    begin
-      if (A <= B and then B <= C) or else (C <= B and then B <= A) then
-         return B;
-      elsif (B <= A and then A <= C) or else (C <= A and then A <= B) then
-         return A;
-      else
-         return C;
+      -- Require at least two valid, agreeing measurements.
+      -- Use the lowest agreeing value conservatively.
+
+      if Valid (A) and then Valid (B) and then Close (A, B) then
+         Result := Distance_cm'Min (A, B);
       end if;
+
+      if Valid (A) and then Valid (C) and then Close (A, C) then
+         if Result = 0 then
+            Result := Distance_cm'Min (A, C);
+         else
+            Result := Distance_cm'Min (Result, Distance_cm'Min (A, C));
+         end if;
+      end if;
+
+      if Valid (B) and then Valid (C) and then Close (B, C) then
+         if Result = 0 then
+            Result := Distance_cm'Min (B, C);
+         else
+            Result := Distance_cm'Min (Result, Distance_cm'Min (B, C));
+         end if;
+      end if;
+
+      return Result;
    end Median;
 
    procedure Draw_Char (C : Character) is
@@ -123,7 +215,6 @@ procedure Main is
          when '9'    =>
             Pixels (2 .. 6) := (16#06#, 16#49#, 16#49#, 16#29#, 16#1E#);
 
-
          when 'S'    =>
             Pixels (2 .. 6) := (16#46#, 16#49#, 16#49#, 16#49#, 16#31#);
 
@@ -147,7 +238,6 @@ procedure Main is
 
          when 'V'    =>
             Pixels (2 .. 6) := (16#1F#, 16#20#, 16#40#, 16#20#, 16#1F#);
-
 
          when others =>
             null;
@@ -205,8 +295,6 @@ procedure Main is
          Draw_Char (C);
       end loop;
    end Show_Status;
-
-
 
    -- Font: ADAptive (5x7)
    Title_Data : constant I2C_Data :=
@@ -323,38 +411,253 @@ begin
 
    Show_Status ("STATUS: " & State_Text (Current_State));
 
-   loop
+      -- ADAptive FSM test
+   -- Forward motor movement is disabled during this test.
 
-      Reading_1 := Front_Sensor.Read;
-      delay 0.07;
+   declare
+      Max_Test_Steps : constant Natural := 60;
+      Test_Steps     : Natural := 0;
+   begin
+      MicroBit.MotorDriver.Drive (Direction => MicroBit.MotorDriver.Stop);
 
-      Reading_2 := Front_Sensor.Read;
-      delay 0.07;
+      MicroBit.MotorDriver.Servo (ServoPin => 2, Angle => 84);
 
-      Reading_3 := Front_Sensor.Read;
+      Current_State := Stop;
 
-      Front_Distance := Median (Reading_1, Reading_2, Reading_3);
+      Put_Line ("ADAptive - FSM TEST START");
 
-      Put_Line
-        ("RAW:"
-         & Distance_cm'Image (Reading_1)
-         & ","
-         & Distance_cm'Image (Reading_2)
-         & ","
-         & Distance_cm'Image (Reading_3)
-         & " | FILTERED:"
-         & Distance_cm'Image (Front_Distance));
+      loop
+         exit when Test_Steps >= Max_Test_Steps;
+         Test_Steps := Test_Steps + 1;
 
-      if Front_Distance >= 2 and then Front_Distance <= 400 then
-         Put_Line ("FRONT:" & Distance_cm'Image (Front_Distance) & " cm");
+         Put_Line ("FSM STATE: " & State_Text (Current_State));
 
-         Show_Front ("FRONT:" & Distance_cm'Image (Front_Distance) & " CM   ");
-      else
-         Put_Line ("FRONT: INVALID");
-         Show_Front ("FRONT: --- CM   ");
-      end if;
+         case Current_State is
 
-      delay 0.5;
-   end loop;
+            when Stop          =>
+               MicroBit.MotorDriver.Drive
+                 (Direction => MicroBit.MotorDriver.Stop);
+
+               Show_Status ("STATUS: STOP");
+
+               delay 0.5;
+               Current_State := Scan;
+
+            when Scan          =>
+               MicroBit.MotorDriver.Drive
+                 (Direction => MicroBit.MotorDriver.Stop);
+
+               Show_Status ("STATUS: SCAN");
+
+               -- RIGHT: 64 degrees
+               MicroBit.MotorDriver.Servo (ServoPin => 2, Angle => 64);
+               delay 0.8;
+
+               Reading_1 := Front_Sensor.Read;
+               delay 0.07;
+               Reading_2 := Front_Sensor.Read;
+               delay 0.07;
+               Reading_3 := Front_Sensor.Read;
+
+               Distance_A := Median (Reading_1, Reading_2, Reading_3);
+
+               Put_Line
+                 ("RIGHT RAW:"
+                  & Distance_cm'Image (Reading_1)
+                  & ","
+                  & Distance_cm'Image (Reading_2)
+                  & ","
+                  & Distance_cm'Image (Reading_3));
+
+               Put_Line ("RIGHT:" & Distance_cm'Image (Distance_A));
+
+               -- FRONT: 84 degrees
+               MicroBit.MotorDriver.Servo (ServoPin => 2, Angle => 84);
+               delay 0.8;
+
+               Reading_1 := Front_Sensor.Read;
+               delay 0.07;
+               Reading_2 := Front_Sensor.Read;
+               delay 0.07;
+               Reading_3 := Front_Sensor.Read;
+
+               Distance_Front := Median (Reading_1, Reading_2, Reading_3);
+               Put_Line
+                 ("FRONT RAW:"
+                  & Distance_cm'Image (Reading_1)
+                  & ","
+                  & Distance_cm'Image (Reading_2)
+                  & ","
+                  & Distance_cm'Image (Reading_3));
+
+               Put_Line ("FRONT:" & Distance_cm'Image (Distance_Front));
+
+               -- LEFT: 104 degrees
+               MicroBit.MotorDriver.Servo (ServoPin => 2, Angle => 104);
+               delay 0.8;
+
+               Reading_1 := Front_Sensor.Read;
+               delay 0.07;
+               Reading_2 := Front_Sensor.Read;
+               delay 0.07;
+               Reading_3 := Front_Sensor.Read;
+
+               Distance_B := Median (Reading_1, Reading_2, Reading_3);
+               Put_Line
+                 ("LEFT RAW:"
+                  & Distance_cm'Image (Reading_1)
+                  & ","
+                  & Distance_cm'Image (Reading_2)
+                  & ","
+                  & Distance_cm'Image (Reading_3));
+
+               Put_Line ("LEFT:" & Distance_cm'Image (Distance_B));
+
+               MicroBit.MotorDriver.Servo (ServoPin => 2, Angle => 84);
+               delay 0.8;
+
+               -- Prefer straight when the front is clear.
+               -- Turn only when the front is blocked.
+               Best_Direction := Blocked;
+
+               if Distance_Front >= 45 and then Distance_Front <= 200 then
+                  Best_Direction := Straight;
+
+               elsif Distance_A >= 45 and then Distance_A <= 200 then
+                  Best_Direction := Side_A;
+
+               elsif Distance_B >= 45 and then Distance_B <= 200 then
+                  Best_Direction := Side_B;
+               end if;
+
+                              case Best_Direction is
+                  when Straight =>
+                     Show_Direction ('F');
+                     Put_Line ("FSM CHOICE: FRONT");
+                     Current_State := Verify;
+
+                  when Side_A =>
+                     Show_Direction ('R');
+                     Put_Line ("FSM CHOICE: RIGHT");
+                     Current_State := Turn;
+
+                  when Side_B =>
+                     Show_Direction ('L');
+                     Put_Line ("FSM CHOICE: LEFT");
+                     Current_State := Turn;
+
+                  when Blocked =>
+                     Show_Direction ('S');
+                     Put_Line ("FSM CHOICE: BLOCKED");
+                     Current_State := Stop;
+               end case;
+
+            when Turn          =>
+               Show_Status ("STATUS: TURN");
+
+               case Best_Direction is
+                  when Side_A =>
+                     Put_Line ("FSM TURN: RIGHT");
+
+                     MicroBit.MotorDriver.Drive
+                       (Direction => MicroBit.MotorDriver.Rotating_Right,
+                        Speed     =>
+                          (rf => 800, rb => 800, lf => 800, lb => 800));
+
+                     delay 0.3;
+
+                  when Side_B =>
+                     Put_Line ("FSM TURN: LEFT");
+
+                     MicroBit.MotorDriver.Drive
+                       (Direction => MicroBit.MotorDriver.Rotating_Left,
+                        Speed     =>
+                          (rf => 800, rb => 800, lf => 800, lb => 800));
+
+                     delay 0.3;
+
+                  when others =>
+                     null;
+               end case;
+
+               MicroBit.MotorDriver.Drive
+                 (Direction => MicroBit.MotorDriver.Stop);
+
+               Current_State := Verify;
+
+            when Verify        =>
+               MicroBit.MotorDriver.Drive
+                 (Direction => MicroBit.MotorDriver.Stop);
+
+               Show_Status ("STATUS: VERIFY");
+
+               MicroBit.MotorDriver.Servo (ServoPin => 2, Angle => 84);
+               delay 0.8;
+
+               Reading_1 := Front_Sensor.Read;
+               delay 0.07;
+               Reading_2 := Front_Sensor.Read;
+               delay 0.07;
+               Reading_3 := Front_Sensor.Read;
+
+               Front_Distance := Median (Reading_1, Reading_2, Reading_3);
+
+               Put_Line
+                 ("VERIFY RAW:"
+                  & Distance_cm'Image (Reading_1)
+                  & ","
+                  & Distance_cm'Image (Reading_2)
+                  & ","
+                  & Distance_cm'Image (Reading_3));
+
+               Put_Line ("VERIFY FRONT:" & Distance_cm'Image (Front_Distance));
+
+               if Front_Distance >= 45 and then Front_Distance <= 400 then
+                  Put_Line ("VERIFY RESULT: CLEAR");
+                  Current_State := Forward;
+               else
+                  Put_Line ("VERIFY RESULT: BLOCKED");
+                  Current_State := Stop;
+               end if;
+
+            when Forward       =>
+               Put_Line ("FSM MOTOR: FORWARD PULSE");
+
+               MicroBit.MotorDriver.Servo (ServoPin => 2, Angle => 84);
+
+               MicroBit.MotorDriver.Drive
+                 (Direction => MicroBit.MotorDriver.Forward,
+                  Speed     => (rf => 800, rb => 800, lf => 800, lb => 800));
+
+               delay 0.2;
+
+               MicroBit.MotorDriver.Drive
+                 (Direction => MicroBit.MotorDriver.Stop);
+
+               Put_Line ("FSM MOTOR: STOP");
+
+               -- Recheck distance before the next movement
+               Current_State := Verify;
+
+            when Reverse_Drive =>
+               -- Reserved for a future reverse maneuver
+               MicroBit.MotorDriver.Drive
+                 (Direction => MicroBit.MotorDriver.Stop);
+               Current_State := Stop;
+
+         end case;
+      end loop;
+
+      MicroBit.MotorDriver.Drive (Direction => MicroBit.MotorDriver.Stop);
+
+      Show_Status ("STATUS: STOP");
+      Put_Line ("ADAptive - FSM TEST COMPLETE");
+
+      -- Stay stopped until reset
+      loop
+         delay 1.0;
+      end loop;
+   end;
+
 end Main;
 
