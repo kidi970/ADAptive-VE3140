@@ -1,3 +1,13 @@
+# Oppfølging av pinnebekreftelse 23.10.2026
+
+Bruker bekreftet at bare venstre ultralydsensor bruker P2/P14. Avsnitt 7.6, sensorlogg og protokoll er presisert på dette grunnlaget; firmware, matematikk og rådata er uendret. Ingen nye fysiske forsøk eller programtester er kjørt i denne dokumentasjonsoppfølgingen.
+
+Faktisk Overleaf-kompilering: 45 sider, 0 feil, 0 ordinære advarsler, 2 eksisterende underfull-meldinger og ingen overfull-meldinger. De endrede avsnittene på PDF-side 22 og 24 er visuelt kontrollert. Ingen `??`-henvisninger, og alle 23 skrifter er innebygd. PDF SHA-256: `64d0d63c82ef6ad50eaf51d1310ed9956ffc7c0ce1330d8114006cf1ac8f5f19`.
+
+Tidligere test- og rapportkontroll er bevart nedenfor.
+
+---
+
 # Kontroll av sensorstudien 23.10.2026
 
 Eksisterende Overleaf-prosjekt er oppdatert og faktisk kompilert etter sensorøkten. Sammendraget viser både tidligere avsnitt 7.5 og ny sensorstudie i avsnitt 7.6. Historisk tekst og kode er bevart.

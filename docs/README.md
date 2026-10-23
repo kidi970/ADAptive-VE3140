@@ -1,5 +1,7 @@
 # Sensorstudie 23.10.2026
 
+Etter forsøkene bekreftet bruker at P2/P14 bare brukes av venstre ultralydsensor. Rapport og protokoll er presisert: delt LED-last legges til side som forklaring. Motstandsrekkefølge, signalnivå og referanseavstand er fortsatt uavklart. Denne oppfølgingen endrer ingen firmware eller rådata.
+
 Eksisterende Overleaf-rapport er utvidet med `sensor-study-2026-10-23.tex` (avsnitt 7.6), metodefigur, elektrisk beregningsmodell, statistikk, forsøksresultater og tydelige begrensninger. Begge seriers rådata og analyser følger Overleaf-prosjektet som `sensor-run-01.csv`, `sensor-run-02.csv` og tilhørende JSON-analyser. I Git finnes originalene under `evidence/2026-10-23-sensors/`. `SENSORPROTOKOLL.md` gir reproduksjon og videre fysiske kontroller.
 
 640 stasjonære avlesninger er samlet med motorstrøm frakoblet. Venstre kanal er fortsatt ustabil. 1753 Ada-kontroller og 16 Python-enhetstester består; dette er programtester, ikke 1769 fysiske forsøk. Ingen ny sving- eller gulvkjøring er validert. Endelig faktisk Overleaf-/PDF-kontroll står i `VALIDERING.md`. Micro:biten står med separat stoppende diagnostikk V2 etter testen.

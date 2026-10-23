@@ -4,7 +4,7 @@
 
 Arbeidsgren `fix/startup-navigation-2026-10-23`, utgangspunkt `02b542fdf68a4cb1e9b7394d3290a47beeb5b436`. Branch, status og diff ble kontrollert før endring. Eksisterende `.vscode/launch.json`, lokale driverendringer og eldre uversjonerte arbeidskopier beholdes. Sikkerhetskopi av lokal tilstand og faktisk Overleaf-kildeeksport ligger utenfor repoet i `backups/sensor-session-2026-10-23/` i arbeidsområdet. Ingen reset, rebase, merge til main eller force-push.
 
-Det gjenfunne koblingsdiagrammet fra «Koble opp adaptive lys servo ultrasonic» gjaldt ett HC-SR04 og tre 10 kΩ-motstander. Det bekrefter ikke dagens tre sensorer med 1 kΩ/1,2 kΩ. Diagrammets LED på P2/P14 gir et konkret kontrollpunkt fordi dagens venstresensor bruker disse pinnene. Bruker har foreløpig ikke bekreftet eventuell restlast eller motstandsorientering.
+Det gjenfunne koblingsdiagrammet fra «Koble opp adaptive lys servo ultrasonic» gjaldt ett HC-SR04 og tre 10 kΩ-motstander. Det bekrefter ikke dagens tre sensorer med 1 kΩ/1,2 kΩ. Diagrammets LED på P2/P14 ga et kontrollpunkt. Etter forsøkene bekreftet bruker 23.10.2026: «Ja, bare venstre ultralydsensor bruker P2/P14». Hypotesen om delt LED-last legges dermed til side på grunnlag av brukeropplysningen. Motstandsorienteringen er fortsatt uavklart.
 
 ## Implementert
 
@@ -65,4 +65,8 @@ Eksisterende rapport beholdes. Nytt avsnitt 7.6 beskriver oppsett, elektriske hy
 
 Endringene skal committes på den eksisterende arbeidsgrenen og pushes uten force når autentisering tillater det. Faktisk SHA/pushstatus rapporteres etter utført commit/push; denne loggen påstår ikke et forhåndsresultat.
 
-Neste steg er oppmålt venstremålflate ved 60 cm og fysisk kontroll av motstandsrekkefølge, P2/P14-last og GND. Deretter kontrollert modulbytte med strøm av, gjentatte serier ved kjente avstander og én endring om gangen. Først etter stabil nødvendig sensordekning fortsetter løftede høyre-/venstresvinger, gulvkjøring og bremselengdemåling. Protokollen gir nøyaktige trinn.
+Neste steg er oppmålt venstremålflate ved 60 cm og fysisk kontroll av motstandsrekkefølge og GND. Deretter kontrollert modulbytte med strøm av, gjentatte serier ved kjente avstander og én endring om gangen. Først etter stabil nødvendig sensordekning fortsetter løftede høyre-/venstresvinger, gulvkjøring og bremselengdemåling. Protokollen gir nøyaktige trinn.
+
+## Oppfølging: bekreftet pinnebruk
+
+Fra revisjon `10227bc` er dokumentasjonen presisert med brukerens bekreftelse om P2/P14. Ingen firmwarekode, terskler eller måledata er endret, og ingen nye fysiske forsøk eller programtester er kjørt i denne dokumentasjonsoppfølgingen. Tidligere bygg- og testresultater gjelder fortsatt den samme koden. Rapporten er kompilert på nytt i det eksisterende Overleaf-prosjektet: 45 sider, 0 feil, 0 ordinære advarsler og to eksisterende underfull-meldinger. Endret tekst er visuelt kontrollert; ny PDF-hash og avgrensninger er registrert i `VALIDERING.md`. Nye referansemålinger og motstandsrekkefølge avventer fortsatt fysisk avklaring.

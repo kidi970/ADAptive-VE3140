@@ -1,0 +1,25 @@
+{
+  "date": "2026-10-23",
+  "confirmation_source": "User reply: Ja, bare venstre ultralydsensor bruker P2/P14",
+  "firmware_changed": false,
+  "new_physical_tests": 0,
+  "new_software_tests": 0,
+  "overleaf_errors": 0,
+  "overleaf_warnings": 0,
+  "underfull_info": 2,
+  "overfull_info": 0,
+  "pages": 45,
+  "pdf": "C:\\Users\\jacob\\OneDrive\\Documents\\ChatGPT\\ADAptive\\output\\ADAptive-rapport-pinbekreftelse-2026-10-23.pdf",
+  "pdf_sha256": "64d0d63c82ef6ad50eaf51d1310ed9956ffc7c0ce1330d8114006cf1ac8f5f19",
+  "rendered_pages": [
+    22,
+    23,
+    24
+  ],
+  "embedded_font_count": 23,
+  "source_zip": "C:\\Users\\jacob\\OneDrive\\Documents\\ChatGPT\\ADAptive\\output\\ADAptive-Overleaf-pinbekreftelse-2026-10-23.zip",
+  "source_zip_sha256": "71c07aa40086a593ffc94e57839a4157b103d68a998c7db70c94e74a12053a4a",
+  "source_files": 58,
+  "source_manifest_verified": 57,
+  "source_zip_crc_ok": true
+}

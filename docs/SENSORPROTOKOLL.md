@@ -12,7 +12,7 @@ Motorstrømmen skal være frakoblet; USB og sensorforsyning beholdes. Diagnostik
 
 Felles GND kreves. Bruker oppgir 1 kΩ og 1,2 kΩ i hver ECHO-spenningsdeler. Rekkefølgen er ikke bekreftet. Beregnet ved 5 V: 1 kΩ mellom ECHO og signal, 1,2 kΩ mellom signal og GND gir 2,73 V; motsatt gir 2,27 V. Micro:bits dokumenterte minimum for høyt signal er 0,7 VDD, tilsvarende 2,31 V ved antatt VDD=3,3 V. Dette er en betinget beregning, ikke en måling av kortet. Mål faktisk forsyning og signalnivå; et multimeter viser ikke sikkert pulstoppene.
 
-Et eldre diagram fra chatten «Koble opp adaptive lys servo ultrasonic» gjaldt én sensor, tre 10 kΩ-motstander og LED på blant annet P2/P14. Det beviser ikke dagens koblinger. Kontroller at ingen gammel LED-last deler venstre ECHO/TRIG. Ikke flytt ledninger mens forsyningen er på.
+Et eldre diagram fra chatten «Koble opp adaptive lys servo ultrasonic» gjaldt én sensor, tre 10 kΩ-motstander og LED på blant annet P2/P14. Bruker bekreftet 23.10.2026 etter forsøkene at bare venstre ultralydsensor bruker P2/P14. Hypotesen om delt LED-last legges derfor til side på grunnlag av brukerens koblingskontroll. Motstandsrekkefølge og signalspenning er fortsatt ikke bekreftet. Ikke flytt ledninger mens forsyningen er på.
 
 ## Bygg og innsamling
 
@@ -42,7 +42,7 @@ Hver serie inneholder 40 runder front–venstre–høyre med 65 ms globalt trigg
 ## Isoler feilen med én endring om gangen
 
 - Sammenlign bounded ventetid før ECHO-stigning. V1 bruker 3 ms; V2 10 ms. Ingen av disse er målte maksimumsgrenser for alle HC-SR04-varianter.
-- Med all strøm av: verifiser spenningsdeler, felles GND, kontakt og eventuelle delte LED-pinner. Registrer faktisk funn før endring.
+- Med all strøm av: verifiser spenningsdeler, felles GND og kontakt. P2/P14 er allerede bekreftet uten delt LED-last av bruker. Registrer faktisk funn før endring.
 - Hvis feilen består, bytt bare venstre og høyre sensormodul ved modulenes kontakter, med strømmen av. Behold de respektive mikrokontrollerpinnene og spenningsdelerne. Identifiser modulene fysisk og logg hva som ble flyttet. Feil som følger modulen, og feil som blir på kanalen, gir ulike hypoteser; ett bytte alene beviser ikke årsaken.
 - Undersøk refleksjon/monteringsvinkel og kortere ledninger, deretter støy under servo-/motorbelastning. Belastningstester krever eget sikret oppsett og ny protokoll. Ingen slike tester er utført i den første serien.
 
