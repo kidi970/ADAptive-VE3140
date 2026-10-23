@@ -1,0 +1,12 @@
+{
+  "image": "C:\\Users\\jacob\\ADAptive\\ADAptive-VE3140\\build\\sensor-diagnostic\\Code\\diagnostics\\obj\\sensor_diagnostic",
+  "sha256": "2fcfc092ae4df89342d52df26a55172997d99eec876a534e5dd9ab3731c5def5",
+  "port": "COM5",
+  "context": "Stationary follow-up to run-01: rise deadline increased from 3ms to 10ms; motor power disconnected as confirmed. No measured reference distances supplied. Target setup not independently observed.",
+  "flash_requested": true,
+  "started_utc": "2026-10-23T00:40:05Z",
+  "completed": true,
+  "flash_exit_code": 0,
+  "capture_seconds": 27.544,
+  "data_rows": 320
+}

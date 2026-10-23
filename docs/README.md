@@ -1,3 +1,13 @@
+# Sensorstudie 23.10.2026
+
+Eksisterende Overleaf-rapport er utvidet med `sensor-study-2026-10-23.tex` (avsnitt 7.6), metodefigur, elektrisk beregningsmodell, statistikk, forsøksresultater og tydelige begrensninger. Begge seriers rådata og analyser følger Overleaf-prosjektet som `sensor-run-01.csv`, `sensor-run-02.csv` og tilhørende JSON-analyser. I Git finnes originalene under `evidence/2026-10-23-sensors/`. `SENSORPROTOKOLL.md` gir reproduksjon og videre fysiske kontroller.
+
+640 stasjonære avlesninger er samlet med motorstrøm frakoblet. Venstre kanal er fortsatt ustabil. 1753 Ada-kontroller og 16 Python-enhetstester består; dette er programtester, ikke 1769 fysiske forsøk. Ingen ny sving- eller gulvkjøring er validert. Endelig faktisk Overleaf-/PDF-kontroll står i `VALIDERING.md`. Micro:biten står med separat stoppende diagnostikk V2 etter testen.
+
+Oppdateringene nedenfor er bevart som historikk fra forrige økt.
+
+---
+
 # Oppdatering 23.10.2026
 
 Denne pakken viderefører rapporten hentet fra det eksisterende Overleaf-prosjektet. Historisk tekst og kode fra 21.10 er beholdt. Daterte resultater og endringer finnes i `development-2026-10-23.tex` og nye kildekopier i `code/2026-10-23/`. Disse delene er kompilert lokalt og i eksisterende Overleaf-prosjekt. Siste Overleaf-bygg ga 42 sider, 0 feil og 0 ordinære advarsler. Se `VALIDERING.md` for avgrensninger.

@@ -1,0 +1,8 @@
+[---|---|---|---|---|---|---|---|---|----]
+[========================================]
+[---|---|---|---|---|---|---|---|---|----]
+[========================================]
+0001426 I Loading C:\Users\jacob\ADAptive\ADAptive-VE3140\build\sensor-diagnostic\Code\diagnostics\obj\sensor_diagnostic [load_cmd]
+0001428 I Erasing... [loader]
+0012691 I Programming... [loader]
+0020914 I Erased 200704 bytes (49 sectors), programmed 200704 bytes (49 pages), identical 20480 bytes (5 pages) at 11.09 kB/s [loader]

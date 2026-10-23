@@ -1,3 +1,23 @@
+# ADAptive – VE3140
+
+Ada-robot med Mecanum-hjul, tre HC-SR04, servo og OLED. Aktiv navigasjon er sekvensiell; full autonom gulvkjøring og begge svingretninger er ennå ikke fysisk validert.
+
+23.10.2026: Oppstartsfeilen er rettet og fremover/stopp tidligere fysisk bekreftet. En separat diagnostikk har nå samlet **640 stasjonære sensoravlesninger** med motorstrømmen frakoblet. Venstre kanal er fortsatt ustabil; lengre ECHO-startfrist ga flere mottatte ekko, men løste ikke feilene. En ugyldig måling betyr fortsatt ukjent avstand.
+
+- [Sensorprotokoll, koblingskontroll og reproduksjon](docs/SENSORPROTOKOLL.md)
+- [Sensorøktens utviklingslogg](docs/ADAptive-sensorlogg-2026-10-23.md) og [rådata](docs/evidence/2026-10-23-sensors/)
+- [Forrige utviklingsøkt](docs/ADAptive-utviklingslogg-2026-10-23.md)
+- [Eksisterende Overleaf-rapport](https://no.overleaf.com/project/6ad865902324e2538069556e)
+
+Kontroller: `python tools/test_navigation.py` og `python -m unittest discover -s tests -p test_sensor_analysis.py -v`.
+Bygg stasjonær diagnostikk med `python tools/build_sensor_diagnostic.py`. Diagnostikken er adskilt fra `build/main.elf`; `tools/mb.py flash` velger det autonome hovedprogrammet og skal ikke brukes til sensortesten. Micro:biten står etter sensorøkten med diagnostikk som bare sender stopp og sentrerer servoen. Behold motorstrømmen frakoblet under videre sensorfeilsøking.
+
+Fart, bremsing, kinematikkfortegn og fysisk svingklarering må måles før mer avansert kjøring. PWM er ikke målt fart. PID og IMU-fusjon er ikke integrert. Ved et nytt checkout brukes driverpatchen `patches/ada-drivers-2026-10-23.patch` mot den angitte undermodulrevisjonen, slik forrige utviklingslogg beskriver.
+
+Oppsettet fra den opprinnelige kursmalen følger nedenfor.
+
+---
+
 <!-- No build badge here on purpose: a template is copied verbatim, so a badge
      pointing at the upstream repository would report the lecturer's build
      status inside every student's project. Check your own build under the

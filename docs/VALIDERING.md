@@ -1,3 +1,19 @@
+# Kontroll av sensorstudien 23.10.2026
+
+Eksisterende Overleaf-prosjekt er oppdatert og faktisk kompilert etter sensorøkten. Sammendraget viser både tidligere avsnitt 7.5 og ny sensorstudie i avsnitt 7.6. Historisk tekst og kode er bevart.
+
+- **45 PDF-sider**, 0 feil, 0 ordinære advarsler. To underfull-meldinger gjelder bevart tekst/bibliografi; ingen overfull-meldinger.
+- Ny metodefigur, koblingstabell, forsøksresultater og modeller er visuelt kontrollert på PDF-side 22–24. Alle sider er gjennomgått i oversikt; sammendrag og innhold er kontrollert separat.
+- Ingen `??`-henvisninger i tekstuttrekket. Alle 23 brukte skrifter er innebygd.
+- PDF lastet ned fra faktisk Overleaf-bygg, SHA-256 `528cf101ef304c538810acefd724e1c584b04ff43410b6558e0a589e7ce5413b`.
+- Rådata fra begge serier, analyser, `SENSORPROTOKOLL.md` og sensorloggen følger rapportprosjektet. Originale seriellogger og kildeøyeblikksbilder ligger i Git-repoets evidensmappe.
+- 640 fysiske stasjonære avlesninger; venstre kanal fortsatt ustabil. Ingen nye motor-, gulv- eller belastningsforsøk. Ingen referanseavstander er oppdiktet.
+- 1753 native Ada-kontroller og 16 Python-enhetstester besto. Diagnostikk og navigasjonsfirmware bygger. Micro:biten står med stasjonær diagnostikk V2.
+
+Filmanifestet gjelder den eksporterte Overleaf-pakken; Git-repoets komplette `docs/` inneholder også flere utviklingsfiler og evidens. Tidligere kontroller følger som historikk nedenfor.
+
+---
+
 # Kontroll 23.10.2026
 
 Den oppdaterte rapporten kompilerte både lokalt og i det eksisterende Overleaf-prosjektet etter siste retting.

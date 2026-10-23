@@ -1,0 +1,202 @@
+\clearpage
+\section{Stasjonær sensorstudie 23.10.2026}\label{sec:sensorstudie23}
+Økten prioriterte sensorstabilitet fra revisjon \kode{02b542f}, etter
+sikkerhetskopiering. De to nye måleseriene nedenfor supplerer de
+tidligere kjøreobservasjonene i avsnitt~\ref{sec:utvikling23}.
+
+\subsection{Oppsett, hypoteser og kontrollert innsamling}
+Bruker bekreftet at motorstrømmen var frakoblet, mens USB og sensorer var
+strømforsynt. En separat Ada-applikasjon initialiserer motorutgangen med
+stopp og sentrerer servoen til 84\textdegree{}. Den inneholder ingen kall
+til kjørefunksjonen. Etter siste måling sendes stopp igjen, og programmet
+venter uten nye bevegelseskommandoer. Dette er en fysisk sensortest,
+ikke en test under motorbelastning.
+
+\begin{table}[htbp]
+\centering\small
+\caption{Pinnetilordning i diagnostikken og dagens navigasjonskode.}
+\begin{tabular}{lll}\toprule
+Sensor & TRIG & ECHO \\\midrule
+Front & P13 & P1 \\
+Venstre & P14 & P2 \\
+Høyre & P15 & P8 \\\bottomrule
+\end{tabular}
+\end{table}
+Bruker oppga to motstander på 1 k\(\Omega\) og 1,2 k\(\Omega\) per
+ECHO-spenningsdeler. Plasseringen er ikke fysisk bekreftet. Et gjenfunnet
+eldre diagram gjelder én sensor og andre motstandsverdier; det er derfor
+ikke brukt som bekreftelse på dagens krets. Diagrammet brukte dessuten
+P2 og P14 til LED. Eventuell gjenværende LED-last på disse pinnene er en
+kontrollhypotese, ikke et påvist funn.
+
+Databladet anbefaler mer enn 60 ms mellom målesykluser\cite{hcsr04}.
+Diagnostikken utløser bare én sensor om gangen. Hver serie har følgende
+faste rekkefølge: 40 runder front--venstre--høyre med 65 ms mellom globale
+utløsninger, 40 tilsvarende runder med 100 ms, deretter 40 målinger på
+venstre alene med hvert intervall. Totalt blir dette 320 avlesninger per
+serie. En bestemt sensor måles dermed sjeldnere enn det globale
+triggerintervallet når alle tre er aktive.
+
+Serie 1 brukte 3 ms frist for ECHO-stigning. Tidsdata viste at gyldige
+venstreekko nærmet seg denne fristen. Serie 2 økte derfor bare denne
+diagnostikkfristen til 10 ms. Begge hadde 23 ms frist for at en påbegynt
+puls skulle avsluttes. Ved oppstart av hver avlesning kontrolleres også
+om ECHO allerede er høyt. Feilkodene skiller manglende stigning,
+manglende fall, allerede høyt signal og avstand utenfor 2--200 cm.
+En timeout gir aldri en brukbar fri avstand.
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[node distance=5mm,
+ s/.style={draw=usnpurple,rounded corners,fill=softpurple,
+ text width=10cm,align=center,font=\small,inner sep=5pt}]
+\node[s] (wait) {Vent til planlagt globalt triggertidspunkt};
+\node[s,below=of wait] (read) {Kontroller ECHO, utløs én sensor,\par
+ vent på stigning og fall innen eksplisitte frister};
+\node[s,below=of read] (log) {Lagre status, puls, lesetid og sekvensnummer};
+\draw[-{Latex},usnpurple] (wait)--(read);
+\draw[-{Latex},usnpurple] (read)--(log);
+\end{tikzpicture}
+\caption{Sekvensiell, stasjonær måleprotokoll. Motorene holdes stoppet.}
+\end{figure}
+
+\subsection{Modeller og måleusikkerhet}
+Nominell avstand fra pulsbredde er
+\begin{equation}
+ d_{\mathrm{cm}}=\frac{t_{\mathrm{puls},\mu s}}{58}.
+\end{equation}
+Dette er databladets omregningsmodell\cite{hcsr04}, ikke dokumentert
+nøyaktighet for det aktuelle oppsettet. Den nye rene Ada-modulen
+\kode{Adaptive_Range_Model} implementerer omregningen, gyldig
+arbeidsområde og spenningsdelerberegningen. Diagnostikken lagrer både
+klokkebasert pulsbredde og den opprinnelige løkketelleren.
+
+Inspeksjon av runtime-filen \kode{s-bbbosu.adb} viser at
+\kode{Ada.Real_Time.Clock} bygger på RTC ved 32\,768 Hz. Ett klokketrinn
+er derfor omtrent 30,5 \(\mu\)s, tilsvarende 0,526 cm i modellen.
+Polling av ECHO, avrunding og avbrudd kommer i tillegg. Mikrosekunitsnavnet
+i loggen betyr ikke oppløsning på ett mikrosekund. Den eldre
+\kode{Delay_Us}-rutinen bruker en håndjustert NOP-løkke. Forskjellen
+mellom de to avstandsestimatene kan undersøkes, men ingen av dem er
+kalibrert mot kjente avstander i disse seriene.
+
+For spenningsdeleren gjelder
+\begin{equation}
+ V_{\mathrm{signal}}=V_{\mathrm{ECHO}}
+ \frac{R_{\mathrm{GND}}}{R_{\mathrm{serie}}+R_{\mathrm{GND}}}.
+\end{equation}
+Ved antatt ECHO på 5 V gir 1 k\(\Omega\) i serie og 1,2 k\(\Omega\)
+til GND omtrent 2,73 V. Motsatt plassering gir omtrent 2,27 V.
+Micro:bit dokumenterer \(V_{IH,\min}=0{,}7V_{DD}\)\cite{pins}; ved
+antatt \(V_{DD}=3{,}3\) V blir dette 2,31 V. Den motsatte plasseringen
+kan dermed mangle garantert margin for logisk høy. Dette regnestykket
+bekrefter verken dagens motstandsrekkefølge, faktisk spenning eller
+årsaken til venstresensorens feil. Resistortoleranse og forsyningsvariasjon
+må også undersøkes.
+
+For gyldige målinger beregner analyseverktøyet gjennomsnitt, median og
+utvalgsstandardavvik. Med en faktisk oppmålt referanse \(\hat d_i\)
+beregnes også
+\begin{align}
+ \operatorname{bias}&=\frac1n\sum_{i=1}^{n}(d_i-\hat d_i),\\
+ \operatorname{MAE}&=\frac1n\sum_{i=1}^{n}|d_i-\hat d_i|,\\
+ \operatorname{RMSE}&=\sqrt{\frac1n\sum_{i=1}^{n}(d_i-\hat d_i)^2}.
+\end{align}
+Referanseavstander ble ikke oppgitt for disse seriene. Feilmetrikkene
+lagres derfor som \kode{null}. Gjennomsnittet brukes ikke som en oppdiktet
+fasit. Ugyldige målinger inngår i feilandelens nevner, men aldri som
+0 cm i gjennomsnittet.
+
+\subsection{Resultater fra to fysiske serier}
+Begge seriene fullførte med 320 sammenhengende sekvensnumre og
+sluttmelding om stopp. Av 640 avlesninger var
+front og høyre gyldige i alle sine 160 forsøk hver. Venstre ga 36 av 160
+gyldige avlesninger i serie 1 og 115 av 160 i serie 2.
+
+\begin{table}[htbp]
+\centering\small
+\caption{Venstre kanal, 40 avlesninger per fase. Gyldighet er
+diagnostikkens status, ikke bekreftet avstandsnøyaktighet.}
+\begin{tabular}{llrrrr}\toprule
+Serie & Fase & Gyldige & Ugyldige & Andel ugyldige & \(s\), cm \\\midrule
+1 & Alle, 65 ms &16&24&60,0\%&4,52\\
+1 & Alle, 100 ms&10&30&75,0\%&5,66\\
+1 & Bare venstre, 65 ms&5&35&87,5\%&2,90\\
+1 & Bare venstre, 100 ms&5&35&87,5\%&2,13\\\midrule
+2 & Alle, 65 ms&29&11&27,5\%&24,15\\
+2 & Alle, 100 ms&28&12&30,0\%&23,06\\
+2 & Bare venstre, 65 ms&30&10&25,0\%&25,88\\
+2 & Bare venstre, 100 ms&28&12&30,0\%&23,54\\\bottomrule
+\end{tabular}
+\label{tab:left-sensor23}
+\end{table}
+
+\begin{table}[htbp]
+\centering\small
+\caption{Deskriptive avstander i fasen med alle sensorer og 65 ms
+globalt intervall. Hver rad har 40 forsøk; spredning gjelder gyldige ekko.}
+\begin{tabular}{llrrrr}\toprule
+Serie & Sensor & Gyldige & Snitt, cm & Median, cm & \(s\), cm \\\midrule
+1&Front&40&80,47&82,09&5,37\\
+1&Venstre&16&82,08&82,35&4,52\\
+1&Høyre&40&70,03&69,98&0,56\\
+2&Front&40&80,31&82,60&6,35\\
+2&Venstre&29&54,40&55,78&24,15\\
+2&Høyre&40&70,02&69,98&0,14\\\bottomrule
+\end{tabular}
+\end{table}
+
+I serie 1 var alle 124 ugyldige venstremålinger manglende ECHO-stigning.
+Serie 2 hadde 44 slike feil og én avstand utenfor arbeidsområdet.
+Maksimal observert lesetid var 7935 \(\mu\)s i serie 1 og
+10\,071 \(\mu\)s i serie 2. Disse er observerte verdier fra en avgrenset
+stasjonær test, ikke beviste WCET-grenser eller maksimal
+hindring-til-motorstopp-responstid.
+
+\subsection{Filterforsøk og vurdering av årsak}
+To analysekandidater bruker ikke-overlappende tripler per fase og sensor.
+Medianvarianten krever tre gyldige ekko. Den konsistente
+minimumsvarianten krever i tillegg høyst 15 cm spenn og beholder den
+nærmeste avstanden. Begge avviser en trippel med ugyldig måling.
+Én restmåling per gruppe på 40 inngår ikke i trippelanalysen.
+Serie 1 ga ingen aksepterte venstretripler for noen kandidat. Et filter
+kan altså ikke gjenopprette pålitelig avstand fra disse hullene.
+Kandidatene erstatter ikke den aktive navigasjonens filter.
+
+Økt stigningsfrist ga flere mottatte ekko, men også langt større
+avstandsspredning på venstre. Dette er ikke tilstrekkelig grunnlag for
+å ta 10 ms inn som en ferdig retting i navigasjonen. Isolert måling
+eller 100 ms intervall fjernet heller ikke feilen i disse seriene.
+Fast faserekkefølge og manglende uavhengig kontroll av målscenen
+begrenser årsaksslutninger. Dårlig spenningsmargin, kontaktfeil,
+pinnebelastning, modulvariant og refleksjoner står fortsatt som
+hypoteser. Motorstøy er ikke undersøkt med motorene i drift.
+
+Neste forsøk bør begynne med en oppmålt, stor målflate 60 cm fra
+venstre sensor, kontroll av P2/P14 og fysisk bekreftelse av
+spenningsdeleren. Deretter kan venstre/høyre sensormodul byttes med
+strømmen av og bare én variabel endres om gangen. Måleserier ved
+20, 30, 45, 60, 100 og 150 cm er protokollført som videre arbeid;
+de er ikke gjennomført eller presentert som resultater.
+
+\subsection{Programvarekontroll, sporbarhet og sanntidsteori}
+De 1729 eksisterende Ada-kontrollene besto. En ny vertsbasert Ada-suite
+bestod 24 kontroller av pulsmodell, grenseverdier, ugyldige inndata og
+betinget spenningsmargin. Analyseverktøyet besto 16 Python-enhetstester
+med syntetiske data, blant annet kjente MAE/RMSE-verdier,
+feilinjeksjon i CSV, sekvenskontroll og ugyldighetsveto. Antallet
+Ada-kontroller er ikke antall fysiske forsøk eller dekningsprosent.
+Både navigasjonsfirmware og separat diagnostikk ble bygget.
+
+Sanntidsfaget definerer responstid som tiden fra inngang til nødvendig
+utgang, og beskriver fail-safe som bevart integritet med midlertidig
+stans\cite[PDF-s.~20 og 74]{forelesninger2026}. En sensorrutines
+lesetid alene dekker derfor ikke robotens reaksjonstid. Protokollen
+opprettholder sikker stopp når nødvendig informasjon er ukjent.
+Ingen nye påstander om fysisk svingklarering, stopplengde, PID,
+IMU-fusjon eller full autonom gulvkjøring følger av denne studien.
+
+Rapportprosjektet inneholder begge rådatafiler (\kode{sensor-run-01.csv}
+og \kode{sensor-run-02.csv}), tilhørende JSON-analyser og
+\kode{SENSORPROTOKOLL.md}. Git-repoets evidensmappe bevarer dessuten
+seriellogger, firmwarehash, kildeøyeblikksbilder og bygg-/testlogger.

@@ -1,0 +1,21 @@
+test_all_invalid (test_sensor_analysis.AnalysisTests.test_all_invalid) ... ok
+test_bad_csv_values (test_sensor_analysis.AnalysisTests.test_bad_csv_values) ... ok
+test_bad_references (test_sensor_analysis.AnalysisTests.test_bad_references) ... ok
+test_csv_round_trip (test_sensor_analysis.AnalysisTests.test_csv_round_trip) ... ok
+test_empty_file (test_sensor_analysis.AnalysisTests.test_empty_file) ... ok
+test_incomplete_triple_disclosed (test_sensor_analysis.AnalysisTests.test_incomplete_triple_disclosed) ... ok
+test_inconsistent_rejected (test_sensor_analysis.AnalysisTests.test_inconsistent_rejected) ... ok
+test_invalid_fraction (test_sensor_analysis.AnalysisTests.test_invalid_fraction) ... ok
+test_invalid_vetoes_every_candidate (test_sensor_analysis.AnalysisTests.test_invalid_vetoes_every_candidate) ... ok
+test_known_reference (test_sensor_analysis.AnalysisTests.test_known_reference) ... ok
+test_missing_or_duplicate_sequence (test_sensor_analysis.AnalysisTests.test_missing_or_duplicate_sequence) ... ok
+test_near_obstacle_preserved (test_sensor_analysis.AnalysisTests.test_near_obstacle_preserved) ... ok
+test_nonmonotonic_time (test_sensor_analysis.AnalysisTests.test_nonmonotonic_time) ... ok
+test_phase_boundary_gap_excluded (test_sensor_analysis.AnalysisTests.test_phase_boundary_gap_excluded) ... ok
+test_reference_never_invented (test_sensor_analysis.AnalysisTests.test_reference_never_invented) ... ok
+test_rise_delay_uses_only_valid_echoes (test_sensor_analysis.AnalysisTests.test_rise_delay_uses_only_valid_echoes) ... ok
+
+----------------------------------------------------------------------
+Ran 16 tests in 0.025s
+
+OK

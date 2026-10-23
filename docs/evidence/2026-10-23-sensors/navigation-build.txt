@@ -1,0 +1,8 @@
+Note: Building itrs=1.0.0/Code/itrs.gpr...
+gprbuild: "main" up to date
+Success: Build finished successfully in 1.57 seconds.
+   text	   data	    bss	    dec	    hex	filename
+ 215744	   3832	  25168	 244744	  3bc08	build/main.elf
+mb: building template (Code/itrs.gpr)
+mb: alr build -- --root-dir=. --relocate-build-tree=build/obj
+mb: firmware: build/main.elf, build/main.hex, build/main.bin

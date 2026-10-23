@@ -1,0 +1,12 @@
+{
+  "image": "C:\\Users\\jacob\\ADAptive\\ADAptive-VE3140\\build\\sensor-diagnostic\\Code\\diagnostics\\obj\\sensor_diagnostic",
+  "sha256": "f2300fa423fda1090889774d4b55456a00b9e0fab9206647738c9cf226ce6a9f",
+  "port": "COM5",
+  "context": "User confirmed motor power disconnected; USB and sensors powered. Each ECHO has 1k and 1.2k divider, placement unconfirmed. Reference target distances unknown.",
+  "flash_requested": true,
+  "started_utc": "2026-10-23T00:36:21Z",
+  "completed": true,
+  "flash_exit_code": 0,
+  "capture_seconds": 27.549,
+  "data_rows": 320
+}

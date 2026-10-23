@@ -1,0 +1,19 @@
+{
+  "pdf": "C:\\Users\\jacob\\OneDrive\\Documents\\ChatGPT\\ADAptive\\output\\ADAptive-rapport-sensorstudie-2026-10-23.pdf",
+  "sha256": "528cf101ef304c538810acefd724e1c584b04ff43410b6558e0a589e7ce5413b",
+  "pages": 45,
+  "errors": 0,
+  "warnings": 0,
+  "underfull_info": 2,
+  "overfull": 0,
+  "changed_pages_rendered": [
+    2,
+    4,
+    22,
+    23,
+    24
+  ],
+  "font_count": 23,
+  "unembedded_fonts": [],
+  "unresolved_question_marks": false
+}

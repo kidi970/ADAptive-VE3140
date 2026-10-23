@@ -17,3 +17,6 @@
 *.bin binary
 *.png binary
 *.jpg binary
+
+# Preserve captured evidence bytes so its SHA-256 manifest survives cloning.
+docs/evidence/2026-10-23-sensors/** -text whitespace=cr-at-eol,-blank-at-eof
