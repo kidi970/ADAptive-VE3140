@@ -78,7 +78,8 @@ def summarize(rows, references=None):
     unknown = set(references) - set(groups)
     if unknown:
         raise ValueError('References for absent groups: ' + ', '.join(sorted(unknown)))
-    result = {'samples': len(rows), 'groups': {},
+    result = {'samples': len(rows), 'groups': {}, 'per_sensor': {},
+              'distance_metrics_exclude_invalid': True,
               'limitations': ['Fixed phase order; interval and isolation effects are confounded with time.',
                               'RTC timestamps and polling quantize pulse duration; distances are uncalibrated.',
                               'Observed maximum elapsed time is not a proven WCET.',
@@ -108,6 +109,25 @@ def summarize(rows, references=None):
                                        if phase_by_sequence.get(item['seq']-1) == item['phase']), default=None),
             'mean_clock_minus_legacy_cm': statistics.mean(value-item['legacy_cm'] for value, item in zip(values, valid)) if values else None,
             'candidates': candidates}
+    for sensor in sorted({row['sensor'] for row in rows}):
+        items = [row for row in rows if row['sensor'] == sensor]
+        values = [row['distance_milli_cm']/1000 for row in items if row['status'] == 'VALID_ECHO']
+        keys = {row['phase'] + '/' + sensor for row in items}
+        refs = [references.get(key) for key in keys]
+        # Pool errors only when every included phase has the same reference.
+        # Missing or different references must not silently become a common truth.
+        reference = refs[0] if refs and None not in refs and len(set(refs)) == 1 else None
+        result['per_sensor'][sensor] = {
+            'total': len(items), 'valid': len(values), 'invalid': len(items)-len(values),
+            'invalid_fraction': (len(items)-len(values))/len(items),
+            'distance_metric_n': len(values), 'invalid_excluded_from_distance_metrics': True,
+            'status_counts': dict(Counter(row['status'] for row in items)),
+            'mean_cm': statistics.mean(values) if values else None,
+            'median_cm': statistics.median(values) if values else None,
+            'sample_stddev_cm': statistics.stdev(values) if len(values) >= 2 else None,
+            'min_cm': min(values) if values else None, 'max_cm': max(values) if values else None,
+            'reference_cm': reference, **errors(values, reference),
+            'max_read_elapsed_us': max(row['elapsed_us'] for row in items)}
     return result
 
 

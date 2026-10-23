@@ -108,6 +108,26 @@ class AnalysisTests(unittest.TestCase):
         self.assertEqual(result['approx_rise_delay_median_us'],200)
         self.assertEqual(result['approx_rise_delay_max_us'],200)
 
+    def test_pooled_left_reference_and_invalid_exclusion(self):
+        rows = [row(1, 58000), {**row(2, 62000), 'phase':'LEFT_65'}, row(3, 0, 'NO_RISE')]
+        result = analysis.summarize(rows, {'ALL_65/L':60, 'LEFT_65/L':60})['per_sensor']['L']
+        self.assertEqual((result['total'],result['valid'],result['invalid'],result['distance_metric_n']), (3,2,1,2))
+        self.assertEqual((result['mean_cm'],result['median_cm'],result['mae_cm'],result['rmse_cm']), (60,60,2,2))
+        self.assertTrue(result['invalid_excluded_from_distance_metrics'])
+
+    def test_pool_does_not_invent_common_reference(self):
+        rows = [row(), {**row(2), 'phase':'LEFT_65'}]
+        for refs in ({'ALL_65/L':60}, {'ALL_65/L':60, 'LEFT_65/L':100}):
+            result = analysis.summarize(rows, refs)['per_sensor']['L']
+            self.assertIsNone(result['reference_cm'])
+            self.assertIsNone(result['mae_cm'])
+
+    def test_pooled_all_invalid_is_not_zero_error(self):
+        result = analysis.summarize([row(1,0,'NO_RISE')], {'ALL_65/L':60})['per_sensor']['L']
+        self.assertEqual(result['invalid_fraction'], 1)
+        for key in ('mean_cm','median_cm','sample_stddev_cm','mae_cm','rmse_cm'):
+            self.assertIsNone(result[key])
+
 
 if __name__ == '__main__':
     unittest.main()
