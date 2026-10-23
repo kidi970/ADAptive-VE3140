@@ -1,0 +1,6 @@
+{
+  "gpio_image_sha256": "3501ef0926f900f916362fa2e804e5d0fcd18227f8323c6cb602000b7b4db6d7",
+  "motor_display_i2c_symbols": [],
+  "passed": true,
+  "meaning": "Symbol inspection of linked image; not an electrical proof that motor power is disconnected."
+}

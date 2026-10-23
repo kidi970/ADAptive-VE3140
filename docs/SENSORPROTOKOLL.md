@@ -53,3 +53,11 @@ Før nye gulv-/svingtester må alle nødvendige sensorretninger gi tilstrekkelig
 Maksimal observert lesetid er ikke WCET. Ada-runtimeklokken bruker RTC med omtrent 30,5 µs oppløsning, og polling/avbrudd gir ytterligere tidsusikkerhet. `pulse_us / 58` er en nominell databladmodell. Den opprinnelige løkketelleren bygger på en håndjustert forsinkelse og er ikke en kalibrert tidsmåling. Oscilloskop/logic analyzer og kjente avstander er nødvendig for videre tids-/avstandskalibrering.
 
 Kilder: [HC-SR04-datablad](https://cdn.sparkfun.com/datasheets/Sensors/Proximity/HCSR04.pdf), [micro:bit edge connector](https://tech.microbit.org/hardware/edge-connector/), lokal runtime `gnarl/s-bbbosu.adb` og `MicroBit.TimeHighspeed`. Relevante teorikoblinger i `ISforelesninger.pdf`: PDF-side 20 om responstid og 74 om fail-safe.
+
+## GPIO-variant når I2C-init blokkerer sensortest
+
+60 cm-testen er nå fysisk gjennomført; se ADAptive-reference60-2026-10-23.md. V3 er en separat sensor/USB-applikasjon uten motor-, OLED-, I2C- eller servokommandoer. Motorstrøm må være fysisk frakoblet; NO_MOTOR_WRITES bekrefter ikke elektrisk stopp. V2 er bevart.
+
+Bygg med `python tools/build_sensor_diagnostic.py --gpio-only`. Innsamling krever `--motor-power-disconnected` og kan bruke `--gpio-only --flash` ved eksplisitt bytte til V3, deretter `--gpio-only --reset` med en ny resultatmappe for hver repetisjon. Begge kontrollerer flash mot valgt ELF før logget reset. Oppgi `--probe-id` for å velge riktig micro:bit. Ingen automatisk reset av ukjent program. Eldre eksempelkommando over må også suppleres med `--motor-power-disconnected`.
+
+Fullført krever forventet banner, 320 sammenhengende rader i riktig fase-/sensorrekkefølge og korrekt sluttmarkør. Rådata fra en avbrutt oppstart skal beholdes og aldri omtales som 160 målinger. UTC-mottakstider gjelder USB-blokker; CSV-tid er relativ firmwaretid. Samlede feilmetrikker krever lik kjent referanse i alle inkluderte faser.

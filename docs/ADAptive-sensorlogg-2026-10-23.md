@@ -70,3 +70,7 @@ Neste steg er oppmålt venstremålflate ved 60 cm og fysisk kontroll av motstand
 ## Oppfølging: bekreftet pinnebruk
 
 Fra revisjon `10227bc` er dokumentasjonen presisert med brukerens bekreftelse om P2/P14. Ingen firmwarekode, terskler eller måledata er endret, og ingen nye fysiske forsøk eller programtester er kjørt i denne dokumentasjonsoppfølgingen. Tidligere bygg- og testresultater gjelder fortsatt den samme koden. Rapporten er kompilert på nytt i det eksisterende Overleaf-prosjektet: 45 sider, 0 feil, 0 ordinære advarsler og to eksisterende underfull-meldinger. Endret tekst er visuelt kontrollert; ny PDF-hash og avgrensninger er registrert i `VALIDERING.md`. Nye referansemålinger og motstandsrekkefølge avventer fortsatt fysisk avklaring.
+
+## Oppfølging: fysisk 60 cm-referanse
+
+Se [ny utviklingslogg](ADAptive-reference60-2026-10-23.md): V2 feilet før innsamling; separat V3 uten I2C fullførte tre serier med totalt 480/480 gyldige venstremålinger, men systematisk lav avstand. P0 er ikke lukket. Tidligere ukjente referanser er ikke endret.

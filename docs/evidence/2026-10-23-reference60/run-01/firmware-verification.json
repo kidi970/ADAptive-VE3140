@@ -1,0 +1,21 @@
+{
+  "image_sha256": "2fcfc092ae4df89342d52df26a55172997d99eec876a534e5dd9ab3731c5def5",
+  "flash_segments": [
+    {
+      "address": 0,
+      "bytes": 215708,
+      "matches": true,
+      "flash_sha256": "fff134ed43703c64f70496e026ecf841854be216b9c02139a1a1afb92a807831",
+      "elf_segment_sha256": "fff134ed43703c64f70496e026ecf841854be216b9c02139a1a1afb92a807831"
+    },
+    {
+      "address": 215708,
+      "bytes": 3816,
+      "matches": true,
+      "flash_sha256": "da0219b2eeecd3dbcfba98bfe0eafaf8b2715ed9497c3e396721c077da21d5a9",
+      "elf_segment_sha256": "da0219b2eeecd3dbcfba98bfe0eafaf8b2715ed9497c3e396721c077da21d5a9"
+    }
+  ],
+  "initial_state": "State.HALTED",
+  "verified": true
+}

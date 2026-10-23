@@ -1,0 +1,2 @@
+seq,phase,sensor,t_us,interval_ms,trigger_gap_us,status,pulse_us,elapsed_us,distance_milli_cm,legacy_cm
+

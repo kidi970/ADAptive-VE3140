@@ -1,0 +1,20 @@
+{
+  "started_utc": "2026-10-23T06:38:28.968728+00:00",
+  "port": "COM5",
+  "baud": 115200,
+  "bytesize": 8,
+  "parity": "N",
+  "stopbits": 1,
+  "flow_control": false,
+  "firmware_verified": true,
+  "image_sha256": "2fcfc092ae4df89342d52df26a55172997d99eec876a534e5dd9ab3731c5def5",
+  "action": "reset existing byte-verified diagnostic V2; no flashing",
+  "context": "User reports 60 cm measured reference, flat perpendicular cardboard target before LEFT sensor, no LED/load on P2/P14, motor power disconnected. Agent cannot independently inspect ruler, target, wiring or power isolation. Distance datum required: front of sensor; accepted as user-supplied reference, no independent metrology. Target dimensions and ruler uncertainty not supplied.",
+  "reference_cm": 60,
+  "completed": false,
+  "capture_seconds": 0.103,
+  "banner_verified": true,
+  "done_received": false,
+  "data_rows": 0,
+  "left_rows": 0
+}

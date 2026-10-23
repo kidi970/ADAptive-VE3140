@@ -1,0 +1,14 @@
+{
+  "Code/diagnostics/sensor_gpio_diagnostic.adb": "5c9d56f5536a28b33e3b84948c94037e638a2323905fc1d7e9c51837c6e68691",
+  "Code/diagnostics/sensor_gpio_diagnostic.gpr": "e030c24e1afe4d2a81e8afedfbf5ce0ee719e3399fca9f615a2b2393def4f28a",
+  "Code/src/adaptive_echo.adb": "0113f6339f729ec9c2f0a3eeb711de1f6dca896ce5293cf1a12ca9260b0269d4",
+  "Code/src/adaptive_echo.ads": "f73be23ef02ed84e197ede5671e005ca57df91456c90187f789d44d62e31308f",
+  "Code/src/adaptive_range_model.adb": "bb3172b35c4be742e8381ebea20ebea9927bac04be362b76e5fca7eb13165192",
+  "Code/src/adaptive_range_model.ads": "1ebde99bfd1fa85cacceea704196986589763b14fecff4f5ed0e5c5ec2f2ad56",
+  "tools/sensor_experiment.py": "e191c6b3135acc3b9984ccfeeb5fdb1e11532565593cf44486c931d646f6d896",
+  "tools/build_sensor_diagnostic.py": "3f4e38023cb41481aa1af72ddd999e1ecb91c69e2d561b7001c4888075e73996",
+  "tools/analyze_sensors.py": "7df4c1fd76c7f8ed469a53246218af2201a4b277c832ce283bfc0d99c7fe2d98",
+  "tests/test_sensor_capture.py": "f0f71698c31eaba3523d326a965fe401921d4b23db13c579ecfab0c7123d6f2e",
+  "tests/test_sensor_analysis.py": "4832106d2501ae71263f71ce4b3a1cffb153be93c77edc6a5f22a5952a3c7de5",
+  "implementation_commit": "3bf373462d3a2715f2eded4aa83095c39481d1f5"
+}

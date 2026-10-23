@@ -1,3 +1,18 @@
+# Verifisert oppfølging 23.10.2026: referanse 60 cm
+
+- Faktisk kompilert i eksisterende Overleaf-prosjekt 6ad865902324e2538069556e etter siste TeX-endring: 47 sider, 0 feil, 0 ordinære advarsler, 2 eksisterende underfull-meldinger (main.tex 880--884 og output.bbl 73--76), ingen overfull-meldinger.
+- PDF lastet ned fra Overleaf. SHA-256: 730b28bf7c58825b17f2fc99105518eb3ecec572efb2637df892ab5091fe5174.
+- Poppler-rendering: alle 47 sider sett i oversikt; side 2, 24, 25, 26 og 27 kontrollert i full størrelse. Ingen klipping eller overlapp sett.
+- Ingen tomme sider eller uavklarte ??-henvisninger. Alle brukte skrifter har innebygde fontprogrammer.
+- Seksjon 7.6.6--7.6.9 dokumenterer V2-oppstartsfeil, separat GPIO V3, 960 nye fysiske avlesninger, 480 gyldige venstre, feil mot brukeroppgitt 60 cm og fortsatt åpen P0.
+- Kodecommit: 3bf373462d3a2715f2eded4aa83095c39481d1f5. Tester: 1753 Ada-kontroller og 29 Python-tester; navigasjon, V2 og V3 bygger. Det autonome bildet er ikke flashet.
+- Referansens datum, målestokk og elektrisk signal er ikke uavhengig målt av agenten. PDF-/kildekontroll beviser ikke kalibrering, elektrisk sikkerhet eller oppfylt WCET.
+- Første opplastings-ZIP beholdes som et mellomstadium; de løse TeX-filene er endelig rapportkilde. Opplastingsfeil for code-mappen ble håndtert ved full gjenopplasting av bytekontrollerte originalfiler sammen med nye vedlegg; slutt-eksport kontrolleres mot opprinnelig kildeeksport.
+
+Tidligere valideringsnotater nedenfor gjelder tidligere rapportversjoner.
+
+---
+
 # Oppfølging av pinnebekreftelse 23.10.2026
 
 Bruker bekreftet at bare venstre ultralydsensor bruker P2/P14. Avsnitt 7.6, sensorlogg og protokoll er presisert på dette grunnlaget; firmware, matematikk og rådata er uendret. Ingen nye fysiske forsøk eller programtester er kjørt i denne dokumentasjonsoppfølgingen.

@@ -1,0 +1,16 @@
+{
+  "total": 480,
+  "valid": 480,
+  "invalid": 0,
+  "mean_cm": 57.108266666666665,
+  "median_cm": 56.828,
+  "sample_stddev_cm": 0.4652545801561718,
+  "reference_cm": 60,
+  "bias_cm": -2.891733333333332,
+  "mae_cm": 2.891733333333332,
+  "rmse_cm": 2.9288449145240385,
+  "max_read_elapsed_us": 5676,
+  "invalid_excluded_from_distance_metrics": true,
+  "independent_references": false,
+  "limitations": "Three repeated series at one unchanged user-supplied reference. No independent ruler inspection or electrical confirmation. Not proof of reliability in general or calibrated uncertainty."
+}

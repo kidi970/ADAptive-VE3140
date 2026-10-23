@@ -1,0 +1,28 @@
+{
+  "pages": 47,
+  "empty_pages": [],
+  "unknown_references": 0,
+  "fonts": {
+    "/FWVMEG+LMRoman10-Regular": true,
+    "/RHJPTU+LMRoman12-Bold": true,
+    "/EVSKRZ+LMRoman17-Regular": true,
+    "/DGKFPJ+LMRoman12-Regular": true,
+    "/BEROXX+LMRoman10-Bold": true,
+    "/FBFWVD+LMMono10-Regular": true,
+    "/PZBKXM+LMRoman8-Regular": true,
+    "/TTOQXD+LMRoman10-Italic": true,
+    "/JQUCMZ+LMMathItalic10-Regular": true,
+    "/NQTBJF+LMMathSymbols10-Regular": true,
+    "/PKBDCA+LMRoman7-Regular": true,
+    "/HUFBEO+LMRoman6-Regular": true,
+    "/ZXCBHO+LMMathItalic7-Regular": true,
+    "/IUYJBT+LMMathItalic8-Regular": true,
+    "/TSGWDU+LMMathSymbols8-Regular": true,
+    "/CQFTCB+LMMathExtension10-Regular": true,
+    "/VTXYFW+LMMono8-Regular": true,
+    "/GZUJMJ+LMMonoLt10-Bold": true
+  },
+  "all_fonts_embedded": true,
+  "pdf_sha256": "730b28bf7c58825b17f2fc99105518eb3ecec572efb2637df892ab5091fe5174",
+  "visual_inspection": "47 pages in overview; pages 2,24,25,26,27 full-size: no clipping or overlap seen"
+}

@@ -1,0 +1,10 @@
+{
+  "zip_test": null,
+  "files": 113,
+  "previous_files_missing": [],
+  "old_code_changed": [],
+  "manifest_mismatches": [],
+  "manifest_entries": 112,
+  "raw_samples_serial_capture_match": true,
+  "zip_sha256": "465def4d13e60a8e23557375c9774abe7df53f969df3a9b7de88b9019faea4f7"
+}

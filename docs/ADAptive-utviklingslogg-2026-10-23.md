@@ -168,3 +168,7 @@ overfull-linjen i tillegget og en uheldig pilføring i FSM-figuren ble
 rettet før siste kompilering. PDF er lastet ned fra Overleaf, med alle
 skrifter innebygd og uten ??-henvisninger eller tomme sider. Endrede sider
 er kontrollert i full størrelse, hele dokumentet i sideoversikter.
+
+## Videre arbeid i samme dato: referanse 60 cm
+
+Den videre sensorøkten er dokumentert i [ADAptive-reference60-2026-10-23.md](ADAptive-reference60-2026-10-23.md). P0 er fortsatt åpent; ingen nye hjul- eller gulvtester er utført.

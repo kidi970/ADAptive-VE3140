@@ -128,3 +128,7 @@ documented in **[setup/extensions.md](setup/extensions.md)**. Repository-wide
 working notes — the toolchain pins, the traps, the CI layout — are in
 `CLAUDE.md`.
 
+
+## ADAptive status 23.10.2026: 60 cm sensorreferanse
+
+Tre stasjonære GPIO-serier ga 480/480 gyldige venstremålinger, men middel 57,108 cm mot oppgitt 60 cm. P0 er fortsatt åpent for elektrisk kontroll, kalibrering og I2C-oppstartsfeil. Ingen nye bevegelsestester. Se [utviklingslogg](docs/ADAptive-reference60-2026-10-23.md), [rådata og tester](docs/evidence/2026-10-23-reference60/) og [sensorprotokoll](docs/SENSORPROTOKOLL.md).

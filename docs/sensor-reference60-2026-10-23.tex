@@ -1,0 +1,143 @@
+\clearpage
+\subsection{Referanseforsøk ved 60 cm og ny oppstartsfeil}\label{sec:reference60}
+Den videre økten brukte oppsettet som brukeren allerede hadde rigget:
+flat pappflate vinkelrett foran venstre sensor, oppgitt oppmålt avstand
+60 cm, ingen LED eller annen last på P2/P14 og motorstrøm frakoblet.
+Protokollens avstandsdatum er sensorens front. Agenten har ikke fysisk
+sett målebånd, datum, målflatens størrelse eller måleusikkerhet.
+60 cm er derfor en brukeroppgitt referanse, ikke en uavhengig kontrollert
+eller sporbar kalibrering.
+
+Windows identifiserte COM5 som USB-serieport med VID 0D28 og PID 0204.
+Innsamlingen brukte 115\,200 baud, 8 databiter, ingen paritet, ett
+stoppbit og ingen flytkontroll, i samsvar med UART-kilden.
+Den eksisterende flashen ble sammenlignet byte for byte med begge
+lastesegmentene i V2-bildet. Første bulklesing tidsavbrøt; små
+synkrone blokker via CMSIS-DAP v1 fullførte verifiseringen.
+
+Omstart av verifisert V2 ga \kode{DIAGNOSTIC FAULT PROGRAM_ERROR}
+umiddelbart før første måling. Forsøket \kode{run-01} har dermed
+\textbf{null avstandsmålinger}. Feiltidspunktet ligger før OLED-rutinens
+pause og samsvarer med eksplisitt \kode{Program_Error} ved mislykket
+motor-I\textsuperscript{2}C-overføring i
+\kode{Adaptive_Motion.Initialize/Write}. Eksakt busstatus og fysisk
+årsak er ikke målt. Strømmen til motorene ble ikke koblet til for å
+omgå feilen.
+
+En separat Ada-diagnostikk V3 ble derfor implementert med samme
+\kode{Adaptive_Echo.Read}, pinnetilordning, frister og faseplan.
+Den importerer ikke motor-, OLED- eller I\textsuperscript{2}C-modulene
+og sender ingen servo- eller motorkommandoer. Frakoblet motorstrøm
+er en fysisk forutsetning; programmet kan ikke bekrefte elektrisk stopp.
+Banner og sluttmelding sier derfor \kode{NO_MOTOR_WRITES}.
+Symbolkontroll av det linkede bildet fant ingen motor-, display- eller
+\kode{MicroBit.I2C}-symboler. V2 og navigasjonskoden er bevart.
+
+\subsection{Tre fullførte måleserier og feil mot referanse}
+V3 ble flashet for første serie og bare resatt for de to neste.
+Flashinnholdet ble verifisert mot ELF før hver logget omstart.
+Hver serie fullførte med 320 sammenhengende sekvensnumre, korrekt
+fase-/sensorrekkefølge og sluttmarkør: 80 front, 160 venstre og 80 høyre.
+Alle de 960 nye avlesningene var \kode{VALID_ECHO}. Med de tidligere
+640 avlesningene er det samlet registrert 1600 fysiske sensoravlesninger.
+Den mislykkede oppstarten bidrar ikke til dette antallet.
+
+\begin{table}[htbp]
+\centering\small
+\caption{Venstre ved oppgitt referanse 60 cm. Hver serie har 160 gyldige
+og 0 ugyldige målinger. Alle avstandsmetrikker ekskluderer ugyldige.}
+\begin{tabular}{lrrrrr}\toprule
+Serie & Snitt, cm & Median, cm & \(s\), cm & MAE, cm & RMSE, cm\\\midrule
+run-02 &57,170&56,828&0,494&2,830&2,873\\
+run-03 &57,314&56,828&0,526&2,686&2,737\\
+run-04 &56,841&56,828&0,117&3,159&3,161\\\midrule
+Samlet, \(n=480\)&57,108&56,828&0,465&2,892&2,929\\\bottomrule
+\end{tabular}
+\label{tab:reference60}
+\end{table}
+
+Den første fullførte serien svarer på det planlagte forsøket med
+160 venstremålinger: ugyldigandel \(0/160=0\,\%\), bias
+\(-2{,}830\) cm og maksimalt observert lesetid 5676 \(\mu\)s.
+Alle fire faser hadde 40 av 40 gyldige venstreekko.
+For de tre seriene samlet er ugyldigandelen \(0/480=0\,\%\) og bias
+\(-2{,}892\) cm. Front og høyre har ingen kjent referanse; MAE og
+RMSE for disse kanalene er fortsatt \kode{null}.
+
+Tidligere serie 2 hadde \(45/160=28{,}125\,\%\) ugyldige venstreavlesninger,
+men ukjent referanseavstand. Ny målscene og V3 uten motor-/OLED-init
+er endrede forsøksbetingelser. Forskjellen til 0\,\% dokumenterer
+derfor ikke en isolert retting av krysstale, elektrisk nivå eller
+I\textsuperscript{2}C-påvirkning. De gamle dataene får ingen
+etterkonstruert 60 cm-referanse.
+
+De nye gyldige venstreverdiene ligger i bare to trinn, 56,828 og
+57,879 cm. Flere desimaler i CSV innebærer ikke tilsvarende oppløsning.
+RTC-kvantisering, polling, temperatur, refleksjon og ukjent
+referanseusikkerhet begrenser nøyaktighetsvurderingen.
+Tre serier med samme rigg er ikke tre uavhengige kalibreringer.
+Null observerte feil garanterer heller ikke null feilrisiko.
+Ingen automatisk avstandskorreksjon er utledet fra dette ene punktet.
+
+\subsection{P0-port, sanntid og videre verifisering}
+\textbf{Venstre er repeterbar i dette stasjonære oppsettet, men P0 er
+fortsatt åpent.} Fravær av LED bekrefter ikke riktig ECHO-nivå.
+Spenningsdelerens orientering, faktisk \(V_{DD}\), signalnivå,
+felles GND og TRIG-puls må undersøkes fysisk.
+Begge tidsintervaller og venstre alene fullførte uten feil; dette
+utelukker ikke krysstale eller refleksjoner i andre scener.
+Modulbytte med strømmen av er ikke gjennomført. Den nye
+I\textsuperscript{2}C-oppstartsfeilen er en egen integrasjonsblokkering.
+
+Maksimal observert venstrelesetid 5676 \(\mu\)s er ikke WCET.
+Stigningsfrist 10 ms og fallfrist 23 ms avgrenser venteløkker,
+men beviser ikke en samlet grense inkludert trigger, polling,
+avbrudd, logging og motorutgang. Inngang-til-stopp-tid, fart,
+retardasjon og stopplengde er fortsatt ikke målt.
+Ugyldig eller 0 betyr ukjent og skal fortsatt gi fail-safe stopp
+når målingen er nødvendig.
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[node distance=4mm,
+ s/.style={draw=usnpurple,rounded corners,fill=softpurple,
+ text width=11cm,align=center,font=\small,inner sep=4pt}]
+\node[s] (p0) {P0 åpent: elektrisk kontroll, avstandskalibrering og I2C-integrasjon};
+\node[s,below=of p0] (wheel) {Etter godkjent P0: venstre/høyre med hjul løftet};
+\node[s,below=of wheel] (geometry) {Sving og servo 34--134 grader; oppmålt chassis og usikkerhetsmargin};
+\node[s,below=of geometry] (floor) {Etter sikre benketester: gulvtest, fart, reaksjonstid og stopplengde};
+\draw[-{Latex},usnpurple] (p0)--(wheel);
+\draw[-{Latex},usnpurple] (wheel)--(geometry);
+\draw[-{Latex},usnpurple] (geometry)--(floor);
+\end{tikzpicture}
+\caption{Videre testporter. Figuren beskriver verifiseringsplanen,
+ikke nye implementerte FSM-tilstander eller gjennomførte bevegelsestester.}
+\end{figure}
+
+Ingen hjul- eller gulvtest, utvidelse av servogrenser eller svekking av
+sikkerhetsregler er gjort. Ny utvikling i denne økten er den separate
+GPIO-diagnostikken og strengere innsamling/analyse. Ingen PID- eller
+Kalman-regulator er innført.
+
+\subsection{Reproduserbarhet og automatiserte kontroller}
+De 1753 Ada-kontrollene besto på nytt. Python-testene økte fra 16 til
+29 og dekker blant annet feil firmwarebanner, manglende/ekstra data,
+sekvens-/fasefeil, feilmarkør og samlet referanseanalyse.
+Navigasjonsfirmware, V2 og V3 bygget. Bare V3 ble flashet i
+denne oppfølgingen; det autonome bildet ble ikke flashet.
+
+Innsamleren krever eksplisitt registrering av frakoblet motorstrøm og
+verifiserer flash før reset. Den bevarer seriell rålogg, feilkoder,
+\kode{t_us}, PC-ens UTC-mottakstider per USB-blokk og firmwarehash.
+PC-mottakstid er ikke et eksakt UTC-tidspunkt for hver sensorpuls.
+Fullført krever riktig banner, 320 rader, korrekt rekkefølge og
+sluttmarkør uten diagnosefeil. Lokal ELF-hash alene er ikke bevis
+på kjørende firmware.
+
+Mappen \kode{reference60/} inneholder alle fire forsøk, faktisk rådata,
+referansefiler, analyser, kildeøyeblikksbilder, bygg-/testlogger og
+samlet venstrestatistikk. \kode{ADAptive-reference60-2026-10-23.md}
+forklarer oppsett, begrensninger og utestående kontrollpunkter.
+Redigerbare diagnose- og verktøykilder følger i
+\kode{code/reference60/}. Firmwarehash for V3 finnes i hver
+\kode{capture.json}; bytene ble kontrollert mot begge flashsegmentene.

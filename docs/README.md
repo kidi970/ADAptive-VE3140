@@ -68,3 +68,7 @@ PDF-forhåndsvisningen er kompilert fra prosjektet med Tectonic. Kilden er også
 ## Før innlevering
 
 Fullfør KI-deklarasjon, arbeidsfordeling, maskinvareidentifikasjon, koblingsskjema, rå bygglogger, advarseltekst og systematiske testprotokoller. Fastsett målbare tidskrav og utfør en analyse som svarer til den faktiske programarkitekturen. Oversikten over åpne punkter finnes også i siste vedlegg i PDF-en.
+
+## Oppfølging 60 cm, 23.10.2026
+
+Se ADAptive-reference60-2026-10-23.md og avsnitt 7.6.6--7.6.9. Tre fysiske GPIO-serier: venstre 480/480 gyldige, men systematisk avstandsavvik mot oppgitt 60 cm. P0 er fortsatt åpent. VALIDERING.md dokumenterer faktisk Overleaf-kompilering og PDF-kontroll for 47-sidersversjonen.

@@ -1,0 +1,40 @@
+{
+  "image": "C:\\Users\\jacob\\ADAptive\\ADAptive-VE3140\\build\\sensor-diagnostic\\Code\\diagnostics\\obj-gpio\\sensor_gpio_diagnostic",
+  "sha256": "3501ef0926f900f916362fa2e804e5d0fcd18227f8323c6cb602000b7b4db6d7",
+  "profile": "gpio-v3",
+  "port": "COM5",
+  "baud": 115200,
+  "bytesize": 8,
+  "parity": "N",
+  "stopbits": 1,
+  "flow_control": false,
+  "context": "Third GPIO V3 series with unchanged user-rigged 60 cm LEFT cardboard reference and reported motor-power isolation; no wiring or geometry change by agent. GPIO V3 verified before reset. Ruler, target size, resistor orientation and signal voltages not independently inspected.",
+  "motor_power_disconnected_reported": true,
+  "flash_requested": false,
+  "reset_requested": true,
+  "started_utc": "2026-10-23T06:45:15.042805+00:00",
+  "completed": true,
+  "firmware_verified": true,
+  "local_image_hash_is_not_running_firmware_proof": true,
+  "probe_id": "9906360200052820642034ba85c73f41000000006e052820",
+  "flash_segments": [
+    {
+      "address": 0,
+      "bytes": 150528,
+      "matches": true,
+      "flash_sha256": "e76b5784d1a865252ea870976ca792d430c1e4407c5eb29e980f7234c6614963",
+      "elf_segment_sha256": "e76b5784d1a865252ea870976ca792d430c1e4407c5eb29e980f7234c6614963"
+    },
+    {
+      "address": 150528,
+      "bytes": 2496,
+      "matches": true,
+      "flash_sha256": "cd7c84cc8054c5342cbe8a4cfbd492071a7a77cd1ef5bec091ee6f4e6c5e0105",
+      "elf_segment_sha256": "cd7c84cc8054c5342cbe8a4cfbd492071a7a77cd1ef5bec091ee6f4e6c5e0105"
+    }
+  ],
+  "capture_seconds": 26.918,
+  "data_rows": 320,
+  "left_rows": 160,
+  "finished_utc": "2026-10-23T06:45:50.538579+00:00"
+}
