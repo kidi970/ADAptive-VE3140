@@ -1,0 +1,179 @@
+\clearpage
+\section{Feilsøking og videreutvikling 23.10.2026}\label{sec:utvikling23}
+Denne daterte oppdateringen supplerer den bevarte rapporten. Den skiller
+mellom tidligere utviklerobservasjoner, avleste data fra fysisk micro:bit,
+automatiserte tester og forhold som fortsatt krever praktiske forsøk.
+Arbeidet tok utgangspunkt i lokale endringer etter \kode{ee6df67}; disse
+ble sikkerhetskopiert før endring. Ingen endringer er publisert til GitHub.
+
+\subsection{Oppstartsregresjon: observasjon, årsak og isolert retting}
+Den rapporterte feilen var at OLED viste ADAptive, mens servo og motorer
+sto stille etter utvidelsen med ytterpunkter. Før flashing ble hele
+flashminnet på 524\,288 byte lest ut. Programområdet samsvarte byte for
+byte med den lokale binærfilen. Prosessoren sto i feilhandleren ved
+\kode{PC=0x16c08}; \kode{xPSR=0x21000006} viste UsageFault, og
+\kode{CFSR=0x00040000} viste ugyldig exception return.
+
+Den opprinnelige primærstakken var 4096 byte. Kompilatorens stakkrapport
+viste at \kode{Main} alene reserverte 3424 byte før underkall og
+avbruddskontekst. Den avleste prosess-stakkpekeren
+\kode{0x200031b0} lå under stakkens nedre grense \kode{0x20003260},
+inne i området reservert til avbruddsstakken. Samlet dokumenterer dette
+stakkoverløp som forklaring på oppstartsregresjonen; det er ikke
+dokumentasjon på en feil i én bestemt servovinkel.
+
+En isolert endring økte stakken til 16\,384 byte. Dette ble satt som
+linkerparameter:\par
+\kode{--defsym=__stack_size=16384}.\par
+Etter flashing passerte programmet
+OLED-initialisering, startet autonom FSM og utførte 5P/7P-skanning.
+Feilregisteret var da null. Utvikler bekreftet fysisk servobevegelse og at
+34--134\textdegree{} er mekanisk kontrollert. Dette bekrefter oppstartsrettingen,
+men ikke full autonom kjøring. Etter moduldelingen rapporterer kompilatoren
+912 byte for \kode{Main}, merket dynamisk. Dette er et bidrag fra én
+funksjon, ikke en fullstendig øvre stakkgrense. En markørtest under et
+15-sekunders forløp med verifikasjon og skanning viste 1976 byte brukt
+av primærstakken; 14\,408 byte i bunnen beholdt markøren. Dette er
+en observert høytvannsverdi, ikke en verstefallsgrense.
+
+\subsection{Moduler, navigasjon og sikkerhetskontroller}
+Den aktive applikasjonen er fortsatt sekvensiell. Egen kode for
+policy, FSM, sensorer, navigasjon, motorutgang, skjerm og stoppforespørsel
+erstatter den store lokale kontrollblokken. Ingen sensor-, kontroll- eller
+sikkerhetstasks er innført. FSM-en bruker nå \kode{Stopped}, \kode{Verify},
+\kode{Cruise}, \kode{Scan}, \kode{Turn} og en låst \kode{Fault}.
+Det historiske \kode{Reverse_Drive} var allerede bare stopp og er ikke
+en aktiv manøver i den nye implementasjonen.
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+ node distance=10mm and 15mm,
+ box/.style={draw=usnpurple,rounded corners,fill=softpurple,
+  minimum width=24mm,minimum height=8mm,font=\small},
+ arr/.style={-{Stealth},thick,draw=usnpurple}]
+\node[box] (stop) {Stopped};
+\node[box,right=of stop] (verify) {Verify};
+\node[box,right=of verify] (cruise) {Cruise};
+\node[box,below=of verify] (scan) {Scan};
+\node[box,right=of scan] (turn) {Turn};
+\node[box,below=17mm of stop] (fault) {Fault};
+\draw[arr] (stop)--(verify);
+\draw[arr] (verify)--node[above,font=\scriptsize]{fri} (cruise);
+\draw[arr] (verify)--node[left,font=\scriptsize]{blokkert} (scan);
+\draw[arr] (scan)--node[above,font=\scriptsize]{korridor} (turn);
+\draw[arr] (turn.east)--++(6mm,0)|-([yshift=4mm]verify.north)--(verify.north);
+\draw[arr] (cruise.north)--++(0,7mm)-|node[pos=.25,above,font=\scriptsize]{hinder eller ugyldig} (stop.north);
+\draw[arr] (scan.west)--++(-5mm,0)|- (stop.south);
+\draw[arr,dashed] (stop)--(fault);
+\end{tikzpicture}
+\caption{Forenklet aktiv FSM. Etter sving kreves ny verifikasjon.
+Feil og stoppforespørsel låser kjøringen i Fault; uventede hendelser gir stopp.}
+\label{fig:fsm23}
+\end{figure}
+
+Frontsensoren sentreres på 84\textdegree{}. Før start kreves gyldige
+front- og sidemålinger. Ved fremoverkjøring beholdes motorutgangen mellom
+kontrollene i stedet for fem adskilte pulser. Akustiske triggere holdes
+minst 65 ms fra hverandre. Rekkefølgen under bevegelse er front, venstre,
+front, høyre. Ugyldige råmålinger og frontavstand på høyst 45 cm
+utløser stopp før logging eller neste sensorlesing. Sideterskelen er
+15 cm under fremoverkjøring og 25 cm under sving; fronten krever også
+mer enn 25 cm før sving. Stasjonær filtrering krever at alle tre målinger
+er gyldige og minst to stemmer innen 15 cm. Minste verdi beholdes slik
+at en kort hindermåling ikke forkastes til fordel for to store verdier.
+Gyldig område er 2--200 cm; 0 cm gir aldri kjøretillatelse.
+
+5P bruker 60, 72, 84, 96 og 108\textdegree{}. Ved manglende godkjent
+retning følger 7P ved 54, 64, 74, 84, 94, 104 og 114\textdegree{}.
+Når 7P er blokkert, gir ytterpunktene 34 og 134\textdegree{} ekstra
+informasjon. De kan ikke alene oppheve en blokkert korridor.
+En utvidet svingbeslutning krever to like godkjente 7P-valg og ny kontroll
+av front og begge sider før motorstart. Bekreftelsen forbrukes ved bruk.
+
+Utvikler oppga bredde 16 cm, lengde 23 cm og omtrent 10 cm
+sensorforskyvning. En foreløpig geometrisk test krever at
+\(2d_{\min}\sin(\Delta\theta/2)\geq 16+2\cdot5=26\) cm over den
+skannede sektoren. Det tilsvarer bilens bredde med 5 cm tillegg på hver side.
+Dette avviser smale vinkelåpninger selv om enkeltstrålene passerer 45 cm.
+Sparsom ultralydskanning beviser likevel ikke at hele arealet er tomt.
+Sensorplassering, blindsoner, svingbane og marginer må verifiseres fysisk.
+
+Motorutgangen kontrollerer I\textsuperscript{2}C-status. Sendefunksjonen
+i \kode{nrf-twi.adb} var tidligere uten aktiv timeout; den nye aktive
+sendestien har tidsgrense både for data og STOP-hendelse. Motortransaksjoner
+bruker 20 ms som programparameter. Ved feil forsøkes stopp, og videre
+kjøring låses. En brutt buss kan hindre at selve stoppkommandoen når
+motorbrettet; fysisk frakobling av motorstrøm er derfor fortsatt nødvendig
+ved benketest. Knapp B ber om låst stopp, kontrollert mellom sensorlesingene.
+
+\subsection{Ultralydadvarsler og tidsmessig avgrensning}
+Advarslene ved de tidligere linjene 70 og 92 skyldtes polling av
+GPIO-objektet \kode{Echo}, som ikke ble endret i løkkekroppen.
+Den undersøkte lokale koden hadde allerede eksplisitte timeout-utganger.
+Advarselen var derfor ikke bevis for en uendelig løkke eller årsaken til
+den observerte UsageFault-feilen. Pollingen er skrevet om med klokken
+direkte i løkkebetingelsen og retur av 0 ved utløpt tid. Den bruker
+3 ms for venting på ekkostart og 23 ms for ekkoslutt. Disse er
+programmerte grenser; pollingoverskridelse, avbrudd og klokkeavhengighet
+må inngå i en faktisk WCET-analyse. Det nye bygget gir ingen av de tidligere
+ultralydadvarslene.
+
+Med normal tidsdrift gir triggerplanen omtrent 130 ms mellom fronttriggere
+og 260 ms mellom triggere fra samme sidesensor under bevegelse. Dette er
+analyse av kontrollflyten, ikke målt responstid eller deadlinebevis.
+Stopplengden må fortsatt beregnes fra målt hastighet, målealder,
+behandling, utgangsforsinkelse og fysisk bremsing. Forelesningene skiller
+responstid fra funksjonell korrekthet og beskriver fail-safe som å bevare
+integritet selv om driften avbrytes~\cite{forelesninger2026}.
+
+\subsection{Testgrunnlag og gjenstående demonstrasjon}
+\begin{longtable}{@{}P{36mm}P{39mm}P{71mm}@{}}
+\caption{Daterte kontroller 23.10.2026. Resultatene gjelder bare oppgitt omfang.}
+\label{tab:tester23}\\
+\toprule Kontroll & Resultat & Bevis eller avgrensning\\\midrule
+\endfirsthead
+\toprule Kontroll & Resultat & Bevis eller avgrensning\\\midrule
+\endhead
+Backup og firmwareproveniens & Bestått & 51 lokale filer med manifest, Git-patcher og full flashkopi. Programområdet samsvarte med lokalt bygg.\\
+Isolert stakkretting & Bestått benkeobservasjon & Oppstart og FSM kom videre; CFSR var 0. Fysisk servo bekreftet av utvikler.\\
+Policy og FSM på vertsmaskin & 1729 kontroller bestått & Faktiske Ada-moduler kjørt med native GNAT; ugyldige målinger, terskler, korridorbredde, retningsstabilitet og overganger.\\
+Modulært firmwarebygg & Bestått & \kode{python tools/mb.py build}; 215\,748 byte flash og 29\,000 byte SRAM reservert. ELF/HEX/BIN generert.\\
+Modulær benketest & Gjennomført, blokkert scene & Front omtrent 25 cm, venstre 100--103 cm og høyre 16 cm. 5P/7P/1P utført; 0-målinger ga ingen kjøreordre. CFSR var 0.\\
+Tidligere fempulsforsøk & Utvikleropplysning & Fem pulser på 0,45 s ved PWM 800, stopp rundt 45 cm og 5P/7P-observasjoner er ikke gjentatt som samme test i denne økten.\\
+Yttergrenser servo & Bekreftet av utvikler & 34--134\textdegree{} oppgitt mekanisk fritt. Ingen egen vinkelmåling eller momenttest.\\
+Fremover og stopp med målflater & Bekreftet benketest & To kjørekommandoer; stopp ved venstre=0 og front=44 cm. Fysisk hjulrespons bekreftet av utvikler.\\
+Autonom gulvkjøring & Gjenstår & Begge svinger, fysisk stopplengde, sidehindringer og strømforsyning uten USB må testes systematisk.\\
+Feilinjeksjon og WCET & Gjenstår & Fast ekko, brutt I\textsuperscript{2}C-buss, knapp B under bevegelse og verstefallstid er ikke fysisk fullverifisert.\\
+\bottomrule
+\end{longtable}
+
+En separat benketest etter at måleområdene var frigjort ga front=0,
+venstre=0 og høyre=67 cm. Systemet forble blokkert selv om ytterpunktene
+ga 55 og 76 cm. Det ble ikke gitt fremoverkommando i dette forsøket.
+
+Etter oppsett med målflater ga en ny benketest gyldige verdier på
+front=64, venstre=63 og høyre=75 cm og deretter fremoverkommando ved
+PWM 800. Loggen viste stopp ved ugyldig venstremåling og i neste
+forsøk ved front=44 cm. Utvikler bekreftet fysisk at hjulene dreide
+fremover og stoppet. En gjentatt test ga også fremoverkommando og stopp ved venstre=0.
+Venstresensoren ga både stabile avstander rundt
+63--71 cm og periodiske 0-verdier. Årsaken til disse bortfallene er
+ikke fastslått; strøm, kontaktforbindelser, målflate og akustisk
+interferens må undersøkes uten å svekke målereglene.
+
+I dette siste 15-sekunders forsøket viste stakkmarkøren 2240 byte
+brukt og 14\,144 byte urørt. Ingen UsageFault ble registrert. Ved
+avslutning ble stoppforespørselen satt, og indikatoren for aktiv
+motorkommando var null. Det er en kontroll av programtilstand og
+kommandoer, ikke en måling av hjulhastighet eller fysisk bremselengde.
+
+Det tidligere eksemplet med venstre 6--7 cm og høyre 41--42 cm og
+7P-verdiene 64\textdegree{}=46, 74\textdegree{}=21,
+84\textdegree{}=21--22, 94\textdegree{}=22--23,
+104\textdegree{}=23 og 114\textdegree{}=162 cm kommer fra
+oppdragsbeskrivelsen. Disse er tidligere enkeltobservasjoner, ikke en
+ny kalibreringsserie. En slik scene gir ikke en sammenhengende godkjent
+korridor. De nye råloggene og driverpatchen ligger sammen med
+utviklingsloggen i Git-arbeidsmappen; eldre kodevedlegg er beholdt med
+sin opprinnelige revisjonsangivelse.

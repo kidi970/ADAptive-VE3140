@@ -50,3 +50,12 @@ Apply the patch only once on a fresh checkout.
 The Ada Drivers Library is a Git submodule.
 The OLED fix is maintained as a project patch rather than
 a separate commit in the upstream library.
+
+# Current application patch, 23 October 2026
+
+`ada-drivers-2026-10-23.patch` is cumulative against the repository's
+Ada_Drivers_Library submodule HEAD. It includes external I2C GPIO setup,
+ultrasonic timeout loops, and bounded I2C transmission used by the modular
+application. Apply this patch to a clean submodule; do not first apply the
+21 October patch. See `docs/ADAptive-utviklingslogg-2026-10-23.md` for the
+tested scope, remaining hardware issues, and reproduction commands.

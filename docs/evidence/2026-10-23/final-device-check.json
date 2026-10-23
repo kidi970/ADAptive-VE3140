@@ -1,0 +1,5 @@
+{
+  "method": "chunked 1 KiB flash verification; retry after single large transfer timed out",
+  "status": "verification unavailable",
+  "error": "Timeout reading from probe 9906360200052820642034ba85c73f41000000006e052820"
+}

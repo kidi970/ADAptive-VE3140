@@ -1,0 +1,12 @@
+{
+  "registers": {
+    "pc": "0x12682",
+    "psp": "0x200021e0",
+    "msp": "0x20003148",
+    "xpsr": "0xa1000000"
+  },
+  "CFSR": "0x0",
+  "stack_start": "0x20003148",
+  "stack_end": "0x20007148",
+  "stop_requested": 1
+}

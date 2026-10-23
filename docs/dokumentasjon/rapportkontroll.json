@@ -1,0 +1,51 @@
+{
+  "requirements": {
+    "FR1": true,
+    "FR2": true,
+    "FR3": true,
+    "FR4": true,
+    "FR5": true,
+    "FR6": true,
+    "RT1": true,
+    "RT2": true,
+    "RT3": true,
+    "SR1": true,
+    "SR2": true,
+    "SR3": true,
+    "SR4": true
+  },
+  "original_factual_paragraphs": {
+    "I dette prosjektet skal det utvikles et inneb": true,
+    "Prosjektet omfatter utvikling av både maskinv": true,
+    "Det skal utvikles og testes en fungerende pro": true,
+    "Hvordan kan et sanntidssystem implementert i ": true,
+    "Målet med prosjektet er å utvikle en fungeren": true,
+    "Prosjektet fokuserer hovedsakelig på implemen": true
+  },
+  "original_docx_byte_identical": true,
+  "chapters": [
+    "Innledning",
+    "Kravspesifikasjon",
+    "Teori",
+    "Systemdesign",
+    "Implementasjon",
+    "Sanntidsanalyse",
+    "Tester og resultater",
+    "Prosjektgjennomføring",
+    "Diskusjon",
+    "Konklusjon",
+    "Ada-kode og byggkonfigurasjon",
+    "Drivertilpasninger",
+    "Reproduksjon og videre dokumentasjon"
+  ],
+  "undefined_labels": [],
+  "duplicate_labels": [],
+  "undefined_citations": [],
+  "citations_used": 16,
+  "pdf_pages": 36,
+  "blank_pages": [],
+  "replacement_characters": 0,
+  "overfull_boxes": 0,
+  "main_sha256": "8a072be2524a96e052b32e525bf66e83da3f2c8de2e7d649602823be5789e708",
+  "firmware_build_or_hardware_test_run": false
+}

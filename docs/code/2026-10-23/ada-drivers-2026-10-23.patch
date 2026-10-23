@@ -1,0 +1,230 @@
+diff --git a/arch/ARM/Nordic/drivers/nrf_common/nrf-twi.adb b/arch/ARM/Nordic/drivers/nrf_common/nrf-twi.adb
+index eedc0be5..806bd90e 100644
+--- a/arch/ARM/Nordic/drivers/nrf_common/nrf-twi.adb
++++ b/arch/ARM/Nordic/drivers/nrf_common/nrf-twi.adb
+@@ -28,6 +28,7 @@
+ --   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.   --
+ --                                                                          --
+ ------------------------------------------------------------------------------
++with Ada.Real_Time; use Ada.Real_Time;
+ with NRF_SVD.TWI; use NRF_SVD.TWI;
+ --with Microbit.Console; use Microbit.Console;
+ 
+@@ -118,63 +119,50 @@ package body nRF.TWI is
+       Status  : out I2C_Status;
+       Timeout : Natural := 1000)
+    is
+-      pragma Unreferenced (Timeout);
++      Deadline : constant Time := Clock + Milliseconds (Timeout);
+       Index : Integer := Data'First + 1;
+-      Evt_Err : UInt32;
+-      Err_Src : ERRORSRC_Register with Unreferenced;
++      procedure Abort_Transfer (Reason : I2C_Status) is
++      begin
++         This.Periph.TASKS_STOP := 1;
++         This.Disable;
++         This.Periph.EVENTS_TXDSENT := 0;
++         This.Periph.EVENTS_STOPPED := 0;
++         This.Periph.EVENTS_ERROR := 0;
++         This.Do_Stop_Sequence := True;
++         This.Enable;
++         Status := Reason;
++      end Abort_Transfer;
+    begin
+-      if Data'Length = 0 then
+-         Status := Ok;
+-         return;
+-      end if;
+-
+-      --  Clear errors
++      if Data'Length = 0 then Status := Ok; return; end if;
+       This.Periph.ERRORSRC := (Clear, Clear, Clear, 0);
+-
+-      --  Set Address
++      This.Periph.EVENTS_ERROR := 0;
++      This.Periph.EVENTS_TXDSENT := 0;
+       This.Periph.ADDRESS.ADDRESS := UInt7 (Addr / 2);
+-
+-      --  Prepare first byte
+       This.Periph.TXD.TXD := Data (Data'First);
+-
+-      --  Start TX sequence
+       This.Periph.TASKS_STARTTX := 1;
+-
+       loop
+-
+          loop
+-            --Put("Send: ");
+-            --Put_Line(This.Periph.TXD.TXD'Image); --used for: debug bytes send
+-
+-            Evt_Err := This.Periph.EVENTS_ERROR;
+-            if Evt_Err /= 0 then
+-               Err_Src := This.Periph.ERRORSRC;
+-               Status := Err_Error;
+-               --  Clear the error
+-               This.Periph.EVENTS_ERROR := 0;
+-
+-               --  Stop sequence
+-               This.Periph.TASKS_STOP := 1;
+-
+-               return;
++            if This.Periph.EVENTS_ERROR /= 0 then
++               Abort_Transfer (Err_Error); return;
++            elsif Clock >= Deadline then
++               Abort_Transfer (Err_Timeout); return;
+             end if;
+-
+             exit when This.Periph.EVENTS_TXDSENT /= 0;
+          end loop;
+-
+-         --  Clear the event
+          This.Periph.EVENTS_TXDSENT := 0;
+-
+          exit when Index > Data'Last;
+-
+          This.Periph.TXD.TXD := Data (Index);
+          Index := Index + 1;
+       end loop;
+-
+       if This.Do_Stop_Sequence then
+-         Stop_Sequence (This);
++         This.Periph.EVENTS_STOPPED := 0;
++         This.Periph.TASKS_STOP := 1;
++         while This.Periph.EVENTS_STOPPED = 0 loop
++            if Clock >= Deadline then
++               Abort_Transfer (Err_Timeout); return;
++            end if;
++         end loop;
+       end if;
+-
+       Status := Ok;
+    end Master_Transmit;
+ 
+diff --git a/boards/MicroBit_v2/src/full/microbit-i2c.adb b/boards/MicroBit_v2/src/full/microbit-i2c.adb
+index 7db981ad..2fbf87a9 100644
+--- a/boards/MicroBit_v2/src/full/microbit-i2c.adb
++++ b/boards/MicroBit_v2/src/full/microbit-i2c.adb
+@@ -31,6 +31,7 @@
+ 
+ with nRF.Device;
+ with nRF.TWI;
++with nRF.GPIO;
+ 
+ package body MicroBit.I2C is
+ 
+@@ -71,20 +72,41 @@ package body MicroBit.I2C is
+       Init_Done := True;
+    end Initialize;
+ 
++
+    procedure InitializeExt (S : Speed := S400kbps) is
+    begin
++      -- Configure SCL (P19 / P0.26)
++      MB_SCL_EXT.Configure_IO
++        (Config =>
++           (Mode         => nRF.GPIO.Mode_In,
++            Resistors    => nRF.GPIO.Pull_Up,
++            Input_Buffer => nRF.GPIO.Input_Buffer_Connect,
++            Drive        => nRF.GPIO.Drive_S0D1,
++            Sense        => nRF.GPIO.Sense_Disabled));
++
++      -- Configure SDA (P20 / P1.00)
++      MB_SDA_EXT.Configure_IO
++        (Config =>
++           (Mode         => nRF.GPIO.Mode_In,
++            Resistors    => nRF.GPIO.Pull_Up,
++            Input_Buffer => nRF.GPIO.Input_Buffer_Connect,
++            Drive        => nRF.GPIO.Drive_S0D1,
++            Sense        => nRF.GPIO.Sense_Disabled));
++
++      -- Configure external I2C controller
+       DeviceExt.Configure
+         (SCL   => MB_SCL_EXT.Pin,
+          SDA   => MB_SDA_EXT.Pin,
+-         Speed => (case S is
+-                      when S100kbps => nRF.TWI.TWI_100kbps,
+-                      when S250kbps => nRF.TWI.TWI_250kbps,
+-                      when S400kbps => nRF.TWI.TWI_400kbps)
+-        );
++         Speed =>
++           (case S is
++              when S100kbps => nRF.TWI.TWI_100kbps,
++              when S250kbps => nRF.TWI.TWI_250kbps,
++              when S400kbps => nRF.TWI.TWI_400kbps));
+ 
+       DeviceExt.Enable;
+       Init_DoneExt := True;
+    end InitializeExt;
++
+    ----------------
+    -- Controller --
+    ----------------
+diff --git a/boards/MicroBit_v2/src/full/microbit-ultrasonic.adb b/boards/MicroBit_v2/src/full/microbit-ultrasonic.adb
+index b6b84441..bc117ed8 100644
+--- a/boards/MicroBit_v2/src/full/microbit-ultrasonic.adb
++++ b/boards/MicroBit_v2/src/full/microbit-ultrasonic.adb
+@@ -60,46 +60,31 @@ package body MicroBit.Ultrasonic is
+       return Result_in_CM;
+    end WaitForEcho;
+ 
+-   function Wait_For_End_Blocking_Using_Polling_With_Timeout(Timeout_Ms : Time_Span) return Distance_cm
++   function Wait_For_End_Blocking_Using_Polling_With_Timeout
++     (Timeout_Ms : Time_Span) return Distance_cm
+    is
+       Deadline : constant Time := Clock + Timeout_Ms;
+-      Result_in_CM :Distance_cm := 0;
++      Result : Distance_cm := 0;
+    begin
+-      --use a named loop so we can call "exit named loop when" instead of "while .. "
+-   Polling: loop
+-         exit Polling when Echo.Set = False;
+-         -- Distance formula see: https://cdn.sparkfun.com/datasheets/Sensors/Proximity/HCSR04.pdf
+-         Delay_Us(58);  --wait for 58 us or 1 cm distance and check again
+-         Result_in_CM := Result_in_CM + 1;
+-
+-         if Clock >= Deadline then
+-            Result_in_CM := 0;
+-            Echo.Set; --0 cm, NOTE: this cutoff threshold means that value is unusable
+-         end if;
+-
+-   end loop Polling;
+-
+-      return Result_in_CM;
+-end Wait_For_End_Blocking_Using_Polling_With_Timeout;
+-
+- function Wait_For_Start_Blocking_Using_Polling_With_Timeout  (Timeout_Ms : Time_Span) return Boolean
+-is
++      while Clock < Deadline loop
++         if not Echo.Set then return Result; end if;
++         Delay_Us (58);
++         if Result = Distance_cm'Last then return 0; end if;
++         Result := Result + 1;
++      end loop;
++      return 0;
++   end Wait_For_End_Blocking_Using_Polling_With_Timeout;
++   function Wait_For_Start_Blocking_Using_Polling_With_Timeout
++     (Timeout_Ms : Time_Span) return Boolean
++   is
+       Deadline : constant Time := Clock + Timeout_Ms;
+-      IsTimeOut: Boolean := False;
+    begin
+-      --use a named loop so we can call "exit named loop when" instead of "while .. "
+-   Polling: loop
+-      exit Polling when Echo.Set = True;
+-      if Clock >= Deadline then
+-            Echo.Clear;
+-            IsTimeOut := True;
+-      end if;
+-   end loop Polling;
+-
+-      return IsTimeOut;
++      while Clock < Deadline loop
++         if Echo.Set then return False; end if;
++      end loop;
++      return True;
+    end Wait_For_Start_Blocking_Using_Polling_With_Timeout;
+ 
+-
+ begin
+    Initialize;
+ end MicroBit.Ultrasonic;

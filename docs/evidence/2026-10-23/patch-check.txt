@@ -1,0 +1,1 @@
+PASS: cumulative patch applies to clean submodule HEAD and reproduces all 3 modified drivers.

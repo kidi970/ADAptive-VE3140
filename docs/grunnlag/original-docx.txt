@@ -1,0 +1,194 @@
+[000] [Normal] 
+[001] [Header] 
+[002] [Normal] 
+[003] [Normal] Innleveringsoppgave 
+[004] [Normal] VE3140-1 26H Intelligente sanntidssystemer
+[005] [Normal] [07.10.2026]
+[006] [Normal] 
+[007] [Normal] 
+[008] [Normal] 266584 – Nicolay Olafsen
+[009] [Normal] 228979 – Jacob Hellumstand Utengen
+[010] [Normal] ADAptive Real-Time System
+[011] [Normal] 
+[012] [Normal] 
+[013] [TOC Heading] Innhold
+[014] [toc 1] Kap 1 – Innledning	2
+[015] [toc 2] 1.1 - Oppgavebeskrivelse	2
+[016] [toc 2] 1.2 – Problemstilling	2
+[017] [toc 2] 1.3 – Mål og avgrensninger	2
+[018] [toc 2] 1.4 – KI-deklarasjon	2
+[019] [toc 1] Kap 2 – Kravspesifikasjon	3
+[020] [toc 2] 2.1 – Funksjonelle krav	3
+[021] [toc 2] 2.2 – Sanntidskrav	3
+[022] [toc 2] 2.3 – Systemkrav	3
+[023] [toc 1] Kap 3 – Teori	4
+[024] [toc 2] 3.1 – Sanntidssystemer	4
+[025] [toc 2] 3.2 – ADA og tasking	4
+[026] [toc 2] 3.3 – Micro:bit v2	4
+[027] [toc 2] 3.4 – Mecanum hjul	4
+[028] [toc 2] 3.5 - Sensorer	4
+[029] [toc 2] 3.6 – Scheduling & Respons Time Analyse	4
+[030] [toc 1] Kap 4 – Systemdesign	5
+[031] [toc 2] 4.1 – Systemoversikt	5
+[032] [toc 2] 4.2 – Maskinvarearkitektur	5
+[033] [toc 2] 4.3 – Programvarearkitektur	5
+[034] [toc 2] 4.4 – Task-arkitektur	5
+[035] [toc 2] 4.5 – Kontrollstrategi	5
+[036] [toc 2] 4.6 – Sanntidsdesign	5
+[037] [toc 2] 5.1 – Motorstyring	7
+[038] [toc 2] 5.2 – Mecanum-bevegelse	7
+[039] [toc 2] 5.3 – Sensorimplementasjon	7
+[040] [toc 2] 5.4 – ADA-tasks	7
+[041] [toc 2] 5.5 – Integrasjon	7
+[042] [toc 1] Kap 6 – Real-Time Analyse	8
+[043] [toc 2] 6.1 – Taks & prioriteter	8
+[044] [toc 2] 6.2 – Perioder & deadlines	8
+[045] [toc 2] 6.3 – WCET	8
+[046] [toc 2] 6.4 – Response Time Analysis	8
+[047] [toc 2] 6.5 – Verifisering av deadlines	8
+[048] [toc 1] Kap 7 – Tester & Resultater	9
+[049] [toc 2] 7.1 – Testresultater	9
+[050] [toc 2] 7.2 – Funksjonelle tester	9
+[051] [toc 2] 7.3 – Sanntidstester	9
+[052] [toc 2] 7.4 - Resultater	9
+[053] [toc 1] Kap 8 – Prosjektgjennomføring	10
+[054] [toc 1] Kap 9 -  Diskusjon	10
+[055] [toc 1] Kap 10 – Konklusjon	10
+[056] [Normal] 
+[057] [Title] Kap 1 – Innledning
+[058] [Subtitle] 1.1 - Oppgavebeskrivelse
+[059] [Normal] I dette prosjektet skal det utvikles et innebygd sanntidssystem ved bruk av Micro:Bit v2, programmert i ADA. Systemet skal implementeres på en Mecanum-bil og benytte sensorer for å registrere informasjon fra omgivelsene. Mecanum-hjulene gjør det mulig for bilen å bevege seg i flere retninger, blant annet fremover, bakover, sidelengs og ved rotasjon.
+[060] [Normal] Prosjektet omfatter utvikling av både maskinvare- og programvareløsninger, med særlig fokus på sanntidsegenskaper. Systemet skal organiseres ved hjelp av ADA-tasks med definerte perioder, prioriteter og deadlines. Det skal gjennomføres en sanntidsanalyse for å undersøke om systemets oppgaver kan fullføres innenfor de fastsatte tidskravene.
+[061] [Normal] Det skal utvikles og testes en fungerende prototype. Systemets oppbygning, implementasjon, sanntidsanalyse og testresultater dokumenteres i denne rapporten.
+[062] [Subtitle] 1.2 – Problemstilling
+[063] [Normal] Hvordan kan et sanntidssystem implementert i ADA på en Micro:Bit v2 styre en Mecanum-bil autonomt og unngå kollisjoner med statiske og bevegelige hindringer innenfor definerte tidskrav?
+[064] [Subtitle] 1.3 – Mål og avgrensninger
+[065] [Normal] Målet med prosjektet er å utvikle en fungerende prototype av et innebygd sanntidssystem hvor en Micro:Bit v2 styrer en Mecanum-bil ved hjelp av ADA. Systemet skal kunne innhente informasjon fra sensorer, behandle denne informasjonen og styre bilens motorer basert på resultatet.
+[066] [Normal] Prosjektet fokuserer hovedsakelig på implementasjon og analyse av sanntidssystemet. Det legges derfor større vekt på oppgaveplanlegging, responstid, deadlines, sensorbehandling og motorstyring enn på utvikling av avanserte autonome navigasjonsalgoritmer.
+[067] [Normal] 
+[068] [Subtitle] 1.4 – KI-deklarasjon
+[069] [Normal] 
+[070] [Normal] 
+[071] [Normal] 
+[072] [Normal] 
+[073] [Normal] 
+[074] [Normal] 
+[075] [Normal] 
+[076] [Normal] 
+[077] [Normal] 
+[078] [Normal] 
+[079] [Normal] 
+[080] [Normal] 
+[081] [Normal] 
+[082] [Normal] 
+[083] [Normal] 
+[084] [Normal] 
+[085] [Normal] 
+[086] [Normal] 
+[087] [Normal] 
+[088] [Normal] 
+[089] [Normal] 
+[090] [Normal] 
+[091] [Normal] 
+[092] [Normal] 
+[093] [Normal] 
+[094] [Title] Kap 2 – Kravspesifikasjon
+[095] [Subtitle] 2.1 – Funksjonelle krav
+[096] [Normal] FR1 – Bilen skal kunne kjøre autonomt uten kontinuerlig styring fra bruker.
+[097] [Normal] FR2 – Bilen skal kunne registrere hindringer ved hjelp av sensorer.
+[098] [Normal] FR3 – Bilen skal kunne registrere hindringer i kjøreretning.
+[099] [Normal] FR4 – Bilen skal utføre en unnamanøver når et hinder registreres innenfor definert sikkerhetsavstand.
+[100] [Normal] FR5 – Bilen skal kunne benytte Mecanum-hjulene til å utføre unnamanøvre.
+[101] [Normal] FR6 – Bilen skal fortsette normal kjøring når området igjen er fritt.
+[102] [Subtitle] 2.2 – Sanntidskrav
+[103] [Normal] RT1 – Sensorer skal avleses periodisk.
+[104] [Normal] RT2 – Systemet skal reagere på et kritisk hinder innen definert deadline.
+[105] [Normal] RT3 – Kritiske sanntidsoppgaver skal fullføres innen sine respektive deadlines.
+[106] [Subtitle] 2.3 – Systemkrav
+[107] [Normal] SR1 – Systemet skal implementeres på en Micro:Bit v2.
+[108] [Normal] SR2 – Systemet skal programmeres i ADA.
+[109] [Normal] SR3 – Systemet skal benytte en Mecanum-bil med fire individuelt styrbare motorer.
+[110] [Normal] SR4 – Systemet skal benytte sensorer for registrering av hindringer.
+[111] [Title] Kap 3 – Teori
+[112] [Subtitle] 3.1 – Sanntidssystemer
+[113] [Subtitle] 3.2 – ADA og tasking
+[114] [Subtitle] 3.3 – Micro:Bit v2
+[115] [Subtitle] 3.4 – Mecanum hjul
+[116] [Subtitle] 3.5 - Sensorer
+[117] [Subtitle] 3.6 – Scheduling og Response Time Analysis
+[118] [Title] Kap 4 – Systemdesign
+[119] [Subtitle] 4.1 – Systemoversikt
+[120] [Normal] Beskriv flyten : sensorer → sensoravlesning → beslutningslogikk → motorstyring → mecanum bil 
+[121] [Subtitle] 4.2 – Maskinvarearkitektur
+[122] [Normal] Forklar hva systemet vårt fysisk består av og hvordan komponenten henger sammen
+[123] [Normal] Micro bit v2
+[124] [Normal] Mecanum bil
+[125] [Normal] Fire motorer
+[126] [Normal] Motorstyring / motordriver
+[127] [Normal] Sensorene vi bruker
+[128] [Normal] Eventuell annen maskinvare
+[129] [Subtitle] 4.3 – Programvarearkitektur
+[130] [Normal] Sensorer
+[131] [Normal]    ↓
+[132] [Normal] Sensor Task
+[133] [Normal]    ↓
+[134] [Normal] Sensordata
+[135] [Normal]    ↓
+[136] [Normal] Control Task
+[137] [Normal]    ↓
+[138] [Normal] Ønsket bevegelse
+[139] [Normal]    ↓
+[140] [Normal] Motor Task
+[141] [Normal]    ↓
+[142] [Normal] Motorer
+[143] [Subtitle] 4.4 – Task-arkitektur
+[144] [Normal] Forslag:
+[145] [Normal] Sensor_task : Periodisk innhenting av sensordata
+[146] [Normal] Control_task : Vurdere sensordata og bestemme bilens bevegelse
+[147] [Normal] Motor_task : Utføre ønsket bevegelse ved å styre motoren
+[148] [Normal] Safety_task : Håndtere kritiske situasjoner og kollisjonsfare
+[149] [Subtitle] 4.5 – Kontrollstrategi
+[150] [Normal] Normal kjøring
+[151] [Normal]       ↓
+[152] [Normal] Les sensorer
+[153] [Normal]       ↓
+[154] [Normal] Hinder?
+[155] [Normal]  ┌────┴────┐
+[156] [Normal] Nei       	     Ja
+[157] [Normal]  │         	     │
+[158] [Normal] Fortsett       Unnamanøver
+[159] [Normal]                 	     ↓
+[160] [Normal]         	       Området fritt?
+[161] [Normal]             	     ↓
+[162] [Normal]        	     Normal kjøring
+[163] [Normal] 
+[164] [Normal] 
+[165] [Subtitle] 4.6 – Sanntidsdesign
+[166] [Normal] Hvilken task er periodisk
+[167] [Normal] Hvilke som er mest kritisk
+[168] [Normal] Prioriteringsrekkefølge
+[169] [Normal] Hvilke tasks som får deadlines
+[170] [Normal] Hvorfor sensor/kollisjonshåndtering må reagere raskere enn mindre kritiske funksjoner
+[171] [Title] Kap 5 – Implementasjon
+[172] [Subtitle] 5.1 – Motorstyring
+[173] [Subtitle] 5.2 – Mecanum-bevegelse
+[174] [Subtitle] 5.3 – Sensorimplementasjon
+[175] [Subtitle] 5.4 – ADA-tasks
+[176] [Subtitle] 5.5 – Integrasjon
+[177] [Title] Kap 6 – Real-Time Analyse
+[178] [Subtitle] 6.1 – Taks og prioriteter
+[179] [Subtitle] 6.2 – Perioder og deadlines
+[180] [Subtitle] 6.3 – WCET
+[181] [Subtitle] 6.4 – Response Time Analysis
+[182] [Subtitle] 6.5 – Verifisering av deadlines
+[183] [Title] Kap 7 – Tester & Resultater
+[184] [Subtitle] 7.1 – Testresultater
+[185] [Subtitle] 7.2 – Funksjonelle tester
+[186] [Subtitle] 7.3 – Sanntidstester
+[187] [Subtitle] 7.4 - Resultater
+[188] [Title] Kap 8 – Prosjektgjennomføring
+[189] [Normal] Planlegging, arbeidsfordeling, github, samarbeid, utfordringer og endringer underveis
+[190] [Title] Kap 9 -  Diskusjon
+[191] [Normal] Vurder resultatene, begrensninger, problemer og hva vi kunne gjort annerledes
+[192] [Title] Kap 10 – Konklusjon
+[193] [Normal] Besvar problemstillingen og oppsummer om kravene ble oppfylt

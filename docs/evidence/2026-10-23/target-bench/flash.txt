@@ -1,0 +1,8 @@
+[---|---|---|---|---|---|---|---|---|----]
+[========================================]
+[---|---|---|---|---|---|---|---|---|----]
+[========================================]
+0001230 I Loading C:\Users\jacob\ADAptive\ADAptive-VE3140\build\main.elf [load_cmd]
+0001232 I Erasing... [loader]
+0006869 I Programming... [loader]
+0015785 I Erased 221184 bytes (54 sectors), programmed 221184 bytes (54 pages), identical 0 bytes (0 pages) at 14.84 kB/s [loader]

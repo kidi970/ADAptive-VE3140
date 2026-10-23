@@ -1,0 +1,1 @@
+An additional final flash read timed out through USB, both as a single transfer and in 1 KiB chunks. No further firmware write or reset was attempted. The last completed bench captures remain the source for stop_requested=1, motion_commanded=0 and CFSR=0. Do not treat this final read as a successful verification.
