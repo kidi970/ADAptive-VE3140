@@ -1,3 +1,16 @@
+# Oppdatering 2. november 2026: Pi og exceptions
+
+Rapporten har nytt avsnitt 7.7 og datert kodevedlegg. `main.tex` bygger til
+54 sider totalt; `presentation.tex` bygger til ti lysbilder. Detaljer og
+testgrunnlag står i `ADAptive-pi-unntak-2026-11-02.md`. USB-oppsett er i
+`PI-OPPKOBLING.md`, faglig plan i `PENSUM-OG-DEMOPLAN.md`.
+
+Dette er lokalt verifisert på Pi-en. Ingen ny fysisk biltest eller oppdatering
+av Overleaf er utført. Kompilert PDF og kildepakke finnes lokalt under
+`../build/deliverables/`. Historiske opplysninger nedenfor gjelder tidligere datoer.
+
+---
+
 # Sensorstudie 23.10.2026
 
 Etter forsøkene bekreftet bruker at P2/P14 bare brukes av venstre ultralydsensor. Rapport og protokoll er presisert: delt LED-last legges til side som forklaring. Motstandsrekkefølge, signalnivå og referanseavstand er fortsatt uavklart. Denne oppfølgingen endrer ingen firmware eller rådata.

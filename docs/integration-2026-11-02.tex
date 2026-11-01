@@ -1,0 +1,108 @@
+\section{Raspberry Pi-integrasjon og unntakshåndtering, 2.11.2026}
+\label{sec:piunntak}
+\statusbox{\textbf{Verifisert i denne økten:} prosjektet er hentet fra
+arbeidsgrenen med grunnrevisjon \kode{cf1178c} og bygget på Raspberry Pi 5.
+1857 Ada-kontroller og 35 Python-tester består. Motortransporten er simulert
+i de nye feiltestene. Ingen micro:bit var tilkoblet, ingen firmware er flashet,
+og ingen ny fysisk kjøring er gjennomført. Den tidligere I2C-oppstartsfeilen
+er fortsatt en åpen fysisk verifikasjon.}
+
+\subsection{Avgrensning og arkitektur}
+Raspberry Pi brukes som utviklings- og loggmaskin. En USB-datakabel går til
+micro:bitens USB-grensesnitt; sanntidsstyringen forblir skrevet i Ada på
+micro:bit V2. Dette følger produsentens dokumenterte USB-støtte, som også
+omfatter Raspberry Pi~\cite{microbitusb2026}. Motor- og sensorforsyningen
+skal kontrolleres før aktiv testing. Pi-ens GPIO kobles ikke til motorene.
+Pinneplanen i \kode{PI-OPPKOBLING.md} viderefører siste dokumenterte oppsett;
+den er ikke en ny fysisk bekreftelse.
+
+Applikasjonen er fortsatt sekvensiell. Sensor-, navigasjons- og motorpakker
+samarbeider gjennom én styringsflyt; stoppknappen setter et atomisk flagg.
+En fremtidig taskarkitektur må ha eksplisitt eierskap til ultralyd og I2C,
+tidsstemplede data og beskyttet kommunikasjon. Det nye feilobjektet har én
+sekvensiell eier og skal ikke brukes samtidig fra flere tasks uten omarbeiding.
+
+\subsection{Exceptions som avgrenser faktiske feil}
+Ada overfører kontrollen til en passende handler når en exception oppstår;
+en ubehandlet exception i en task behandles annerledes enn propagation i en
+vanlig subprogramkjede~\cite{adaexceptions2026}. Prosjektet bruker runtime
+\kode{embedded-nrf52833}. Støtte må vurderes mot dette konkrete valget;
+lettere runtimes kan begrense propagation~\cite{adart2026}.
+\kode{Adaptive_Errors} skiller motorbussfeil, ufullstendig initialisering,
+servogrenser, latchet stopp og feil ved stoppknappens registrering. Innebygde
+\kode{Constraint_Error}, \kode{Program_Error} og \kode{Storage_Error}
+klassifiseres separat. En vanlig hindring eller en ugyldig avstand behandles
+fortsatt som sensordata/FSM-hendelse, ikke som en exception per avlesning.
+
+Ved I2C-feil lagres stoppforespørselen og videre kjøring avvises.
+Feilmeldingen inneholder status, enhetsadresse og register. Motorstyringen
+stopper motorutgangene \emph{før} oscillatorens oppvåkning, slik at gamle
+PWM-verdier ikke vekkes før stopp. Ved ukjent auto-increment skrives
+\kode{FULL_OFF} separat til de åtte motor-PWM-kanalene; dette unngår å anta
+at en ufullført oppstart har aktivert burstskriving. Registervalget bygger
+på PCA9685-databladet~\cite{pca9685_2026}. Endringen er verifisert med
+simulert I2C, men må fortsatt verifiseres på den fysiske motorstyringen.
+
+\kode{Adaptive_Fault_Handler} setter først stoppflagget, forsøker så én
+avgrenset stoppoperasjon og skriver deretter diagnostikk. En sekundær
+stoppfeil bevares ved siden av den opprinnelige feilårsaken. En loggerfeil
+kan ikke utløse ny kjøring eller gjentatte gjenopprettingsforsøk. Det finnes
+ingen automatisk reset av feiltilstanden. Hovedprogrammet og diagnostikk V2
+bruker samme handler. Dette erstatter tidligere skjult \kode{when others}
+ved feil i selve stoppforsøket. Feilgrensen dekker exceptions i den
+eksekverende styringsflyten; den erstatter ikke en last-chance-handler ved
+feil under bibliotekelaborering eller ved maskinvarelås.
+
+\begin{table}[htbp]
+\centering\small
+\caption{Feilrespons og begrensninger i den nye implementasjonen.}
+\begin{tabularx}{\textwidth}{@{}P{34mm}YY@{}}\toprule
+Hendelse & Implementert respons & Hva responsen ikke beviser\\\midrule
+Motor-I2C avviser sending & Navngitt exception og stoppflagg & Årsak til elektrisk bussfeil\\
+Ukjent oppstartstilstand & Enkeltvis FULL\_OFF før oppvåkning & Faktisk PWM eller stillstand på bilen\\
+Stopp avvises av bussen & STOP UNCONFIRMED og bevart sekundærfeil & At programvaren kan stoppe uten fungerende buss\\
+Knapp under motorsending & Ny kontroll etter sending, så stopp & Elektrisk uavhengig nødstopp\\
+Ugyldig servovinkel & Ingen sending, exception til supervisor & At alle tillatte vinkler er mekanisk klarert\\
+\bottomrule\end{tabularx}
+\end{table}
+
+\subsection{Tidsmessige konsekvenser}
+Motor og OLED deler ekstern I2C og unngår nå unødvendig ny initialisering av
+samme buss. OLED-skriving har eksplisitt 20 ms timeoutparameter, som motoren.
+Normal motorstopp bruker én bursttransaksjon når auto-increment er kjent.
+Etter usikker oppstart kan stopp kreve åtte enkelttransaksjoner:
+\[
+ B_{\mathrm{stopp,IO}} \leq 8\cdot 20\,\mathrm{ms}=160\,\mathrm{ms}.
+\]
+Dette er et betinget transaksjonsbudsjett i den patchede driveren. Scheduler,
+programinstruksjoner, sensorventing og fysisk bremsing kommer i tillegg.
+Ved første avviste transaksjon avbrytes forsøket og stopp er ubekreftet.
+Det er derfor ikke dokumentert en 160 ms end-to-end-deadline.
+Knapp B gir en programvareforespørsel; en ytre strømbryter må fortsatt være
+tilgjengelig ved fysiske forsøk. Fremtidig RTA må bruke den faktiske
+arkitekturen og omfatte blokkering og eventuelle self-suspensions.
+
+\subsection{Testresultat og faglig sporbarhet}
+De eksisterende 1753 Ada-kontrollene består fortsatt. De 104 nye kontrollene
+omfatter klassifisering, rekkefølgen stoppflagg--stopp--logging, sekundær
+stoppfeil, loggerfeil, alle tolv skrivepunkter i oppstarten, servogrenser,
+stopp under motorsending og avvisning av ny kjøring etter feil.
+Testene kjører faktisk applikasjonskode og DFR0548s PWM-koding mot en
+simulert I2C-transport. De utgjør ikke 104 fysiske forsøk eller et formelt
+sikkerhetsbevis. ARM-bygg av hovedprogram, V2 og GPIO V3 består.
+
+Det passive USB-verktøyet \kode{pi_link.py} identifiserer USB-enheten og
+samler tidsavgrensede rålogger uten å sende kommandoer. Mottakstid på Pi-en
+er ikke micro:bitens utførelsestid. Ingen firmwareidentitet eller fysisk
+motorstatus utledes av en åpen port. De 35 Python-testene består av 29
+eksisterende tester og seks nye tester av deteksjon, avgrensning, fravær av
+skrivekommandoer og bevaring av delvise logger.
+
+Oppgaveteksten og eksisterende rapport brukes som faglig arbeidsgrunnlag.
+Selve forelesnings-PDF-en og gjeldende vurderingskriterier er ikke tilgjengelig
+i dette checkoutet. Detaljert pensumdekning avventer disse kildene.
+\kode{PENSUM-OG-DEMOPLAN.md} kobler kode, teori og evidens og angir videre
+målinger. Hovedrapporten bør ved sluttredigering tilpasses oppgavens
+anbefalte 15--20 sider, mens utviklingshistorikk og vesentlig kode legges i
+vedlegg. Ingen påstand om sensorvurdering eller karakter kan utledes av
+antall funksjoner eller tester alene.

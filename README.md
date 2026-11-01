@@ -1,5 +1,23 @@
 # ADAptive – VE3140
 
+**2.11.2026 – Raspberry Pi og feilhåndtering:** Byggeverktøy er klargjort på
+Pi 5. Navngitte exceptions, latchet feilrespons og tydelig ubekreftet stopp
+er integrert i hovedprogrammet og diagnostikk V2. Motorutgangene settes av
+før oppvåkning; 1857 native Ada-kontroller og 35 Python-tester består.
+Hovedprogram, diagnostikk V2 og GPIO V3 bygger. Ingen ny flashing eller
+fysisk kjøring er utført; tidligere I2C-oppstartsfeil er fortsatt fysisk uavklart.
+
+- [Direkte oppkobling fra Pi til bilen](docs/PI-OPPKOBLING.md)
+- [Pensumkobling, taskarkitektur og demoplan](docs/PENSUM-OG-DEMOPLAN.md)
+- [Dagens endringer og verifikasjon](docs/ADAptive-pi-unntak-2026-11-02.md)
+- [Rapportkilde](docs/main.tex) og [presentasjonsutkast, 10 lysbilder](docs/presentation.tex)
+
+`python3 tools/pi_link.py status` identifiserer USB uten å åpne seriellport.
+Koble fra motorstrømmen før USB-tilkobling av ukjent firmware.
+Autonom kjøring er fortsatt ikke ferdig fysisk validert.
+
+---
+
 Ada-robot med Mecanum-hjul, tre HC-SR04, servo og OLED. Aktiv navigasjon er sekvensiell; full autonom gulvkjøring og begge svingretninger er ennå ikke fysisk validert.
 
 23.10.2026: Oppstartsfeilen er rettet og fremover/stopp tidligere fysisk bekreftet. En separat diagnostikk har nå samlet **640 stasjonære sensoravlesninger** med motorstrømmen frakoblet. Venstre kanal er fortsatt ustabil; lengre ECHO-startfrist ga flere mottatte ekko, men løste ikke feilene. En ugyldig måling betyr fortsatt ukjent avstand.

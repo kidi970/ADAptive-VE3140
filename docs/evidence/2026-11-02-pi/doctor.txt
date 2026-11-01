@@ -1,0 +1,13 @@
+Project: template  (Choose project... changes it; 'template' is your own program)
+Build tools (required):
+  OK       alr: alr 2.1.1
+  OK       gprbuild: GPRBUILD 25.0.0 (2025-05-16) (aarch64-linux-gnu)
+  OK       arm-eabi-gcc: 15.1.0
+  OK       arm-eabi-objcopy: GNU objcopy (GNU Binutils) 2.44
+
+Flashing / debugging (optional - not available in a Codespace):
+  missing  pyocd
+  OK       arm-eabi-gdb: GNU gdb (GDB) 16.3
+  missing  no debug probe attached
+
+Build environment looks good.

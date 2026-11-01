@@ -27,6 +27,18 @@ jobs:
         with:
           submodules: 'true'
 
+      - name: Apply the ADAptive driver patch
+        run: |
+          git -C Code/libs/Ada_Drivers_Library apply --check ../../../patches/ada-drivers-2026-10-23.patch
+          git -C Code/libs/Ada_Drivers_Library apply ../../../patches/ada-drivers-2026-10-23.patch
+
+      - name: Test policy, fault recovery and motion against simulated I2C
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends gnat
+          python3 tools/test_navigation.py
+          python3 -m unittest discover -s tests -p 'test_*.py'
+
       # Provision through Alire, exactly as a student does. Alire maps a crate
       # version to the right release tarball itself -- the GNAT-FSF asset names
       # do not track the crate version (crate gnat_arm_elf 15.1.2 lives in

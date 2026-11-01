@@ -1,0 +1,4 @@
+PASS 1729 checks
+PASS range model: 24 checks
+PASS 37 fault checks
+PASS 67 motion checks (mock I2C)

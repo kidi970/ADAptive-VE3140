@@ -7,15 +7,23 @@ with Adaptive_Display;
 with Adaptive_Safety;
 with MicroBit.Console; use MicroBit.Console;
 with Ada.Exceptions;
+with Adaptive_Fault_Handler;
 procedure Main is
+   package Faults is new Adaptive_Fault_Handler
+     (Latch_Stop => Adaptive_Safety.Request_Stop,
+      Stop_Motors => Adaptive_Motion.Stop,
+      Log => Put_Line);
    Current : State := Stopped;
    Direction : Choice := Blocked;
    S : Snapshot;
    Safe : Boolean;
 begin
    Put_Line ("ADAptive MODULAR START");
-   Adaptive_Motion.Initialize;
+   Put_Line ("STARTUP SAFETY");
    Adaptive_Safety.Initialize;
+   Put_Line ("STARTUP MOTOR");
+   Adaptive_Motion.Initialize;
+   Put_Line ("STARTUP DISPLAY");
    Adaptive_Display.Initialize;
    Adaptive_Display.Show_Direction ('S');
    Adaptive_Display.Show_Status ("STATUS: STOP");
@@ -79,8 +87,6 @@ begin
    end loop;
 exception
    when E : others =>
-      begin Adaptive_Motion.Stop;
-      exception when others => null; end;
-      Put_Line ("FAULT LATCHED " & Ada.Exceptions.Exception_Name (E));
+      Faults.Handle (E);
       loop delay 1.0; end loop;
 end Main;

@@ -1,3 +1,22 @@
+# Oppdatering 2. november 2026
+
+Eksisterende rapport er videreført lokalt med Raspberry Pi-integrasjon og
+exceptions i avsnitt 7.7 og et nytt kodevedlegg. Lokal pdfLaTeX/BibTeX gir
+54 sider totalt, 0 feil, 0 ordinære advarsler, 2 underfull og 0 overfull.
+Presentasjonsutkastet har 10 lysbilder og kompilerer uten feil eller ordinære
+advarsler. Alle lysbilder er rendret og visuelt kontrollert; ny rapportdel
+er kontrollert med tekstuttrekk og sidegjengivelse.
+
+Overleaf krever tilgang/innlogging i denne nettleseren og er **ikke** oppdatert.
+1857 Ada-kontroller, 35 Python-tester og alle tre firmwarebygg består lokalt.
+Ingen micro:bit er tilkoblet, ingen ny flashing/kjøring er utført, og den
+fysiske I2C-oppstartsfeilen er fortsatt uavklart. Verifikasjon og avgrensninger:
+`ADAptive-pi-unntak-2026-11-02.md` og `evidence/2026-11-02-pi/verification.json`.
+
+Tidligere validering nedenfor er historikk med sine opprinnelige datoer.
+
+---
+
 # Verifisert oppfølging 23.10.2026: referanse 60 cm
 
 - Faktisk kompilert i eksisterende Overleaf-prosjekt 6ad865902324e2538069556e etter siste TeX-endring: 47 sider, 0 feil, 0 ordinære advarsler, 2 eksisterende underfull-meldinger (main.tex 880--884 og output.bbl 73--76), ingen overfull-meldinger.

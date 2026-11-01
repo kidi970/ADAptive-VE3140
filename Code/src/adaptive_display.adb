@@ -54,7 +54,8 @@ package body Adaptive_Display is
 
    procedure Send (Name : String; Data : I2C_Data) is
    begin
-      Port.Master_Transmit (Addr => 16#78#, Data => Data, Status => Status);
+      Port.Master_Transmit
+        (Addr => 16#78#, Data => Data, Status => Status, Timeout => 20);
 
       if Status /= Ok then
          Put_Line (Name & ": " & I2C_Status'Image (Status));
@@ -287,7 +288,10 @@ package body Adaptive_Display is
 
    procedure Initialize is
    begin
-   MicroBit.I2C.InitializeExt (MicroBit.I2C.S100kbps);
+   -- Motor and OLED share one bus; retain its existing configuration.
+   if not MicroBit.I2C.InitializedExt then
+      MicroBit.I2C.InitializeExt (MicroBit.I2C.S100kbps);
+   end if;
 
    delay 0.5;
 

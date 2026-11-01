@@ -3,37 +3,77 @@ with HAL; use HAL;
 with HAL.I2C; use HAL.I2C;
 with DFR0548; use DFR0548;
 with Adaptive_Safety;
+with Adaptive_Errors;
 package body Adaptive_Motion is
    Port : constant Any_I2C_Port := MicroBit.I2C.ControllerExt;
+   Ready : Boolean := False;
+   Burst_Enabled : Boolean := False;
    procedure Write (Data : I2C_Data) is
       Status : I2C_Status;
    begin
+      if not MicroBit.I2C.InitializedExt then
+         raise Adaptive_Errors.Motor_Not_Ready with "External I2C not initialized";
+      end if;
       Port.Master_Transmit (16#80#, Data, Status, Timeout => 20);
       if Status /= Ok then
-         raise Program_Error with "Motor I2C write failed";
+         Ready := False;
+         Burst_Enabled := False;
+         Adaptive_Safety.Motor_Stop_Acknowledged := False;
+         Adaptive_Safety.Request_Stop;
+         raise Adaptive_Errors.Motor_Bus_Error
+           with "addr8=128 reg=" & UInt8'Image (Data (Data'First))
+             & " status=" & I2C_Status'Image (Status);
+      end if;
+      if Data'Length = 2 and then Data (Data'First) = 16#00# then
+         Burst_Enabled := (Data (Data'Last) and 16#20#) /= 0;
       end if;
    end Write;
    procedure Stop is
    begin
-      Write ((0 => 16#06#, 1 .. 32 => 0));
+      Adaptive_Safety.Motor_Stop_Acknowledged := False;
+      -- If auto-increment is unknown, address each motor PWM channel's
+      -- FULL_OFF bit independently. Recovery must never wake the oscillator.
+      if Burst_Enabled then
+         Write ((0 => 16#06#, 1 .. 32 => 0));
+      else
+         for Channel in 0 .. 7 loop
+            Write ((UInt8 (16#09# + 4 * Channel), 16#10#));
+         end loop;
+      end if;
       Adaptive_Safety.Motion_Commanded := False;
+      Adaptive_Safety.Motor_Stop_Acknowledged := True;
    end Stop;
    procedure Initialize is
    begin
-      MicroBit.I2C.InitializeExt (MicroBit.I2C.S100kbps);
-      Write ((16#00#, 16#20#));
+      Ready := False;
+      Burst_Enabled := False;
+      Adaptive_Safety.Motor_Stop_Acknowledged := False;
+      if Adaptive_Safety.Stop_Requested then
+         raise Adaptive_Errors.Stop_Latched_Error with "Startup inhibited";
+      end if;
+      if not MicroBit.I2C.InitializedExt then
+         MicroBit.I2C.InitializeExt (MicroBit.I2C.S100kbps);
+      end if;
+      -- Clear all motor outputs before waking an already powered PCA9685.
       Stop;
       Write ((16#00#, 16#10#));
       Write ((16#FE#, 121));
       Write ((16#00#, 16#20#));
       delay 0.001;
       Aim (Center);
+      Ready := True;
    end Initialize;
    procedure Drive (Direction : Choice) is
       Buffer : I2C_Data (0 .. 32) := (0 => 16#06#, others => 0);
       F : constant I2C_Data := Convert_Wheel_PWM_Registers ((800, 0));
       B : constant I2C_Data := Convert_Wheel_PWM_Registers ((0, 800));
    begin
+      if Direction = Blocked then Stop; return; end if;
+      if Adaptive_Safety.Stop_Requested then
+         raise Adaptive_Errors.Stop_Latched_Error with "Drive inhibited";
+      elsif not Ready then
+         raise Adaptive_Errors.Motor_Not_Ready with "Motor setup incomplete";
+      end if;
       case Direction is
          when Straight =>
             Buffer (1 .. 8) := F; Buffer (9 .. 16) := F;
@@ -46,15 +86,25 @@ package body Adaptive_Motion is
             Buffer (17 .. 24) := B; Buffer (25 .. 32) := B;
          when Blocked => null;
       end case;
+      Adaptive_Safety.Motor_Stop_Acknowledged := False;
       Write (Buffer);
       Adaptive_Safety.Motion_Commanded := Direction /= Blocked;
+      -- A button interrupt can arrive during the bounded bus transaction.
+      if Adaptive_Safety.Stop_Requested then
+         Stop;
+         raise Adaptive_Errors.Stop_Latched_Error with "Stop during drive write";
+      end if;
    end Drive;
    procedure Aim (Angle : Natural) is
       Counts : UInt16;
    begin
       if Angle not in 34 .. 134
         or else (not Outer_Angles_Verified and then Angle not in 54 .. 114)
-      then raise Constraint_Error with "Unverified servo angle"; end if;
+      then raise Adaptive_Errors.Servo_Limit_Error
+        with "Unverified servo angle"; end if;
+      if Adaptive_Safety.Stop_Requested then
+         raise Adaptive_Errors.Stop_Latched_Error with "Servo inhibited";
+      end if;
       -- S2 is PCA9685 channel 14: 600..2400 us over 0..180 degrees.
       Counts := UInt16 (Float'Rounding
         ((600.0 + Float (Angle) * 10.0) * 4096.0 / 20000.0));

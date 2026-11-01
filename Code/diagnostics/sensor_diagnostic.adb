@@ -6,7 +6,16 @@ with Adaptive_Range_Model; use Adaptive_Range_Model;
 with Adaptive_Motion;
 with Adaptive_Display;
 with Ada.Exceptions;
+with Adaptive_Safety;
+with Adaptive_Fault_Handler;
 procedure Sensor_Diagnostic is
+   procedure Log_Fault (Message : String) is
+   begin
+      Put_Line ("DIAGNOSTIC FAULT " & Message);
+   end Log_Fault;
+   package Faults is new Adaptive_Fault_Handler
+     (Latch_Stop => Adaptive_Safety.Request_Stop,
+      Stop_Motors => Adaptive_Motion.Stop, Log => Log_Fault);
    package Front is new Adaptive_Echo (MB_P13, MB_P1);
    package Left is new Adaptive_Echo (MB_P14, MB_P2);
    package Right is new Adaptive_Echo (MB_P15, MB_P8);
@@ -70,7 +79,6 @@ begin
    loop delay 1.0; end loop;
 exception
    when E : others =>
-      begin Adaptive_Motion.Stop; exception when others => null; end;
-      Put_Line ("DIAGNOSTIC FAULT " & Ada.Exceptions.Exception_Name (E));
+      Faults.Handle (E);
       loop delay 1.0; end loop;
 end Sensor_Diagnostic;

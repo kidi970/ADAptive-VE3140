@@ -24,7 +24,7 @@
 \definecolor{codegray}{HTML}{F6F6F8}
 \hypersetup{pdftitle={ADAptive Real-Time System},
  pdfauthor={Nicolay Olafsen og Jacob Hellumstand Utengen},
- pdfsubject={VE3140 prosjektrapport oppdatert 23.10.2026},
+ pdfsubject={VE3140 prosjektrapport oppdatert 2.11.2026},
  colorlinks=true,linkcolor=usnpurple,citecolor=usnpurple,urlcolor=usnpurple,
  bookmarksnumbered=true,pdfstartview=FitH}
 \urlstyle{same}
@@ -48,7 +48,7 @@
 \pagestyle{fancy}
 \fancyhf{}
 \fancyhead[L]{\small ADAptive}
-\fancyhead[R]{\small VE3140 \enspace|\enspace 23.10.2026}
+\fancyhead[R]{\small VE3140 \enspace|\enspace 2.11.2026}
 \fancyfoot[C]{\small\thepage}
 \renewcommand{\headrulewidth}{0pt}
 \setlength{\headheight}{14pt}
@@ -100,7 +100,7 @@ micro:bit V2 og Ada\par}
 \end{tabular}
 \vspace{9mm}
 
-{\large Status per 23. oktober 2026\par}
+{\large Status per 2. november 2026\par}
 {\small Opprinnelig rapport datert 7. oktober 2026\par}
 \vfill
 {\small Universitetet i Sørøst-Norge\par Høstsemesteret 2026\par}
@@ -112,6 +112,11 @@ micro:bit V2 og Ada\par}
 \hypersetup{pageanchor=true}
 \chapter*{Sammendrag}
 \addcontentsline{toc}{chapter}{Sammendrag}
+\statusbox{\textbf{Oppdatering 2.11.2026.} Avsnitt~\ref{sec:piunntak}
+beskriver Raspberry Pi som utviklingsmaskin, navngitte exceptions og testet
+feilrespons. 1857 Ada-kontroller og 35 Python-tester består. Alle tre
+firmwareprosjekter bygger; ingen micro:bit var tilkoblet i denne økten.
+Autonom gulvkjøring og den fysiske I2C-oppstartsfeilen gjenstår å verifisere.}
 \statusbox{\textbf{Oppdatering 23.10.2026.} Dagens feilsøking, nye firmwarebygg,
 vertsmaskintester og avgrensede benketester er dokumentert i
 avsnitt~\ref{sec:utvikling23}. Avsnitt~\ref{sec:sensorstudie23} dokumenterer
@@ -218,6 +223,10 @@ korte fremoverpulser og rotasjon. Sidelengs kjøring, aktiv rygging og
 kontinuerlig autonom drift er ikke dokumentert som ferdige funksjoner.
 
 \section{KI-deklarasjon}
+Ved oppdateringen 2.11.2026 ble Codex brukt til kodegjennomgang,
+implementasjon av feilhåndtering og tester, bygg på Raspberry Pi samt
+rapporttillegg og presentasjonsutkast. Dette er en beskrivelse av denne
+arbeidsøkten, ikke en fullstendig deklarasjon for hele gruppeprosjektet.
  Forfatterne må kontrollere faglige konklusjoner,
 kildehenvisninger og endelig deklarasjon før innlevering.
 \todo{Forfatterne supplerer med øvrig KI-bruk, verktøy, omfang og emnets krav.}
@@ -781,6 +790,7 @@ kontinuerlig autonom drift eller at deadlines er overholdt.
 
 \input{development-2026-10-23}
 \input{sensor-study-2026-10-23}
+\input{integration-2026-11-02}
 
 \chapter{Prosjektgjennomføring}\label{ch:prosjekt}
 \section{Planlegging og utviklingsforløp}
@@ -981,4 +991,17 @@ krever fortsatt hovedrepoet og riktig undermodul.
 \lstinputlisting{code/2026-10-23/main.adb}
 \section{Testbar tilstandsmaskin}
 \lstinputlisting{code/2026-10-23/adaptive_fsm.adb}
+\chapter{Unntakshåndtering 2.11.2026}
+\label{app:unntak26}
+Disse kildekopiene viser den nye feilgrensen. Tidligere kodevedlegg er
+beholdt som datert utviklingshistorikk. Komplett byggbart prosjekt og tester
+ligger i Git-repoet.
+\section{Hovedprogram og supervisor}
+\lstinputlisting{code/2026-11-02/main.adb}
+\lstinputlisting{code/2026-11-02/adaptive_fault_handler.ads}
+\lstinputlisting{code/2026-11-02/adaptive_fault_handler.adb}
+\section{Navngitte exceptions og motorgrense}
+\lstinputlisting{code/2026-11-02/adaptive_errors.ads}
+\lstinputlisting{code/2026-11-02/adaptive_errors.adb}
+\lstinputlisting{code/2026-11-02/adaptive_motion.adb}
 \end{document}
