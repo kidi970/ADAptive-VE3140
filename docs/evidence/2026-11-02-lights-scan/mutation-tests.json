@@ -1,0 +1,18 @@
+[
+  {
+    "suite": "scan_tests",
+    "mutation": "adaptive_scan_policy.adb: Age_Ms <= Max_Pair_Age_Ms -> True",
+    "compile_exit": 0,
+    "test_exit": 1,
+    "output": "\nraised PROGRAM_ERROR : expired pair rejected\n",
+    "detected": true
+  },
+  {
+    "suite": "lamp_tests",
+    "mutation": "adaptive_lamp_control.adb: if Current /= Faulted then Current := Mode; end if; -> Current := Mode;",
+    "compile_exit": 0,
+    "test_exit": 1,
+    "output": "\nraised PROGRAM_ERROR : concurrent publishers cannot clear fault\n",
+    "detected": true
+  }
+]

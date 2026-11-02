@@ -8,9 +8,17 @@ with Adaptive_Safety;
 with MicroBit.Console; use MicroBit.Console;
 with Ada.Exceptions;
 with Adaptive_Fault_Handler;
+with Adaptive_Errors;
+with Adaptive_Lights;
+with Adaptive_Lamp_Control;
 procedure Main is
+   procedure Latch_Fault is
+   begin
+      Adaptive_Safety.Request_Stop;
+      Adaptive_Lamp_Control.State.Latch_Fault;
+   end Latch_Fault;
    package Faults is new Adaptive_Fault_Handler
-     (Latch_Stop => Adaptive_Safety.Request_Stop,
+     (Latch_Stop => Latch_Fault,
       Stop_Motors => Adaptive_Motion.Stop,
       Log => Put_Line);
    Current : State := Stopped;
@@ -19,6 +27,8 @@ procedure Main is
    Safe : Boolean;
 begin
    Put_Line ("ADAptive MODULAR START");
+   Put_Line ("STARTUP LIGHTS P0/P12/P16");
+   Adaptive_Lights.Initialize;
    Put_Line ("STARTUP SAFETY");
    Adaptive_Safety.Initialize;
    Put_Line ("STARTUP MOTOR");
@@ -29,6 +39,9 @@ begin
    Adaptive_Display.Show_Status ("STATUS: STOP");
    delay 0.8;
    loop
+      if Adaptive_Lights.Failed then
+         raise Adaptive_Errors.Lights_Task_Error with "Lamp task failed";
+      end if;
       if Adaptive_Safety.Stop_Requested then
          Adaptive_Motion.Stop;
          Current := Fault;

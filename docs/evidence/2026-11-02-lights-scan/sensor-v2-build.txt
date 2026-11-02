@@ -1,0 +1,17 @@
+Compile
+   [Ada]          sensor_diagnostic.adb
+   [Ada]          adaptive_errors.adb
+   [Ada]          adaptive_fault_handler.adb
+   [Ada]          adaptive_motion.adb
+   [Ada]          adaptive_safety.adb
+   [Ada]          adaptive_lamp_control.adb
+   [Ada]          adaptive_lamp_policy.adb
+Bind
+   [gprbind]      sensor_diagnostic.bexch
+   [Ada]          sensor_diagnostic.ali
+Link
+   [link]         sensor_diagnostic.adb
+Memory region         Used Size  Region Size  %age Used
+           flash:      222988 B       512 KB     42.53%
+          sram12:       29072 B       128 KB     22.18%
+mb: alr exec -- gprbuild -p -P Code/diagnostics/sensor_diagnostic.gpr --root-dir=. --relocate-build-tree=build/sensor-diagnostic

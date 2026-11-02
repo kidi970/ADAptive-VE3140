@@ -1,11 +1,14 @@
 with MicroBit.Buttons;
 with Adaptive_Errors;
+with Adaptive_Lamp_Control;
+with Adaptive_Lamp_Policy;
 package body Adaptive_Safety is
    use type MicroBit.Buttons.Button_State;
    use type MicroBit.Buttons.Button_Id;
    procedure Request_Stop is
    begin
       Stop_Requested := True;
+      Adaptive_Lamp_Control.State.Set_Mode (Adaptive_Lamp_Policy.Braking);
    end Request_Stop;
    procedure On_Button (Button : MicroBit.Buttons.Button_Id;
                         State : MicroBit.Buttons.Button_State) is

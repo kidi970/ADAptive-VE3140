@@ -47,7 +47,7 @@ innenfor dokumenterte tidskrav?
 \end{tikzpicture}
 \vspace{5mm}
 \begin{itemize}
-\item Ada-kjernen kjører fortsatt sekvensielt; stoppflagget settes fra avbrudd.
+\item Sensor--beslutning--motor er sekvensiell; lys har egen task.
 \item Ingen antakelse om sanntidsgaranti fra Linux eller USB.
 \item Motorstrøm isoleres før USB kobles til ukjent firmware.
 \end{itemize}
@@ -104,6 +104,38 @@ PWM-verdier når micro:biten starter på nytt.
 må fortsatt lokaliseres og testes på bilen.}
 \end{frame}
 
+\begin{frame}{Fire dioder, én GPIO-eier}
+\begin{tabular}{@{}ll@{}}\toprule
+P0 & To røde baklys, hver med egen 1 k$\Omega$\\
+P12 & Gult blinklys foran til venstre, 1 k$\Omega$\\
+P16 & Gult blinklys foran til høyre, 1 k$\Omega$\\\bottomrule
+\end{tabular}\par\vspace{5mm}
+\begin{itemize}
+\item Egen lys-task; ønsket oppdatering hvert 50. ms, blinking 1 Hz.
+\item Protected object deler bare status; ingen I2C eller venting i låsen.
+\item Sticky feil kan ikke overskrives av en ny kjørekommando.
+\item 362 registerprøver bestod alle seks mønstre på micro:biten.
+\end{itemize}
+\vspace{3mm}
+\alert{Diodene er ikke montert ennå. Registertest er ikke visuell LED-test.}
+\end{frame}
+
+\begin{frame}{Adaptiv skanning avslutter tidlig}
+\begin{enumerate}
+\item Klar front: ingen ekstra sidepunkter.
+\item Ukjent/utrygg svingklarering: stopp og avslutt.
+\item Prøv siden med størst målt klaring først.
+\item To stråler må gi bred nok korridor og bestå ny sentrert kontroll.
+\item Forkast målinger eldre enn 2000 ms; høyst fire sidepunkter.
+\end{enumerate}
+\vspace{5mm}
+\[
+ d_{\min}=\frac{26}{2\sin(6^\circ)}\approx124{,}4\,\mathrm{cm}
+\]
+\small Søk etter første tilstrekkelige kandidat. Sideklaring er en heuristikk;
+servoens 0,5 s ventetid beholdes. Skanning i bevegelse avventer kalibrering.
+\end{frame}
+
 \begin{frame}{Responstid må følge den faktiske arkitekturen}
 \[
  R_{\mathrm{reaksjon}} = T_{\text{til neste måling}}
@@ -116,7 +148,7 @@ må fortsatt lokaliseres og testes på bilen.}
 \item Maksimal observert kjøretid er ikke bevist WCET.
 \end{itemize}
 \vspace{4mm}
-\alert{Periodiske applikasjonstasks og full RTA er neste arkitekturfase.}
+\alert{Lys-task er implementert; full RTA for motor/sensor gjenstår.}
 \end{frame}
 
 \begin{frame}{Matematikken skal påvirke bilen}
@@ -138,10 +170,10 @@ flerpunktkalibrering; det beviser ikke kollisjonssikkerhet.
 \small
 \begin{tabular}{@{}p{.42\textwidth}p{.49\textwidth}@{}}\toprule
 Kontroll & Status 2.11.2026\\\midrule
-Native Ada-kontroller & 1857 består; 104 nye feil-/motorkontroller\\
-Python-tester & 35 består; seks nye for passiv USB-logging\\
-ARM-bygg & Hovedprogram, diagnostikk V2 og GPIO V3 består\\
-Fysisk bil i denne økten & Ingen tilkoblet micro:bit, ingen flashing eller kjøring\\
+Native Ada-kontroller & 2000 består; inkluderer lys og adaptiv skanning\\
+Python-tester & 40 består; inkluderer GPIO-loggvalidering\\
+ARM-bygg & Hovedprogram, V2, GPIO V3 og lysdiagnostikk består\\
+Direkte Pi-test & Lysfirmware verifisert; 362 GPIO-prøver bestod\\
 Formell verifikasjon / deadlines & Ingen nye bevis; fysiske tidsmålinger gjenstår\\\bottomrule
 \end{tabular}\par
 \vspace{5mm}
@@ -151,8 +183,8 @@ motorsending, sekundær stoppfeil og loggerfeil.
 
 \begin{frame}{Neste demonstrasjon og ferdigstilling}
 \begin{enumerate}
-\item USB-identifikasjon og oppstartslogg med motorstrøm isolert.
-\item Stasjonære, oppmålte sensortester og løsning av fysisk I2C-feil.
+\item Monter fire LED-er med én 1 k$\Omega$-motstand per diode.
+\item Gi sensorene korrekt strøm og utfør oppmålte sensortester.
 \item Bekreft begge svingretninger med løftede hjul.
 \item Mål lavfartskjøring, reaksjonstid og faktisk stopplengde.
 \item Gjenta autonom sekvens med rålogg og video.

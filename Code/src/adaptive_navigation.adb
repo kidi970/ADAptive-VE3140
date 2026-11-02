@@ -1,59 +1,60 @@
 with Adaptive_Sensors; use Adaptive_Sensors;
 with Adaptive_Motion;
 with Adaptive_Display;
-with Adaptive_FSM;
+with Ada.Real_Time; use Ada.Real_Time;
+with Adaptive_Quick_Scan;
 with Adaptive_Safety;
 with MicroBit.Console; use MicroBit.Console;
 package body Adaptive_Navigation is
    Previous : Choice := Blocked;
-   Count : Natural := 0;
    function Scan_Path return Choice is
-      Five : Distances (1 .. 5);
-      Seven : Distances (1 .. 7);
-      S : Snapshot;
-      Result : Choice;
-      Accepted : Boolean;
-      procedure Point (Angle : Natural; D : out Distance) is
+      Started : constant Time := Clock;
+      Current_Angle : Natural := Center;
+      function Now_Ms return Natural is
+        (Natural (To_Duration (Clock - Started) * 1_000.0));
+      function Stop_Requested return Boolean is
+        (Adaptive_Safety.Stop_Requested);
+      procedure Recenter is
       begin
-         if Adaptive_Safety.Stop_Requested then D := 0; return; end if;
+         if Current_Angle /= Center and then not Stop_Requested then
+            Adaptive_Motion.Aim (Center);
+            Current_Angle := Center;
+            delay 0.5;
+         end if;
+      end Recenter;
+      procedure Point (Angle : Natural; Value : out Distance;
+                       Sample_Started_Ms : out Natural) is
+      begin
+         if Stop_Requested then
+            Value := 0; Sample_Started_Ms := Now_Ms; return;
+         end if;
          Adaptive_Motion.Aim (Angle);
+         Current_Angle := Angle;
+         -- Keep the old settling allowance until the SG90 slew is measured.
          delay 0.5;
-         D := Filtered (Front);
+         Sample_Started_Ms := Now_Ms;
+         Value := Filtered (Front);
          Put_Line ("SCAN ANGLE" & Natural'Image (Angle)
-                   & " CM" & Distance'Image (D));
+                   & " CM" & Distance'Image (Value));
       end Point;
+      package Search is new Adaptive_Quick_Scan
+        (Recenter, Point, Read_All, Now_Ms, Stop_Requested);
+      Result : Search.Scan_Result;
    begin
       Adaptive_Motion.Stop;
       Adaptive_Display.Show_Status ("STATUS: SCAN");
-      for I in Five'Range loop Point (48 + 12 * I, Five (I)); end loop;
       Adaptive_Motion.Aim (Center); delay 0.5;
-      S := Read_All;
-      Result := Select_Five (Five, S);
-      if Result /= Blocked then
-         Previous := Blocked; Count := 0;
-         return Result;
-      end if;
-      Put_Line ("EXTENDED 7P START");
-      for I in Seven'Range loop Point (44 + 10 * I, Seven (I)); end loop;
-      Adaptive_Motion.Aim (Center); delay 0.5;
-      S := Read_All;
-      Result := Select_Seven (Seven, S, Five (3));
-      if Result = Blocked and Adaptive_Motion.Outer_Angles_Verified then
-         declare
-            Outer_Right, Outer_Left : Distance;
-         begin
-            Point (34, Outer_Right); Point (134, Outer_Left);
-            Put_Line ("1P RIGHT" & Distance'Image (Outer_Right)
-                      & " LEFT" & Distance'Image (Outer_Left));
-            -- A single ray cannot replace a rejected corridor.
-         end;
-      elsif Result = Blocked then
-         Put_Line ("1P SKIPPED: MECHANICAL LIMITS UNVERIFIED");
-      end if;
-      Adaptive_Motion.Aim (Center); delay 0.5;
-      Adaptive_FSM.Confirm (Result, Previous, Count, Accepted);
-      Put_Line ("7P CHOICE " & Choice'Image (Result));
-      if Accepted then return Result; else return Blocked; end if;
+      Result := Search.Find (Previous);
+      if Result.Direction in Left | Right then Previous := Result.Direction; end if;
+      Adaptive_Display.Show_Direction
+        ((case Result.Direction is
+             when Left => 'L', when Right => 'R',
+             when Straight => 'F', when Blocked => 'S'));
+      Put_Line ("SCAN END POINTS" & Natural'Image (Result.Points)
+                & " EXPIRED" & Natural'Image (Result.Expired_Pairs)
+                & " ELAPSED_MS" & Natural'Image (Now_Ms)
+                & " CHOICE " & Choice'Image (Result.Direction));
+      return Result.Direction;
    end Scan_Path;
    function Monitor_Motion (Turning : Boolean := False) return Boolean is
       D : Distance;

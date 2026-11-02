@@ -1,0 +1,110 @@
+\section{Lys-task, adaptiv skanning og direkte Pi-test}
+\label{sec:lysskann}
+Denne oppfølgingen samme dag bygger videre på avsnitt~\ref{sec:piunntak}.
+Bruker bekreftet uendret sensor-/servooppsett, frakoblet motorstrøm, at
+sensorforsyningen også var av, og at fire LED-er med fire 1\,k$\Omega$-
+motstander er tilgjengelige, men ikke montert. Demonstrasjon er oppgitt å
+være om omtrent to--tre uker og eksamen om omtrent én måned; eksakte datoer
+og gjeldende vurderingskriterier er ikke bekreftet.
+
+\subsection{Egen task og beskyttet lysstatus}
+P0 er satt av til to røde baklys, P12 til venstre og P16 til høyre blinklys.
+Hver LED får egen seriemotstand; de to røde deler bare signal og jord.
+Ingen sensorpinne gjenbrukes. Med antatt $V_{DD}=3{,}3$\,V og
+$V_f=1{,}8$\,V blir strømmen per rød LED
+\[
+ I=\frac{V_{DD}-V_f}{R}=\frac{3{,}3-1{,}8}{1000}=1{,}5\,\mathrm{mA},
+\]
+altså omtrent 3\,mA samlet fra P0. Beregningen forutsetter de oppgitte
+spenningene. Utgangene er konfigurert med nRF52 high-drive H0H1; faktisk
+strøm og synlig lys må kontrolleres mot monteringen~\cite{pins}.
+
+\kode{Adaptive_Lights} har en task som alene eier disse tre GPIO-utgangene.
+Motor og supervisor publiserer en enumerert tilstand gjennom
+\kode{Adaptive_Lamp_Control.State}, et protected object med korte
+operasjoner uten I2C, logging eller venting. Dette er en faktisk bruk av
+beskyttet delt tilstand~\cite{adaprotected2026}. En feilstatus kan ikke
+overskrives av en etterfølgende kjørestatus. En ubehandlet feil ved
+taskgrensen oversettes til stoppforespørsel og \kode{Lights_Task_Error}
+hos supervisoren; feilen forventes ikke å propagere direkte inn i hovedtasken.
+
+Lys-tasken bruker absolutt \kode{delay until}, ønsket periode 50\,ms og
+laveste ordinære taskprioritet. Tapte utgivelser hoppes over. Blinkperioden
+er ett sekund med 50\,\% påtid; fasen starter på ved skifte til sving.
+Bremselysene viser stoppintensjon, ikke målt retardasjon. Ved latchet feil
+lyser begge røde fast mens blinklysene blinker samtidig.
+50\,ms er et mykt designmål: sensorpolling og bussarbeid på høyere prioritet
+kan forsinke tasken. Dette er ingen ferdig schedulability-analyse av bilen.
+
+\subsection{Begrenset søk fremfor faste skannerunder}
+Den aktive \kode{Scan_Path} bruker nå \kode{Adaptive_Quick_Scan}, en generic
+med innsprøytet sensorlesing, klokke, stoppflagg og servokontroll. Det gjør
+den faktiske søkealgoritmen testbar uten maskinvare. Algoritmen stopper
+motorene, kontrollerer sentrerte sensorer og avslutter uten sidepunkter hvis
+veien allerede er klar eller svingområdet er utrygt. Ellers prøver den siden
+med størst målt sideklaring først. Ved likhet beholdes forrige svingretning.
+Kandidatparene er høyre $72^\circ/60^\circ$ og venstre $96^\circ/108^\circ$.
+
+En ugyldig eller blokkert stråle forkaster paret straks. Et bredt nok par
+må også bestå en ny sentrert sensorkontroll. Eldste avlesning må være høyst
+2000\,ms gammel. Søk avsluttes ved første akseptable kandidat eller etter
+høyst fire ekstra sideposisjoner. Tre råavlesninger per posisjon og
+sentrerte kontrollmålinger kommer i tillegg. De tidligere aktive faste
+5-/7-punktsrundene er dermed erstattet; historiske policytester beholdes.
+Servoens tidligere 0,5\,s innstillingstid og 65\,ms globale triggeravstand
+er beholdt. Sistnevnte er i samsvar med databladets anbefaling om mer enn
+60\,ms målesyklus~\cite{hcsr04}.
+
+Korridormodellen viderefører
+$w=2d\sin(\Delta\theta/2)$. For $\Delta\theta=12^\circ$ og krav om
+$16+2\cdot5=26$\,cm bredde gir dette
+\[
+ d\geq\frac{26}{2\sin(6^\circ)}\approx124{,}4\,\mathrm{cm}.
+\]
+Sparsomme stråler er ikke bevis for at hele mellomrommet er fritt.
+2000\,ms er et eksplisitt ferskhetsbudsjett for en stasjonær kandidat,
+ikke en garanti for bevegelige hindringer.
+
+Søkekriteriet er kort tid til en tilstrekkelig klarert retning, ikke globalt
+maksimal korridorbredde. Hvis to kandidater har kostnad $c_i$ og
+suksessannsynlighet $p_i$, blir forventet kostnad
+\[
+ E_{R\rightarrow L}=c_R+(1-p_R)c_L,\qquad
+ E_{L\rightarrow R}=c_L+(1-p_L)c_R.
+\]
+Høyre først er da gunstig når $p_R/c_R\geq p_L/c_L$. Ingen slike
+sannsynligheter er målt; sideklaring brukes foreløpig som en deklarert
+heuristikk. En påstand om global matematisk optimalitet ville derfor være
+udokumentert.
+
+\subsection{Grunnlag for jevnere kjøring og verifikasjon}
+Kontinuerlig kjøring rett frem stopper fortsatt ikke for hver gyldig
+front--venstre--front--høyre-kontroll. Den nye ekstra skanningen er
+\emph{stasjonær}. Før skanning i bevegelse trengs målt fart, servo- og
+sensorlatens og bremsing. Med kalibrert retardasjon $a>0$, reaksjonstid $t$
+og fri avstand $d>m$ kan stoppmodellen løses til
+\[
+ v_{\max}=\sqrt{(at)^2+2a(d-m)}-at.
+\]
+Dette er et videre designgrunnlag, ikke en aktiv hastighetsregulator.
+PWM er ingen fysisk fartsmåling.
+
+Totalt består 2000 native Ada-kontroller og 40 Python-tester. Den nye
+lampetesten omfatter modusskifter, blinkgrenser, to samtidige publiserende
+tasks og sticky feilstatus. Søkets tester omfatter tidlig avslutning,
+ukjente stråler, endret klarering, foreldede/fremtidige tidsstempler,
+stopp under søk og propagation av maskinvarefeil. Fire firmwareprosjekter
+bygger: hovedprogram, sensordiagnostikk V2, GPIO V3 og lysdiagnostikk.
+
+Via Pi-en ble hele flashen sikkerhetskopiert og GPIO V3s lastesegmenter
+kontrollert byte for byte før reset. En full fysisk opptaksserie ga
+320/320 \kode{NO_RISE}: front 80, venstre 160 og høyre 80.
+Bruker bekreftet at sensorstrømmen var av. Resultatet er dermed en
+kommunikasjons-/timeoutkontroll, ikke en sensorfeil, kalibrering eller
+bekreftelse på fungerende avstandsmåling. Ingen referanseavstand, MAE eller
+RMSE er konstruert. Rådata og kontrollsummer er bevart i repoets evidensmappe.
+
+\input{lamp-hardware-result-2026-11-02}
+Selve forelesnings-PDF-en og kilde-ZIP-en er fremdeles ikke hentet:
+ChatGPT-nettleseren er innlogget, men prosjektlisten viser lastefeil.
+Fagkoblingen må sluttkontrolleres når filene er tilgjengelige lokalt.

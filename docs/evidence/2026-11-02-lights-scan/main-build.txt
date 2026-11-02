@@ -1,0 +1,18 @@
+Note: Building itrs=1.0.0/Code/itrs.gpr...
+Compile
+   [Ada]          adaptive_navigation.adb
+   [Ada]          adaptive_quick_scan.adb
+Bind
+   [gprbind]      main.bexch
+   [Ada]          main.ali
+Link
+   [link]         main.adb
+Memory region         Used Size  Region Size  %age Used
+           flash:      228444 B       512 KB     43.57%
+          sram12:       32424 B       128 KB     24.74%
+Success: Build finished successfully in 6.59 seconds.
+   text	   data	    bss	    dec	    hex	filename
+ 228440	   4008	  28416	 260864	  3fb00	build/main.elf
+mb: building template (Code/itrs.gpr)
+mb: alr build -- --root-dir=. --relocate-build-tree=build/obj
+mb: firmware: build/main.elf, build/main.hex, build/main.bin

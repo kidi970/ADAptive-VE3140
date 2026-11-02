@@ -1,3 +1,12 @@
+# Oppfølging: lys og adaptiv skanning
+
+Nyeste rapport har 60 sider totalt, inkludert utviklingshistorikk og
+kodevedlegg; presentasjonen har 12 lysbilder. Se `LYS-OG-SKANNING.md` og
+`ADAptive-lys-skann-2026-11-02.md`. Direkte Pi-kontakt er verifisert. Kortet
+står med separat lysdiagnostikk, og motor-/sensorstrømmen er av.
+2000 Ada-kontroller og 40 Python-tester består. Det er ikke utført autonom
+gulvkjøring, visuell LED-test eller full pensumkontroll. Tidligere steg følger.
+
 # Oppdatering 2. november 2026: Pi og exceptions
 
 Rapporten har nytt avsnitt 7.7 og datert kodevedlegg. `main.tex` bygger til

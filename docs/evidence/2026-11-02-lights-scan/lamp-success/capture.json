@@ -1,0 +1,40 @@
+{
+  "started_utc": "2026-11-02T00:02:10.176187+00:00",
+  "image_sha256": "d7e358e54a3ed40d0c048e099607657b25e48375347d96b21a57910fbe9b27af",
+  "motor_power_disconnected_reported": true,
+  "leds_mounted_reported": false,
+  "flash_requested": true,
+  "completed": true,
+  "firmware_verified": true,
+  "physical_light_or_voltage_verified": false,
+  "motor_commands_sent": 0,
+  "flash_segments": [
+    {
+      "address": 0,
+      "bytes": 155984,
+      "matches": true,
+      "flash_sha256": "8d56143d247e1637946c6561f1cd9bf48db7b876c09e5361989486c2f9da9f1b",
+      "elf_segment_sha256": "8d56143d247e1637946c6561f1cd9bf48db7b876c09e5361989486c2f9da9f1b"
+    },
+    {
+      "address": 155984,
+      "bytes": 3528,
+      "matches": true,
+      "flash_sha256": "0faac4abddd69ea1cb3dd642fa542c824737a4759825cbc4f8e3c514ff799e89",
+      "elf_segment_sha256": "0faac4abddd69ea1cb3dd642fa542c824737a4759825cbc4f8e3c514ff799e89"
+    }
+  ],
+  "reset_after_verification": true,
+  "checks": {
+    "banner_once": true,
+    "no_diagnostic_fault": true,
+    "PARKED": true,
+    "TURNING_LEFT": true,
+    "TURNING_RIGHT": true,
+    "MOVING": true,
+    "BRAKING": true,
+    "FAULTED": true
+  },
+  "finished_utc": "2026-11-02T00:02:53.768218+00:00",
+  "gpio_samples": 362
+}

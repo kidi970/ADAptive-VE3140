@@ -10,6 +10,7 @@ package body Adaptive_Errors is
       elsif Id = Constraint_Error'Identity then return Constraint_Fault;
       elsif Id = Program_Error'Identity then return Program_Fault;
       elsif Id = Storage_Error'Identity then return Storage_Fault;
+      elsif Id = Lights_Task_Error'Identity then return Lights_Fault;
       else return Unexpected_Fault;
       end if;
    end Classify;

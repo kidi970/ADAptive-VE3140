@@ -1,0 +1,11 @@
+Compile
+   [Ada]          adaptive_lights.adb
+Bind
+   [gprbind]      lamp_diagnostic.bexch
+   [Ada]          lamp_diagnostic.ali
+Link
+   [link]         lamp_diagnostic.adb
+Memory region         Used Size  Region Size  %age Used
+           flash:      155984 B       512 KB     29.75%
+          sram12:       31624 B       128 KB     24.13%
+mb: alr exec -- gprbuild -p -P Code/diagnostics/lamp_diagnostic.gpr --root-dir=. --relocate-build-tree=build/lamp-diagnostic

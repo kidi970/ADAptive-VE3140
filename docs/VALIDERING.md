@@ -1,3 +1,16 @@
+# Oppfølging samme dag: lys og skanning
+
+Nyeste lokale rapport: 60 sider totalt, 0 feil, 0 ordinære advarsler,
+2 underfull og 0 overfull. Presentasjonen har 12 lysbilder og ingen feil
+eller ordinære advarsler. 2000 Ada-kontroller og 40 Python-tester består.
+Fire ARM-prosjekter bygger. Se `evidence/2026-11-02-lights-scan/verification.json`.
+
+GPIO V3 var byteverifisert før reset; 320 NO_RISE ble samlet uten sensorstrøm.
+Lysdiagnostikk er flashet og tilbakeverifisert etter ett mislykket forsøk.
+362 registerprøver bestod seks mønstre. LED-er var ikke montert, CFSR/HFSR
+er 0 ved sluttkontroll, UICR er uendret. Ingen autonom firmware er flashet,
+og ingen bevegelse er testet. Pensumfiler og Overleaf er fortsatt ikke hentet/oppdatert.
+
 # Oppdatering 2. november 2026
 
 Eksisterende rapport er videreført lokalt med Raspberry Pi-integrasjon og

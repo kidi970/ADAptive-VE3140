@@ -73,6 +73,12 @@ jobs:
       - name: Build and package firmware
         run: python3 tools/mb.py build
 
+      - name: Build the stationary diagnostics separately
+        run: |
+          python3 tools/build_sensor_diagnostic.py
+          python3 tools/build_sensor_diagnostic.py --gpio-only
+          python3 tools/build_lamp_diagnostic.py
+
       - uses: actions/upload-artifact@v4
         with:
           name: ITRS

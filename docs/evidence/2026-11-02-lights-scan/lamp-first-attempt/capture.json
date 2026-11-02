@@ -1,0 +1,14 @@
+{
+  "started_utc": "2026-11-01T23:58:59.641837+00:00",
+  "image_sha256": "d7e358e54a3ed40d0c048e099607657b25e48375347d96b21a57910fbe9b27af",
+  "motor_power_disconnected_reported": true,
+  "leds_mounted_reported": false,
+  "flash_requested": true,
+  "completed": false,
+  "firmware_verified": false,
+  "physical_light_or_voltage_verified": false,
+  "motor_commands_sent": 0,
+  "error": "FlashEraseFailure: flash erase sector timed out",
+  "finished_utc": "2026-11-01T23:59:10.721918+00:00",
+  "gpio_samples": 0
+}

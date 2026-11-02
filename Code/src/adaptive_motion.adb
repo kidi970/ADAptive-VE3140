@@ -4,6 +4,8 @@ with HAL.I2C; use HAL.I2C;
 with DFR0548; use DFR0548;
 with Adaptive_Safety;
 with Adaptive_Errors;
+with Adaptive_Lamp_Control;
+with Adaptive_Lamp_Policy;
 package body Adaptive_Motion is
    Port : constant Any_I2C_Port := MicroBit.I2C.ControllerExt;
    Ready : Boolean := False;
@@ -30,6 +32,7 @@ package body Adaptive_Motion is
    end Write;
    procedure Stop is
    begin
+      Adaptive_Lamp_Control.State.Set_Mode (Adaptive_Lamp_Policy.Braking);
       Adaptive_Safety.Motor_Stop_Acknowledged := False;
       -- If auto-increment is unknown, address each motor PWM channel's
       -- FULL_OFF bit independently. Recovery must never wake the oscillator.
@@ -94,6 +97,12 @@ package body Adaptive_Motion is
          Stop;
          raise Adaptive_Errors.Stop_Latched_Error with "Stop during drive write";
       end if;
+      Adaptive_Lamp_Control.State.Set_Mode
+        ((case Direction is
+             when Straight => Adaptive_Lamp_Policy.Moving,
+             when Left => Adaptive_Lamp_Policy.Turning_Left,
+             when Right => Adaptive_Lamp_Policy.Turning_Right,
+             when Blocked => Adaptive_Lamp_Policy.Braking));
    end Drive;
    procedure Aim (Angle : Natural) is
       Counts : UInt16;

@@ -1,0 +1,33 @@
+{
+  "reset_requested": false,
+  "halt_requested": false,
+  "flash_requested": false,
+  "auto_unlock": false,
+  "motor_power_disconnected_reported": true,
+  "initial_state": "State.SLEEPING",
+  "flash_bytes": 524288,
+  "flash_sha256": "f99829033bd89d462361043e6b1754e8d725101431987225b70387bfe1507ada",
+  "uicr_sha256": "098eb305279f7e8928f3d9c89262014e43d9a4fb53beae9e08ee38fba2ba52aa",
+  "observed_firmware_markers": [
+    "ADAptive SENSOR GPIO DIAGNOSTIC v3",
+    "ADAptive SENSOR DIAGNOSTIC v2"
+  ],
+  "gpio_v3_segments": [
+    {
+      "address": 0,
+      "bytes": 150528,
+      "matches": true,
+      "flash_sha256": "e76b5784d1a865252ea870976ca792d430c1e4407c5eb29e980f7234c6614963",
+      "elf_segment_sha256": "e76b5784d1a865252ea870976ca792d430c1e4407c5eb29e980f7234c6614963"
+    },
+    {
+      "address": 150528,
+      "bytes": 2496,
+      "matches": true,
+      "flash_sha256": "cd7c84cc8054c5342cbe8a4cfbd492071a7a77cd1ef5bec091ee6f4e6c5e0105",
+      "elf_segment_sha256": "cd7c84cc8054c5342cbe8a4cfbd492071a7a77cd1ef5bec091ee6f4e6c5e0105"
+    }
+  ],
+  "matches_current_gpio_v3": true,
+  "final_state": "State.SLEEPING"
+}

@@ -1,0 +1,20 @@
+{
+  "state": "State.HALTED",
+  "first32": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+  "original_first32": "886a0020f14c01003c4d01003c4d01003c4d01000000000090b583b000af6446",
+  "registers": {
+    "pc": "0xc008",
+    "sp": "0x20002a30",
+    "lr": "0xfffffff1",
+    "xpsr": "0x61000003",
+    "primask": "0x1",
+    "control": "0x0"
+  },
+  "fault_registers": {
+    "0xe000ed28": "0x8200",
+    "0xe000ed2c": "0x40000000",
+    "0xe000ed30": "0x1",
+    "0x4001e400": "0x1",
+    "0x4001e504": "0x2"
+  }
+}

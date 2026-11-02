@@ -19,3 +19,6 @@ build/
 # Python bytecode
 __pycache__/
 *.pyc
+
+# Local course PDFs and source archives supplied for this project.
+/inputs/

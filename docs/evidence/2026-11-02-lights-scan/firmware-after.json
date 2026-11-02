@@ -1,0 +1,23 @@
+{
+  "state": "State.SLEEPING",
+  "image": "lamp_diagnostic",
+  "flash_segments": [
+    {
+      "address": 0,
+      "bytes": 155984,
+      "matches": true,
+      "flash_sha256": "8d56143d247e1637946c6561f1cd9bf48db7b876c09e5361989486c2f9da9f1b",
+      "elf_segment_sha256": "8d56143d247e1637946c6561f1cd9bf48db7b876c09e5361989486c2f9da9f1b"
+    },
+    {
+      "address": 155984,
+      "bytes": 3528,
+      "matches": true,
+      "flash_sha256": "0faac4abddd69ea1cb3dd642fa542c824737a4759825cbc4f8e3c514ff799e89",
+      "elf_segment_sha256": "0faac4abddd69ea1cb3dd642fa542c824737a4759825cbc4f8e3c514ff799e89"
+    }
+  ],
+  "CFSR": "0x0",
+  "HFSR": "0x0",
+  "uicr_unchanged": true
+}

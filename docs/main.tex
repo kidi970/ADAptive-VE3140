@@ -112,6 +112,11 @@ micro:bit V2 og Ada\par}
 \hypersetup{pageanchor=true}
 \chapter*{Sammendrag}
 \addcontentsline{toc}{chapter}{Sammendrag}
+\statusbox{\textbf{Videre oppfølging 2.11.2026.} Avsnitt~\ref{sec:lysskann}
+beskriver implementert lys-task med protected object, begrenset adaptiv
+skanning og direkte Pi--micro:bit-kommunikasjon. 2000 Ada-kontroller og
+40 Python-tester består. Skanning i bevegelse og fysisk autonom kjøring
+er ikke validert. De daterte resultatene nedenfor viser tidligere steg.}
 \statusbox{\textbf{Oppdatering 2.11.2026.} Avsnitt~\ref{sec:piunntak}
 beskriver Raspberry Pi som utviklingsmaskin, navngitte exceptions og testet
 feilrespons. 1857 Ada-kontroller og 35 Python-tester består. Alle tre
@@ -791,6 +796,7 @@ kontinuerlig autonom drift eller at deadlines er overholdt.
 \input{development-2026-10-23}
 \input{sensor-study-2026-10-23}
 \input{integration-2026-11-02}
+\input{lights-scan-2026-11-02}
 
 \chapter{Prosjektgjennomføring}\label{ch:prosjekt}
 \section{Planlegging og utviklingsforløp}
@@ -1004,4 +1010,14 @@ ligger i Git-repoet.
 \lstinputlisting{code/2026-11-02/adaptive_errors.ads}
 \lstinputlisting{code/2026-11-02/adaptive_errors.adb}
 \lstinputlisting{code/2026-11-02/adaptive_motion.adb}
+\chapter{Lys og adaptiv skanning: oppfølging 2.11.2026}
+Komplette daterte kildekopier følger i \kode{code/2026-11-02-lights-scan/}.
+De tidligere kodevedleggene viser historiske steg. Utdragene nedenfor er
+de nye sentrale mekanismene; hovedrepoet inneholder komplett bygg og tester.
+\section{Beskyttet lysstatus og periodisk GPIO-eier}
+\lstinputlisting{code/2026-11-02-lights-scan/adaptive_lamp_control.ads}
+\lstinputlisting{code/2026-11-02-lights-scan/adaptive_lamp_control.adb}
+\lstinputlisting{code/2026-11-02-lights-scan/adaptive_lights.adb}
+\section{Generisk, begrenset korridorsøk}
+\lstinputlisting{code/2026-11-02-lights-scan/adaptive_quick_scan.adb}
 \end{document}

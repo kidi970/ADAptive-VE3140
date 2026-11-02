@@ -110,6 +110,7 @@ def main():
                 from pyocd.core.helpers import ConnectHelper
                 from pyocd.flash.file_programmer import FileProgrammer
                 options = {'connect_mode': 'attach', 'resume_on_disconnect': False,
+                           'auto_unlock': False,
                            'cmsis_dap.prefer_v1': True, 'cmsis_dap.limit_packets': True,
                            'cmsis_dap.deferred_transfers': False}
                 with ConnectHelper.session_with_chosen_probe(
@@ -117,6 +118,7 @@ def main():
                         blocking=False, return_first=False) as session:
                     meta['probe_id'] = session.probe.unique_id
                     if args.flash:
+                        session.target.reset_and_halt()
                         FileProgrammer(session).program(str(image), file_format='elf')
                     meta['flash_segments'] = verify_image(session.target, image)
                     meta['firmware_verified'] = True

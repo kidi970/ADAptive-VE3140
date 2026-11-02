@@ -1,0 +1,15 @@
+Separat lysdiagnostikk ble deretter lastet på micro:biten med motor- og
+sensorforsyning av. Første flash-forsøk feilet med erase-timeout og er
+bevart som mislykket forsøk. Etter eksplisitt reset-and-halt før
+programmering lyktes overføringen; full tilbakeavlesning av begge
+lastesegmenter samsvarte med ELF-bildet. Den eksakte årsaken til første
+feil er ikke endelig fastslått. Ingen automatisk debug-opplåsing eller
+helchip-sletting ble brukt.
+
+I 20 sekunder ble 362 GPIO-utgangsregisterprøver samlet sammen med
+seriell moduslogg. Alle seks mønstre bestod kontrollen: parkert, venstre,
+høyre, kjøring, brems og demonstrert feilblink. LED-ene var ikke montert;
+resultatet gjelder utgangslatcher og programkjøring, ikke lysstyrke,
+motstandsverdier, elektrisk signalnivå eller fysisk LED-funksjon.
+Lysdiagnostikken har ingen motor-/servo-I2C-kommandoer, og står igjen på
+kortet ved avslutningen av denne testen. Full bilstyring er ikke flashet.

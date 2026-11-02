@@ -1,6 +1,17 @@
 # ADAptive – VE3140
 
-**2.11.2026 – Raspberry Pi og feilhåndtering:** Byggeverktøy er klargjort på
+**Videre oppfølging 2.11:** direkte Pi–micro:bit-forbindelse fungerer. Egen
+lys-task med protected object og adaptivt søk med høyst fire sidepunkter er
+implementert. **2000 Ada-kontroller og 40 Python-tester består.** Fire
+firmwareprosjekter bygger. Lysdiagnostikk er flashet og tilbakeverifisert;
+362 GPIO-registerprøver bestod seks mønstre. LED-ene er ikke montert ennå.
+320 sensoravlesninger ga forventet NO_RISE fordi sensorstrømmen var av.
+Ingen autonom firmware eller motorbevegelse er prøvd i denne oppfølgingen.
+
+- [Montering av fire dioder og skannealgoritmen](docs/LYS-OG-SKANNING.md)
+- [Oppfølgingens test- og utviklingslogg](docs/ADAptive-lys-skann-2026-11-02.md)
+
+**Tidligere samme dag – Raspberry Pi og feilhåndtering:** Byggeverktøy er klargjort på
 Pi 5. Navngitte exceptions, latchet feilrespons og tydelig ubekreftet stopp
 er integrert i hovedprogrammet og diagnostikk V2. Motorutgangene settes av
 før oppvåkning; 1857 native Ada-kontroller og 35 Python-tester består.

@@ -45,6 +45,7 @@ begin
    Check (Classify (Constraint_Error'Identity) = Constraint_Fault, "range classifier");
    Check (Classify (Program_Error'Identity) = Program_Fault, "program classifier");
    Check (Classify (Storage_Error'Identity) = Storage_Fault, "storage classifier");
+   Check (Classify (Lights_Task_Error'Identity) = Lights_Fault, "task fault classifier");
    Check (Classify (Tasking_Error'Identity) = Unexpected_Fault, "unknown classifier");
    Check (not Normal.Status.Latched, "starts unlatched");
    begin

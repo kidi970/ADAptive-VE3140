@@ -1,6 +1,13 @@
 # Raspberry Pi → ADAptive
 
-Status 2. november 2026: utviklingsmaskinen er Raspberry Pi 5 Model B,
+**Oppfølging samme dag:** USB-kontakt er nå bekreftet på `/dev/ttyACM0`.
+GPIO V3 ble verifisert byte for byte og sikkerhetskopiert før reset. En
+320-raders serie uten sensorstrøm ga forventet NO_RISE. Deretter er egen
+lysdiagnostikk lastet og tilbakeverifisert; 362 registerprøver bestod alle
+seks mønstre. Micro:biten står nå med lysdiagnostikk, uten motor-/servo-I2C.
+Se [lys og skanning](LYS-OG-SKANNING.md) for oppkobling av diodene.
+
+Første kontroll 2. november 2026: utviklingsmaskinen er Raspberry Pi 5 Model B,
 Debian 13 (aarch64). Ved kontrollen var ingen micro:bit registrert på USB.
 Programmeringsverktøyene er installert og firmware er bygget på Pi-en.
 
@@ -88,8 +95,10 @@ Ingen av kommandoene over flasher bilen. `build/main.hex` er det **autonome**
 hovedprogrammet. Den skal ikke brukes som erstatning for stasjonær diagnostikk.
 Diagnostikk V3 bygger uten motor-/servo-/I2C-kommandoer; se
 `SENSORPROTOKOLL.md` for den etablerte måleprosedyren og firmwareverifiseringen.
-PyOCD er foreløpig ikke installert på Pi-en; vanlig bygg og passiv logging
-trenger ikke dette. Ingen firmware er flashet i denne økten.
+PyOCD 0.46.0 er i oppfølgingen installert i `build/pi-tools/` med PySerial og
+pyelftools. Bruk `build/pi-tools/bin/python` for fysisk diagnostikk.
+Vanlig bygg og passiv logging trenger ikke PyOCD. Lysdiagnostikk er flashet;
+det autonome hovedprogrammet er ikke flashet.
 
 ## Neste fysiske steg
 

@@ -1,0 +1,41 @@
+{
+  "image": "/home/kidi970/Documents/ChatGPT/ADAptive/build/sensor-diagnostic/Code/diagnostics/obj-gpio/sensor_gpio_diagnostic",
+  "sha256": "78e478d5610971b9245f86f8f9566f93a1347bc80f63facc29d8103b19b709a2",
+  "profile": "gpio-v3",
+  "port": "/dev/ttyACM0",
+  "baud": 115200,
+  "bytesize": 8,
+  "parity": "N",
+  "stopbits": 1,
+  "flow_control": false,
+  "context": "Raspberry Pi 5 USB direct; user confirmed physical motor-power isolation; board flash matched local GPIO diagnostic V3 before reset; sensor 5 V supply not yet confirmed; no measured reference distances; stationary startup/capture baseline only",
+  "motor_power_disconnected_reported": true,
+  "flash_requested": false,
+  "reset_requested": true,
+  "started_utc": "2026-11-01T23:55:27.418160+00:00",
+  "completed": true,
+  "firmware_verified": true,
+  "local_image_hash_is_not_running_firmware_proof": true,
+  "flash_segments": [
+    {
+      "address": 0,
+      "bytes": 150528,
+      "matches": true,
+      "flash_sha256": "e76b5784d1a865252ea870976ca792d430c1e4407c5eb29e980f7234c6614963",
+      "elf_segment_sha256": "e76b5784d1a865252ea870976ca792d430c1e4407c5eb29e980f7234c6614963"
+    },
+    {
+      "address": 150528,
+      "bytes": 2496,
+      "matches": true,
+      "flash_sha256": "cd7c84cc8054c5342cbe8a4cfbd492071a7a77cd1ef5bec091ee6f4e6c5e0105",
+      "elf_segment_sha256": "cd7c84cc8054c5342cbe8a4cfbd492071a7a77cd1ef5bec091ee6f4e6c5e0105"
+    }
+  ],
+  "capture_seconds": 26.856,
+  "data_rows": 320,
+  "left_rows": 160,
+  "finished_utc": "2026-11-01T23:56:06.109890+00:00",
+  "probe_id_sha256": "1998a27152290286af07d2ce415e91cb0531bfab8281d2bab6cc1b506549f075",
+  "setup_confirmation_after_run": "User confirmed sensor supply was off; NO_RISE is expected and is not classified as a sensor defect."
+}

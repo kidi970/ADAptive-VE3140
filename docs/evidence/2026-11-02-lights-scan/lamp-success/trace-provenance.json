@@ -1,0 +1,7 @@
+{
+  "source_format": "JSON array",
+  "source_sha256": "3604bc5566864f361c6add995cd048096cd978794ee9402c536fc230926cd89e",
+  "published_format": "Lossless CSV of all fields, Python float repr retained",
+  "samples": 362,
+  "original_local_path": "build/pi-session-2026-11-02/lamp-registers-after-reset/gpio-registers.json"
+}

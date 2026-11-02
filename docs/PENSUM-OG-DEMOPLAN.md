@@ -18,12 +18,17 @@ flyttes til vedlegg. Eksisterende tekst er foreløpig bevart.
 | Exceptions og propagation | Navngitte exceptions, klassifisering og `Adaptive_Fault_Handler` | Feilinjeksjon ved alle 12 oppstartsskrivinger, sekundær stoppfeil og loggerfeil |
 | Tilstandsmaskin og integrasjon | `Adaptive_FSM`, sensorer → navigasjon → motor | Eksisterende overgangstester; full autonom løype ikke validert |
 | Delt ressurs / I2C | Motor og OLED deler ekstern buss; unngå dobbel initialisering | 20 ms parameter per skriving; fysisk bussfeil fortsatt åpen |
-| Tasking og protected objects | **Neste arkitekturfase**, ikke implementert som applikasjonstasks | Avklar pensum/runtime; analyser delt buss og beskyttede snapshots før refaktorering |
+| Tasking og protected objects | Implementert lys-task og beskyttet lysstatus; motor/sensor fortsatt sekvensielle | Native samtidighetstest og fysisk GPIO-registertest; full RTA gjenstår |
 | Perioder, deadlines og responstid | Eksisterende sekvensiell sampling og stoppforespørsel | Mål triggerintervaller, opptakstid og verst observert reaksjon på målmaskinen |
 | Matematisk modell og usikkerhet | Pulsmodell, filter, geometri og sensoranalyse | Fysiske 60 cm-data finnes; ny flerpunktkalibrering og målt bremsing gjenstår |
 | Testbarhet og reproduserbarhet | Native Ada, simulert I2C, Python og rådata | Skill programtest, ARM-bygg, fysisk forsøk og formelt bevis |
 
 ## Taskarkitektur som må utformes før implementering
+
+Oppfølgingen har nå implementert en separat lavprioritets lys-task med
+50 ms myk periode og et protected object uten I2C eller venting. Det gir
+uavhengig blinking uten å innføre parallelle eiere av motorbussen. Beskrivelsen
+nedenfor gjelder videre oppdeling av sensor-, navigasjons- og motorstyring.
 
 Ikke la flere tasks trigge ultralyd eller skrive I2C samtidig. En mulig
 fordeling er én akustisk sensor-eier, én navigasjonstask og én motor-eier.
