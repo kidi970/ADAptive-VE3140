@@ -2,7 +2,7 @@ with System;
 with Adaptive_Lamp_Policy; use Adaptive_Lamp_Policy;
 package Adaptive_Lamp_Control is
    -- No GPIO or I2C in this protected object. Motor/supervisor publish intent;
-   -- only the lamp task owns the three outputs. Calls are safe from stop ISR.
+   -- only the lamp task owns the three outputs. The stop ISR only sets a flag.
    protected State is
       pragma Interrupt_Priority (System.Interrupt_Priority'Last);
       procedure Enable;

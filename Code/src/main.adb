@@ -1,103 +1,44 @@
-with Adaptive_Policy; use Adaptive_Policy;
-with Adaptive_FSM; use Adaptive_FSM;
+with Adaptive_Controller;
+with Adaptive_Fault_Handler;
+with Adaptive_Policy;
 with Adaptive_Sensors;
 with Adaptive_Motion;
 with Adaptive_Navigation;
 with Adaptive_Display;
 with Adaptive_Safety;
-with MicroBit.Console; use MicroBit.Console;
-with Ada.Exceptions;
-with Adaptive_Fault_Handler;
-with Adaptive_Errors;
 with Adaptive_Lights;
 with Adaptive_Lamp_Control;
+with MicroBit.Console; use MicroBit.Console;
 procedure Main is
    procedure Latch_Fault is
    begin
       Adaptive_Safety.Request_Stop;
       Adaptive_Lamp_Control.State.Latch_Fault;
    end Latch_Fault;
+   procedure Aim_Center is
+   begin
+      Adaptive_Motion.Aim (Adaptive_Policy.Center);
+   end Aim_Center;
+   procedure Pause (Milliseconds : Positive) is
+   begin
+      delay Duration (Milliseconds) / 1_000.0;
+   end Pause;
+   function Start_Requested return Boolean is (Adaptive_Safety.Start_Requested);
+   function Stop_Requested return Boolean is (Adaptive_Safety.Stop_Requested);
    package Faults is new Adaptive_Fault_Handler
-     (Latch_Stop => Latch_Fault,
-      Stop_Motors => Adaptive_Motion.Stop,
-      Log => Put_Line);
-   Current : State := Stopped;
-   Direction : Choice := Blocked;
-   S : Snapshot;
-   Safe : Boolean;
+     (Latch_Fault, Adaptive_Motion.Stop, Put_Line);
+   package App is new Adaptive_Controller
+     (Adaptive_Lights.Initialize, Adaptive_Safety.Initialize,
+      Adaptive_Motion.Initialize, Adaptive_Display.Initialize,
+      Adaptive_Motion.Stop, Aim_Center, Adaptive_Motion.Drive,
+      Adaptive_Sensors.Read_All, Adaptive_Navigation.Scan_Path,
+      Adaptive_Navigation.Turn_Evidence_Fresh,
+      Adaptive_Navigation.Monitor_Motion, Start_Requested, Stop_Requested,
+      Adaptive_Lights.Failed, Adaptive_Display.Show_Direction,
+      Adaptive_Display.Show_Status, Put_Line, Pause);
 begin
-   Put_Line ("ADAptive MODULAR START");
-   Put_Line ("STARTUP LIGHTS P0/P12/P16");
-   Adaptive_Lights.Initialize;
-   Put_Line ("STARTUP SAFETY");
-   Adaptive_Safety.Initialize;
-   Put_Line ("STARTUP MOTOR");
-   Adaptive_Motion.Initialize;
-   Put_Line ("STARTUP DISPLAY");
-   Adaptive_Display.Initialize;
-   Adaptive_Display.Show_Direction ('S');
-   Adaptive_Display.Show_Status ("STATUS: STOP");
-   delay 0.8;
-   loop
-      if Adaptive_Lights.Failed then
-         raise Adaptive_Errors.Lights_Task_Error with "Lamp task failed";
-      end if;
-      if Adaptive_Safety.Stop_Requested then
-         Adaptive_Motion.Stop;
-         Current := Fault;
-      end if;
-      if Current /= Cruise then Put_Line ("FSM " & State'Image (Current)); end if;
-      case Current is
-         when Stopped =>
-            Adaptive_Motion.Stop;
-            Adaptive_Display.Show_Direction ('S');
-            Adaptive_Display.Show_Status ("STATUS: STOP");
-            delay 0.3;
-            Current := Next_State (Current, Recheck);
-         when Verify =>
-            Adaptive_Motion.Stop;
-            Adaptive_Motion.Aim (Center); delay 0.5;
-            S := Adaptive_Sensors.Read_All;
-            Put_Line ("VERIFY FRONT" & Distance'Image (S.Front)
-                      & " LEFT" & Distance'Image (S.Left)
-                      & " RIGHT" & Distance'Image (S.Right));
-            if Forward_Safe (S) then
-               Adaptive_Display.Show_Direction ('F');
-               Adaptive_Display.Show_Status ("STATUS: FORWARD");
-               Current := Next_State (Current, Clear_Path);
-               if Adaptive_Navigation.Monitor_Motion then
-                  Put_Line ("MOTOR FORWARD: PWM 800");
-                  Adaptive_Motion.Drive (Straight);
-               else Current := Stopped; end if;
-            else Current := Next_State (Current, Unsafe_Path); end if;
-         when Cruise =>
-            Safe := Adaptive_Navigation.Monitor_Motion;
-            if not Safe then Current := Next_State (Current, Unsafe_Path); end if;
-         when Scan =>
-            Direction := Adaptive_Navigation.Scan_Path;
-            case Direction is
-               when Straight => Current := Next_State (Current, Scan_Straight);
-               when Right | Left => Current := Next_State (Current, Scan_Turn);
-               when Blocked => Current := Next_State (Current, Scan_Blocked);
-            end case;
-         when Turn =>
-            Adaptive_Motion.Stop;
-            Adaptive_Motion.Aim (Center); delay 0.5;
-            S := Adaptive_Sensors.Read_All;
-            if Turn_Safe (S) and Direction in Left | Right then
-               Adaptive_Display.Show_Status ("STATUS: TURN");
-               Put_Line ("MOTOR TURN REQUEST " & Choice'Image (Direction));
-               if Adaptive_Navigation.Monitor_Motion (Turning => True) then
-                  Adaptive_Motion.Drive (Direction);
-                  Safe := Adaptive_Navigation.Monitor_Motion (Turning => True);
-                  Adaptive_Motion.Stop;
-                  if Safe then Current := Next_State (Current, Turn_Done);
-                  else Current := Next_State (Current, Unsafe_Path); end if;
-               else Current := Stopped; end if;
-            else Current := Next_State (Current, Unsafe_Path); end if;
-         when Fault => Adaptive_Motion.Stop; delay 0.5;
-      end case;
-   end loop;
+   App.Initialize;
+   loop App.Step; end loop;
 exception
    when E : others =>
       Faults.Handle (E);

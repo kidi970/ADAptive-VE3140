@@ -1,5 +1,6 @@
 with HAL; use HAL;
 with HAL.I2C; use HAL.I2C;
+with Ada.Real_Time;
 package MicroBit.I2C is
    type Speed is (S100kbps, S250kbps, S400kbps);
    procedure InitializeExt (S : Speed);
@@ -10,11 +11,13 @@ package MicroBit.I2C is
    Fail_At : Natural := 0;
    Inject_Status : I2C_Status := Err_Timeout;
    Stop_During_Write : Boolean := False;
+   Last_Servo_Aim : Ada.Real_Time.Time := Ada.Real_Time.Clock;
    type Trace_Item is record
       Register, Value : UInt8 := 0;
       Length, Timeout : Natural := 0;
    end record;
-   Trace : array (1 .. 100) of Trace_Item;
+   Trace : array (1 .. 512) of Trace_Item;
+   Last_Data : I2C_Data (0 .. 64) := (others => 0);
    procedure Reset_Trace;
 private
    type Fake_Port is new I2C_Port with null record;

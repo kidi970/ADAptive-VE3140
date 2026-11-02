@@ -1,0 +1,25 @@
+\chapter{Konklusjon}
+ADAptive har nå en sammenhengende Ada-implementasjon for bevisst start,
+kontinuerlig fremoverovervåking, stoppet adaptiv skanning, overvåket sving
+og ny verifikasjon. Navngitte exceptions, en latchet feilgrense og én
+GPIO-eier med protected status gjør samspillet mer etterprøvbart. Skannedata
+må være ferske frem til kjørekommandoen, og en sviktende OLED prøves ikke
+uendelig på den delte motorbussen.
+
+Programvaregrunnlaget er kontrollert med 2599 Ada-kontroller, 40 Python-tester,
+bevisste mutasjoner, fire ARM-bygg og et avgrenset formelt bevis for
+lyspolicyen. Dette gir støtte for de beskrevne logiske egenskapene og et
+reproduserbart grunnlag for videre forsøk. Det beviser ikke autonom
+gulvfunksjon eller overholdte fysiske deadlines.
+
+Problemstillingen er dermed delvis besvart: måling, beslutning og motorstyring
+er integrert og kan testes systematisk, men forutsigbar fysisk reaksjon må
+fortsatt dokumenteres. Nærmeste milepæler er montering av lys, fungerende
+forsyning/sensorer/I2C, bekreftede hjulretninger og oppmålte reaksjons- og
+bremsedata. Først etter bestått sammenhengende løype og analyse av disse
+resultatene kan funksjons- og sanntidskrav lukkes.
+
+Før innlevering må gruppen dessuten avstemme pensum og vurderingskriterier,
+fylle inn faktisk arbeidsfordeling og KI-bruk, og oppdatere resultatene fra
+den endelige demonstrerte revisjonen. De åpne punktene er synlige for at
+rapporten skal være etterprøvbar også før disse aktivitetene er fullført.

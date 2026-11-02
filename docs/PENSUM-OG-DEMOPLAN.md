@@ -9,21 +9,23 @@ kildene, fristen og kravene til presentasjonen før endelig pensumdekning fastsl
 Oppgaven ber om en fungerende Ada/micro:bit/Mecanum-prototype, LaTeX/Overleaf,
 deadlines med begrunnet analyse, teori, prosjektgjennomføring og GitHub-lenke.
 15–20 sider er oppgavens anbefalte rapportomfang; vesentlig Ada-kode ligger
-utenfor sidetallet. Dagens lange utviklingshistorikk bør ved sluttredigering
-flyttes til vedlegg. Eksisterende tekst er foreløpig bevart.
+utenfor sidetallet. Hovedteksten er nå komprimert til 17 sider pluss én referanseside.
+Utviklingshistorikken er bevart separat i `development-history.tex`,
+og alle gjeldende applikasjonsenheter ligger i kodevedlegg.
 
 | Faglig tema | Kode / dokumentasjon | Evidens og neste avklaring |
 |---|---|---|
 | Sterk typing, pakker og grenser | `Adaptive_Policy`, `Adaptive_Motion`, `Adaptive_Errors` | Native Ada-tester og ARM-bygg; mekaniske grenser krever fysisk bekreftelse |
 | Exceptions og propagation | Navngitte exceptions, klassifisering og `Adaptive_Fault_Handler` | Feilinjeksjon ved alle 12 oppstartsskrivinger, sekundær stoppfeil og loggerfeil |
-| Tilstandsmaskin og integrasjon | `Adaptive_FSM`, sensorer → navigasjon → motor | Eksisterende overgangstester; full autonom løype ikke validert |
+| Tilstandsmaskin og integrasjon | `Adaptive_FSM`, sensorer → navigasjon → motor | 521 kontroller av faktisk generisk styring, 22 scenarier; fysisk løype ikke validert |
 | Delt ressurs / I2C | Motor og OLED deler ekstern buss; unngå dobbel initialisering | 20 ms parameter per skriving; fysisk bussfeil fortsatt åpen |
 | Tasking og protected objects | Implementert lys-task og beskyttet lysstatus; motor/sensor fortsatt sekvensielle | Native samtidighetstest og fysisk GPIO-registertest; full RTA gjenstår |
 | Perioder, deadlines og responstid | Eksisterende sekvensiell sampling og stoppforespørsel | Mål triggerintervaller, opptakstid og verst observert reaksjon på målmaskinen |
 | Matematisk modell og usikkerhet | Pulsmodell, filter, geometri og sensoranalyse | Fysiske 60 cm-data finnes; ny flerpunktkalibrering og målt bremsing gjenstår |
+| SPARK og kontrakter | Faktisk `Adaptive_Lamp_Policy` med postcondition | 4 analysekontroller, ingen ubeviste; bevismutasjon avvises. Ingen helbil-/tidsbevis |
 | Testbarhet og reproduserbarhet | Native Ada, simulert I2C, Python og rådata | Skill programtest, ARM-bygg, fysisk forsøk og formelt bevis |
 
-## Taskarkitektur som må utformes før implementering
+## Gjeldende taskarkitektur og mulig videre oppdeling
 
 Oppfølgingen har nå implementert en separat lavprioritets lys-task med
 50 ms myk periode og et protected object uten I2C eller venting. Det gir
@@ -66,7 +68,7 @@ karakteriserte tilbakemålingssensorer.
 
 | Trinn | Forventet resultat | Må registreres |
 |---|---|---|
-| 1. Oppstart, motorstrøm isolert | Kommer forbi motor-/displayoppsett, eller tydelig latchet feil | Firmwarehash, oppstartslogg, forsyning og oppsett |
+| 1. Oppstart, motorstrøm isolert | READY uten kjøring; A gir arming, B låser stopp | Firmwarehash, oppstartslogg, forsyning og oppsett |
 | 2. Alle tre sensorer | Gyldighet og feilrate ved flere oppmålte avstander | Referansedatum, rådata, usikkerhet, MAE/RMSE |
 | 3. Hjul løftet | Riktig retning på alle motorer og begge svingretninger | Motorkart, PWM, observasjon og stopp |
 | 4. Lav fart på avgrenset bane | Kjører frem og stopper foran målt hindring | Hastighet, reaksjonstid, minste avstand og repetisjoner |

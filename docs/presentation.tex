@@ -11,7 +11,7 @@
 \setbeamertemplate{footline}[frame number]
 \setbeamersize{text margin left=10mm,text margin right=10mm}
 \title{ADAptive}
-\subtitle{Autonom Mecanum-bil i Ada\\Arbeidsutkast: integrasjon og feilrespons}
+\subtitle{Autonom Mecanum-bil i Ada\\Integrasjon, feilrespons og verifikasjon}
 \author{Nicolay Olafsen \and Jacob Hellumstand Utengen}
 \institute{VE3140 -- Intelligente sanntidssystemer, USN}
 \date{2. november 2026}
@@ -58,7 +58,7 @@ innenfor dokumenterte tidskrav?
 \column{.49\textwidth}
 \textbf{Normal kontrollflyt}
 \begin{itemize}
-\item Stopp $\rightarrow$ kontroller $\rightarrow$ kjør.
+\item Vent på A $\rightarrow$ kontroller $\rightarrow$ kjør.
 \item Hindring $\rightarrow$ stopp $\rightarrow$ skann.
 \item Skann $\rightarrow$ trygg sving $\rightarrow$ ny kontroll.
 \item Ugyldig sensor betyr ukjent avstand.
@@ -73,7 +73,7 @@ innenfor dokumenterte tidskrav?
 \end{itemize}
 \end{columns}
 \vspace{6mm}
-\alert{Ingen automatisk gjenstart etter en latchet feil.}
+\alert{B låser stopp frem til omstart. Ingen automatisk gjenstart etter feil.}
 \end{frame}
 
 \begin{frame}{Exception-responsen er testbar}
@@ -98,6 +98,7 @@ PWM-verdier når micro:biten starter på nytt.
 \item Ved ukjent auto-increment adresseres alle åtte motorkanaler enkeltvis.
 \item Motor og OLED beholder én initialisering av felles ekstern I2C-buss.
 \item Feilloggen inkluderer enhetsadresse, register og I2C-status.
+\item OLED deaktiveres etter første bussfeil; ingen ny forsøksrunde.
 \end{itemize}
 \vspace{5mm}
 \alert{Verifisert mot simulert buss. Den tidligere fysiske oppstartsfeilen
@@ -114,7 +115,7 @@ P16 & Gult blinklys foran til høyre, 1 k$\Omega$\\\bottomrule
 \item Egen lys-task; ønsket oppdatering hvert 50. ms, blinking 1 Hz.
 \item Protected object deler bare status; ingen I2C eller venting i låsen.
 \item Sticky feil kan ikke overskrives av en ny kjørekommando.
-\item 362 registerprøver bestod alle seks mønstre på micro:biten.
+\item Tidligere lysdiagnostikk: 362 GPIO-prøver bestod seks mønstre.
 \end{itemize}
 \vspace{3mm}
 \alert{Diodene er ikke montert ennå. Registertest er ikke visuell LED-test.}
@@ -126,14 +127,14 @@ P16 & Gult blinklys foran til høyre, 1 k$\Omega$\\\bottomrule
 \item Ukjent/utrygg svingklarering: stopp og avslutt.
 \item Prøv siden med størst målt klaring først.
 \item To stråler må gi bred nok korridor og bestå ny sentrert kontroll.
-\item Forkast målinger eldre enn 2000 ms; høyst fire sidepunkter.
+\item Høyst fire sidepunkter; evidens må være fersk helt frem til kjøring.
 \end{enumerate}
 \vspace{5mm}
 \[
  d_{\min}=\frac{26}{2\sin(6^\circ)}\approx124{,}4\,\mathrm{cm}
 \]
-\small Søk etter første tilstrekkelige kandidat. Sideklaring er en heuristikk;
-servoens 0,5 s ventetid beholdes. Skanning i bevegelse avventer kalibrering.
+\small Maksimal evidensalder 2000 ms. Sidemåling overlapper servosentrering;
+alle filterprøver og 0,5 s frontstabilisering beholdes. Live-kontroll før sving.
 \end{frame}
 
 \begin{frame}{Responstid må følge den faktiske arkitekturen}
@@ -148,7 +149,7 @@ servoens 0,5 s ventetid beholdes. Skanning i bevegelse avventer kalibrering.
 \item Maksimal observert kjøretid er ikke bevist WCET.
 \end{itemize}
 \vspace{4mm}
-\alert{Lys-task er implementert; full RTA for motor/sensor gjenstår.}
+\alert{Nominelt frontbesøk 130 ms er ingen bevist maksimal reaksjonstid.}
 \end{frame}
 
 \begin{frame}{Matematikken skal påvirke bilen}
@@ -170,15 +171,16 @@ flerpunktkalibrering; det beviser ikke kollisjonssikkerhet.
 \small
 \begin{tabular}{@{}p{.42\textwidth}p{.49\textwidth}@{}}\toprule
 Kontroll & Status 2.11.2026\\\midrule
-Native Ada-kontroller & 2000 består; inkluderer lys og adaptiv skanning\\
+Native Ada-kontroller & 2599 består; faktisk kontroller, motor og sensorkode mot fakes\\
 Python-tester & 40 består; inkluderer GPIO-loggvalidering\\
 ARM-bygg & Hovedprogram, V2, GPIO V3 og lysdiagnostikk består\\
-Direkte Pi-test & Lysfirmware verifisert; 362 GPIO-prøver bestod\\
-Formell verifikasjon / deadlines & Ingen nye bevis; fysiske tidsmålinger gjenstår\\\bottomrule
+Direkte Pi-test, tidligere & 362 GPIO-prøver; dagens nye bygg er ikke flashet\\
+SPARK & Faktisk lyspolicy: kontrakt og kjøretidssjekk verifisert\\\bottomrule
 \end{tabular}\par
 \vspace{5mm}
-Feilinjeksjon omfatter alle tolv skrivepunkter i oppstarten, stopp under
-motorsending, sekundær stoppfeil og loggerfeil.
+Feilinjeksjon: alle tolv oppstartspunkter, B under avlesning/sending og
+sekundær stoppfeil. Fem kildemutasjoner og én bevismutasjon avvises.
+Fysiske deadlines gjenstår; SPARK-beviset gjelder bare lyspolicyen.
 \end{frame}
 
 \begin{frame}{Neste demonstrasjon og ferdigstilling}
@@ -190,9 +192,9 @@ motorsending, sekundær stoppfeil og loggerfeil.
 \item Gjenta autonom sekvens med rålogg og video.
 \end{enumerate}
 \vspace{5mm}
-Før innlevering: kontroller pensum og vurderingskriterier, komprimer
-hovedrapporten til anbefalt omfang og dokumenter gruppens egne forklaringer,
-arbeidsfordeling og KI-bruk.\par
+Hovedrapporten beskriver dagens løsning; utviklingshistorikken er bevart
+separat. Før innlevering: kontroller pensum/vurderingskriterier og fyll inn
+fysiske resultater, arbeidsfordeling og KI-bruk.\par
 \vspace{4mm}
 \tiny Kilder: Ada 2022 RM 11.4, AdaCore runtime-dokumentasjon, NXP PCA9685
 og micro:bit-stiftelsens USB-veiledning. Se rapportens bibliografi.

@@ -1,7 +1,7 @@
 with Adaptive_Policy; use Adaptive_Policy;
 package Adaptive_Scan_Policy with Pure is
    Max_Pair_Age_Ms : constant := 2_000;
-   -- Design freshness budget for stationary candidate selection. This is
+   -- Design freshness budget from the oldest ray until the drive command. This is
    -- not a certified collision bound for moving obstacles or a moving car.
    type Angle_Pair is array (1 .. 2) of Natural;
    function Angles (Direction : Choice) return Angle_Pair;

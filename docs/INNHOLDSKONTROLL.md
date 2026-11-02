@@ -1,3 +1,14 @@
+# Sluttredigering 2. november 2026
+
+Hovedrapporten er nå skrevet rundt dagens kode i `report-body.tex` og
+`sections/`. Den gamle hovedfilen er bevart identisk som
+`development-history.tex`; opprinnelig ordlyd og tidligere innholdsoversikt
+nedenfor gjelder dette arkivet. FR1–FR6, RT1–RT3 og SR1–SR4 er videreført i
+kortere form, med kriterier og ærlig status. Alle aktive Ada-enheter kopieres
+fra `Code/src/` til `code/current/` og inkluderes i nytt kodevedlegg.
+
+---
+
 # Bevaring og oppdatering av originalinnhold
 
 Kilde: `ADAptive Rapport (1).docx`, 144 144 byte. Originalen er ikke endret. En byteidentisk kopi ligger i `grunnlag/`, sammen med tekstuttrekket `original-docx.txt`. Utkastnotater og tomme overskrifter er dermed også tilgjengelige i opprinnelig form.

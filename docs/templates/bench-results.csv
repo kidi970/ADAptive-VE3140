@@ -1,0 +1,1 @@
+trial_id,date_utc,firmware_sha256,test_case,supply_v,pwm,reference_cm,speed_cm_s,trigger_gap_ms,stimulus_to_stop_command_ms,stimulus_to_standstill_ms,braking_distance_cm,minimum_clearance_cm,oldest_scan_ray_at_drive_ms,expected_result,observed_result,passed,raw_log,video,notes

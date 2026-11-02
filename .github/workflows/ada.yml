@@ -2,9 +2,10 @@ name: Ada (GNAT)
 
 'on':
   push:
-    branches: [main]
+    branches: [main, codex/pi-integration-exceptions-2026-11-02]
   pull_request:
     branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -38,6 +39,8 @@ jobs:
           sudo apt-get install -y --no-install-recommends gnat
           python3 tools/test_navigation.py
           python3 -m unittest discover -s tests -p 'test_*.py'
+          python3 tools/test_mutations.py
+          python3 tools/sync_report_sources.py --check
 
       # Provision through Alire, exactly as a student does. Alire maps a crate
       # version to the right release tarball itself -- the GNAT-FSF asset names
@@ -73,6 +76,11 @@ jobs:
       - name: Build and package firmware
         run: python3 tools/mb.py build
 
+      - name: Prove the actual lamp policy and reject a broken contract
+        run: |
+          python3 tools/prove_lamps.py
+          python3 tools/test_mutations.py --proof
+
       - name: Build the stationary diagnostics separately
         run: |
           python3 tools/build_sensor_diagnostic.py
@@ -86,6 +94,28 @@ jobs:
             build/main.hex
             build/main.bin
             build/main.elf
+
+  documents:
+    name: Compile report and presentation
+    if: github.repository != 'aiunderstand/Ada-Embedded-Project-MicroBitV2'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install the document tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends latexmk texlive-latex-extra texlive-fonts-recommended texlive-lang-european
+      - name: Check current source copies and compile both documents
+        run: |
+          python3 tools/sync_report_sources.py --check
+          latexmk -cd -pdf -halt-on-error -outdir="$GITHUB_WORKSPACE/build/report-ready" docs/main.tex
+          latexmk -cd -pdf -halt-on-error -outdir="$GITHUB_WORKSPACE/build/slides-ready" docs/presentation.tex
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ADAptive-documents
+          path: |
+            build/report-ready/main.pdf
+            build/slides-ready/presentation.pdf
 
   # ---- everything below runs only in the upstream template repository ----
 

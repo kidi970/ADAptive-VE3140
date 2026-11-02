@@ -1,0 +1,75 @@
+\pagenumbering{roman}
+\hypersetup{pageanchor=true}
+\chapter*{Sammendrag}
+\addcontentsline{toc}{chapter}{Sammendrag}
+ADAptive undersøker hvordan en micro:bit V2, programmert i Ada, kan styre en
+Mecanum-bil med ultralydsensorer og reagere forutsigbart på hindringer og feil.
+Raspberry Pi 5 brukes til utvikling og logging; selve kjørebeslutningene tas
+lokalt på micro:biten. Løsningen kombinerer en sekvensiell styringskjerne,
+en tilstandsmaskin, én separat lys-task og beskyttet delt lysstatus.
+
+Programmet krever et eksplisitt startsignal fra knapp A. Knapp B låser en
+stoppforespørsel frem til omstart. Navngitte exceptions skiller blant annet
+motorbussfeil, ufullstendig initialisering, servogrensefeil og feil i lys-tasken.
+Feilgrensen bevarer første årsak, forsøker én stoppoperasjon og rapporterer
+om kommandoen ble akseptert. En sviktende OLED deaktiveres uten gjentatte
+forsøk. Adaptiv skanning prøver høyst fire sideposisjoner og avslutter ved
+første kandidat som består geometrisk kontroll, ny sensorkontroll og et
+ferskhetskrav helt frem til svingkommandoen.
+
+Den siste programvarekontrollen består av 2599 Ada-kontroller, 40
+Python-tester, bevisst feilinjeksjon og bygg av fire ARM-programmer.
+GNATprove verifiserer kontrakten og tilhørende kjøretidssjekk for den faktiske
+lyspolicyen. Dette er et avgrenset bevis, ikke en verifikasjon av hele bilen.
+Tidligere fysiske forsøk omfatter sensorlogger og 362 GPIO-registerprøver.
+Lysene er ennå ikke montert, og den nye autonome versjonen er ikke flashet
+eller prøvd på gulvet.
+
+Rapporten skiller implementasjon, programtest, fysisk observasjon og bevis.
+Full autonom funksjon, fysisk I2C-oppstart, stopplengde og deadlines gjenstår
+å dokumentere. Sanntidskapitlet gir en analyse som følger den faktiske
+arkitekturen og angir hvilke målinger som mangler. Tidligere
+utviklingshistorikk er bevart separat i \kode{development-history.tex};
+hovedteksten beskriver gjeldende løsning per 2. november 2026.
+
+\textbf{Nøkkelord:} Ada, exceptions, tasking, protected objects, micro:bit,
+Mecanum, ultralyd, responstid og SPARK.
+\tableofcontents
+\clearpage
+\pagenumbering{arabic}
+\input{sections/01-introduction}
+\input{sections/02-requirements}
+\input{sections/03-theory}
+\input{sections/04-design}
+\input{sections/05-implementation}
+\input{sections/06-timing}
+\input{sections/07-results}
+\input{sections/08-process}
+\input{sections/09-discussion}
+\input{sections/10-conclusion}
+\label{last-main-page}
+\clearpage
+\phantomsection
+\addcontentsline{toc}{chapter}{Referanser}
+\bibliographystyle{unsrtnat}
+\bibliography{bibliography}
+\label{last-reference-page}
+\appendix
+\chapter{Gjeldende Ada-kode}
+Dette vedlegget er generert fra \kode{Code/src/} og kontrolleres byte for byte
+av \kode{tools/sync_report_sources.py --check}. Det omfatter alle
+applikasjonens Ada-enheter. Kode for egne diagnostikkprogrammer, prosjektfiler,
+driverpatch og SHA-256-manifest ligger også i rapportpakkens
+\kode{code/current/}. Tredjepartsdriverne hentes som den låste Git-undermodulen
+beskrevet i kapittel~\ref{ch:process}; denne dokumentasjonspakken erstatter
+ikke et komplett firmware-checkout.
+\input{code/current/appendix}
+\chapter{Bygg- og bevisoppsett}
+\titlespacing*{\section}{0pt}{8pt}{3pt}
+\lstset{aboveskip=3pt,belowskip=3pt}
+\section*{Aktive kontroller i ARM-bygget}
+\lstinputlisting[language={}]{code/current/Code/itrs.gpr}
+\section*{Avgrenset SPARK-prosjekt}
+\lstinputlisting[language={}]{code/current/proof/lamps.gpr}
+\section*{Låste verktøyavhengigheter}
+\lstinputlisting[language={}]{code/current/alire.toml}

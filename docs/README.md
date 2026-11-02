@@ -1,96 +1,52 @@
-# Oppfølging: lys og adaptiv skanning
+# Rapport og presentasjon
 
-Nyeste rapport har 60 sider totalt, inkludert utviklingshistorikk og
-kodevedlegg; presentasjonen har 12 lysbilder. Se `LYS-OG-SKANNING.md` og
-`ADAptive-lys-skann-2026-11-02.md`. Direkte Pi-kontakt er verifisert. Kortet
-står med separat lysdiagnostikk, og motor-/sensorstrømmen er av.
-2000 Ada-kontroller og 40 Python-tester består. Det er ikke utført autonom
-gulvkjøring, visuell LED-test eller full pensumkontroll. Tidligere steg følger.
+Gjeldende hovedrapport er `main.tex`, med tekst i `report-body.tex` og
+`sections/`. Hovedteksten er 17 sider, referanser én side, og PDF-en 47 sider
+med forside, sammendrag/innhold og alle applikasjonens Ada-enheter i vedlegg.
+`presentation.tex` gir 12 lysbilder. [Manus og faglige kontrollspørsmål](PRESENTASJONSMANUS.md) følger. Kildene beskriver dagens implementasjon
+og skiller programtester, fysisk evidens og avgrenset formelt bevis.
 
-# Oppdatering 2. november 2026: Pi og exceptions
+## Ferdig leveranse
 
-Rapporten har nytt avsnitt 7.7 og datert kodevedlegg. `main.tex` bygger til
-54 sider totalt; `presentation.tex` bygger til ti lysbilder. Detaljer og
-testgrunnlag står i `ADAptive-pi-unntak-2026-11-02.md`. USB-oppsett er i
-`PI-OPPKOBLING.md`, faglig plan i `PENSUM-OG-DEMOPLAN.md`.
+Etter full kontroll ligger følgende under `../build/deliverables/`:
 
-Dette er lokalt verifisert på Pi-en. Ingen ny fysisk biltest eller oppdatering
-av Overleaf er utført. Kompilert PDF og kildepakke finnes lokalt under
-`../build/deliverables/`. Historiske opplysninger nedenfor gjelder tidligere datoer.
+- `ADAptive-rapport-kodekontroll-2026-11-02.pdf`
+- `ADAptive-presentasjon-kodekontroll-2026-11-02.pdf`
+- `ADAptive-Overleaf-kodekontroll-2026-11-02.zip`
+- `delivery-kodekontroll-2026-11-02.json` med SHA-256 og kontrollresultater.
 
----
+ZIP-pakken inneholder LaTeX, bibliografi, figurer, gjeldende kodekopi og
+historiske grunnlagsfiler/evidens. ZIP-CRC og alle filer sammenlignes med
+kildene. Last opp pakken til Overleaf, velg **main.tex** og **pdfLaTeX**.
+For presentasjonen velges **presentation.tex**. BibTeX kjøres automatisk.
+Overleaf-prosjektet er ikke endret i denne gjennomgangen.
 
-# Sensorstudie 23.10.2026
+## Oppdatere og bygge
 
-Etter forsøkene bekreftet bruker at P2/P14 bare brukes av venstre ultralydsensor. Rapport og protokoll er presisert: delt LED-last legges til side som forklaring. Motstandsrekkefølge, signalnivå og referanseavstand er fortsatt uavklart. Denne oppfølgingen endrer ingen firmware eller rådata.
+Fra Git-repoets rot:
 
-Eksisterende Overleaf-rapport er utvidet med `sensor-study-2026-10-23.tex` (avsnitt 7.6), metodefigur, elektrisk beregningsmodell, statistikk, forsøksresultater og tydelige begrensninger. Begge seriers rådata og analyser følger Overleaf-prosjektet som `sensor-run-01.csv`, `sensor-run-02.csv` og tilhørende JSON-analyser. I Git finnes originalene under `evidence/2026-10-23-sensors/`. `SENSORPROTOKOLL.md` gir reproduksjon og videre fysiske kontroller.
-
-640 stasjonære avlesninger er samlet med motorstrøm frakoblet. Venstre kanal er fortsatt ustabil. 1753 Ada-kontroller og 16 Python-enhetstester består; dette er programtester, ikke 1769 fysiske forsøk. Ingen ny sving- eller gulvkjøring er validert. Endelig faktisk Overleaf-/PDF-kontroll står i `VALIDERING.md`. Micro:biten står med separat stoppende diagnostikk V2 etter testen.
-
-Oppdateringene nedenfor er bevart som historikk fra forrige økt.
-
----
-
-# Oppdatering 23.10.2026
-
-Denne pakken viderefører rapporten hentet fra det eksisterende Overleaf-prosjektet. Historisk tekst og kode fra 21.10 er beholdt. Daterte resultater og endringer finnes i `development-2026-10-23.tex` og nye kildekopier i `code/2026-10-23/`. Disse delene er kompilert lokalt og i eksisterende Overleaf-prosjekt. Siste Overleaf-bygg ga 42 sider, 0 feil og 0 ordinære advarsler. Se `VALIDERING.md` for avgrensninger.
-
-Den aktive implementasjonen er fortsatt sekvensiell. Bruk dagens hovedrepo og den kumulative driverpatchen `patches/ada-drivers-2026-10-23.patch` for firmwarebygg. Historiske opplysninger nedenfor gjelder pakken fra 21.10.
-
----
-
-# ADAptive per 21.10.2026
-
-Last opp hele ZIP-filen som et nytt prosjekt i Overleaf. Velg `main.tex` som hovedfil og **pdfLaTeX** som kompilator. Prosjektet bruker BibTeX via `natbib`; Overleaf kjører bibliografiverktøyet automatisk. Ingen shell escape, ekstern kodefremhever eller ekstra skrifter er nødvendig.
-
-## Redigering
-
-- `main.tex`: hele rapportteksten, formatering, figuren og vedleggsstrukturen.
-- `bibliography.bib`: redigerbar bibliografi.
-- `code/main.adb`: uendret applikasjon fra Git-revisjon `ee6df67ab8ebec4e309195324f941b61602a1a36`.
-- `code/ada-drivers-2026-10-21-raw.patch`: driverpatch fra samme revisjon.
-- `code/drivers/`: kopier av relevante lokale drivere, med lokale tilpasninger. Ikke et komplett firmwareprosjekt.
-- `dokumentasjon/utviklingslogg-2026-10-21.md`: uendret logg hentet fra revisjonen.
-- `dokumentasjon/kildekontroll.json`: kontrollert revisjon, arbeidsstatus og driverdiff.
-- `grunnlag/`: bevart originalrapport, tekstuttrekk og tidligere rapportarbeid fra 8.10.
-- `INNHOLDSKONTROLL.md`: sammenheng mellom originalinnhold og oppdatert rapport.
-
-Alle manglende opplysninger er synlig merket **TODO**. Fyll dem med faktiske opplysninger og måledata. Ikke fjern forbehold om tester før testene er dokumentert. Navn og studentnummer er videreført som skrevet i originalrapporten.
-
-## Rapportens faglige status
-
-Dette er en rapport om fremdrift per 21.10.2026. Den følger originalens ti kapitler, med IMRaD-funksjonene forklart i leserveiledningen. IRTS-malens rapportklasse, forside, sammendrag, innhold, bibliografi og kodevedlegg er videreført og tilpasset norsk. Eksempelreferanser, MATLAB-stil og tomme dobbeltsider fra malen er utelatt. Logo og grafikk er hentet fra originalrapporten.
-
-Dagens applikasjon har en sekvensiell FSM med 60 tilstandssteg, aktiv fremoverpuls og rotasjon. Sensor-, kontroll-, motor- og sikkerhetstasks er forslag. `Reverse_Drive` utfører foreløpig bare stopp. OLED-avstandsfunksjonen finnes, men kalles ikke av den aktive FSM-en. LED viser skannevalget og er ikke en kontinuerlig kjøretøystatus.
-
-Byggverdiene og de fysiske observasjonene er hentet fra utviklingsloggen. Ingen nye firmwarebygg, flashing eller maskinvaretester er gjennomført ved rapportoppdateringen. WCET, deadlines og kollisjonsunngåelse er ikke verifisert. Verktøykjedens GNATprove-avhengighet er ikke bevis på at SPARK-analyse er gjennomført.
-
-## Lokal kompilering
-
-Med en vanlig TeX-installasjon:
-
-```text
-latexmk -pdf main.tex
+```sh
+python3 tools/sync_report_sources.py
+python3 tools/check_project.py --full
+python3 tools/package_delivery.py
 ```
 
-Alternativt:
+Den genererte `code/current/` kopierer aktiv kode byte for byte og har et
+SHA-256-manifest. `--check` avviser en utdatert kopi. Bygglogger ligger under
+`../build/readiness-review/`. Disse kommandoene berører ikke bilen.
+Rapportpakken alene er ikke et komplett ARM-checkout; firmwarebygg krever
+Git-repoet, låst undermodul og driverpatch.
 
-```text
-pdflatex main.tex
-bibtex main
-pdflatex main.tex
-pdflatex main.tex
-```
+## Historikk og åpne punkter
 
-PDF-forhåndsvisningen er kompilert fra prosjektet med Tectonic. Kilden er også kontrollert med kompilatoren i Codex sin LaTeX-editor. En faktisk opplasting til Overleaf er ikke gjennomført.
+`development-history.tex` er en identisk kopi av forrige 60-sidersrapports
+hovedkilde. Daterte seksjoner og kodekopier er bevart og brukes bare som
+historikk. Tidligere PDF-er beholdes i `../build/deliverables/`.
+`grunnlag/` bevarer originalrapport og oppgavetekst; `INNHOLDSKONTROLL.md`
+beskriver tidligere innholdsbevaring. Originale rådata ligger i `evidence/`.
 
-`main.tex` må ligge sammen med bibliografien og resten av prosjektmappene for å gi hele rapporten. Rapportpakken er en dokumentasjonspakke; bygging av kjøretøyets firmware krever det opprinnelige Git-repoet og undermodulen.
-
-## Før innlevering
-
-Fullfør KI-deklarasjon, arbeidsfordeling, maskinvareidentifikasjon, koblingsskjema, rå bygglogger, advarseltekst og systematiske testprotokoller. Fastsett målbare tidskrav og utfør en analyse som svarer til den faktiske programarkitekturen. Oversikten over åpne punkter finnes også i siste vedlegg i PDF-en.
-
-## Oppfølging 60 cm, 23.10.2026
-
-Se ADAptive-reference60-2026-10-23.md og avsnitt 7.6.6--7.6.9. Tre fysiske GPIO-serier: venstre 480/480 gyldige, men systematisk avstandsavvik mot oppgitt 60 cm. P0 er fortsatt åpent. VALIDERING.md dokumenterer faktisk Overleaf-kompilering og PDF-kontroll for 47-sidersversjonen.
+Se [klar-for-benk](KLAR-FOR-BENK.md) for fysisk testrekkefølge og det som
+fortsatt trenger gruppens egne opplysninger. 2599 Ada-kontroller, 40
+Python-tester og SPARK-bevis for lyspolicy er programvareevidens. Full autonom
+kjøring og deadlines er ikke fysisk verifisert. Synlige TODO-er gjelder
+målinger, arbeidsfordeling og KI-bruk; de skal ikke erstattes med antakelser.

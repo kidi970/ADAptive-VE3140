@@ -1,3 +1,14 @@
+# Siste lokale kontroll: 2. november 2026, kodegjennomgang
+
+Gjeldende rapport er omarbeidet til 17 sider hovedtekst og én referanseside;
+47 sider totalt med frontstoff og kodevedlegg. Presentasjonen har 12
+lysbilder. Begge kompilerer lokalt. Siste detaljer og rålogger finnes i
+`ADAptive-kodekontroll-2026-11-02.md` og `evidence/2026-11-02-readiness/`.
+Ingen ny Overleaf-opplasting eller maskinvaretilgang er utført. Alle tidligere
+Overleaf-resultater og eldre sidetall nedenfor er daterte historiske resultater.
+
+---
+
 # Oppfølging samme dag: lys og skanning
 
 Nyeste lokale rapport: 60 sider totalt, 0 feil, 0 ordinære advarsler,
@@ -103,7 +114,7 @@ Historisk kontroll av pakken fra 21.10 følger nedenfor.
 ## LaTeX og PDF
 
 - Siste main.tex kompilerer med Tectonic og med den innebygde LaTeX-editorens kompilator.
-- 36 PDF-sider totalt: 4 sider forside/sammendrag/innhold, 16 sider hovedtekst, 2 sider referanser og 14 sider vedlegg.
+- 36 PDF-sider totalt: 4 sider forside/sammendrag/innhold, 17 sider hovedtekst, 2 sider referanser og 14 sider vedlegg.
 - 16 brukte bibliografireferanser, uten manglende sitatnøkler eller udefinerte kryssreferanser.
 - Ingen duplikate etiketter eller overfulle tekstbokser i siste bygg.
 - Ingen tomme sider eller erstatningstegn i tekstuttrekket.

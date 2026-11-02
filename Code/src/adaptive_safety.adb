@@ -1,21 +1,24 @@
 with MicroBit.Buttons;
 with Adaptive_Errors;
-with Adaptive_Lamp_Control;
-with Adaptive_Lamp_Policy;
 package body Adaptive_Safety is
    use type MicroBit.Buttons.Button_State;
    use type MicroBit.Buttons.Button_Id;
    procedure Request_Stop is
    begin
       Stop_Requested := True;
-      Adaptive_Lamp_Control.State.Set_Mode (Adaptive_Lamp_Policy.Braking);
    end Request_Stop;
+   procedure Request_Start is
+   begin
+      if not Stop_Requested then Start_Requested := True; end if;
+   end Request_Start;
    procedure On_Button (Button : MicroBit.Buttons.Button_Id;
                         State : MicroBit.Buttons.Button_State) is
    begin
-      if Button = MicroBit.Buttons.Button_B
-        and then State = MicroBit.Buttons.Pressed
-      then Request_Stop; end if;
+      if State = MicroBit.Buttons.Pressed then
+         if Button = MicroBit.Buttons.Button_B then Request_Stop;
+         elsif Button = MicroBit.Buttons.Button_A then Request_Start;
+         end if;
+      end if;
    end On_Button;
    procedure Initialize is
    begin

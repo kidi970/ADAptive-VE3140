@@ -1,0 +1,249 @@
+{
+  "timestamp_utc": "2026-11-02T10:46:31.966789+00:00",
+  "hardware_access": false,
+  "scope": "software checks; no physical timing or motion validation",
+  "checks": [
+    {
+      "name": "report-sources",
+      "command": [
+        "/usr/bin/python3",
+        "tools/sync_report_sources.py",
+        "--check"
+      ],
+      "exit_code": 0
+    },
+    {
+      "name": "ada-tests",
+      "command": [
+        "/usr/bin/python3",
+        "tools/test_navigation.py"
+      ],
+      "exit_code": 0,
+      "assertion_counts": [
+        1729,
+        24,
+        38,
+        94,
+        49,
+        521,
+        76,
+        32,
+        6,
+        30
+      ]
+    },
+    {
+      "name": "python-tests",
+      "command": [
+        "/usr/bin/python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_*.py"
+      ],
+      "exit_code": 0
+    },
+    {
+      "name": "mutations",
+      "command": [
+        "/usr/bin/python3",
+        "tools/test_mutations.py",
+        "--proof"
+      ],
+      "exit_code": 0
+    },
+    {
+      "name": "proof",
+      "command": [
+        "/usr/bin/python3",
+        "tools/prove_lamps.py"
+      ],
+      "exit_code": 0
+    },
+    {
+      "name": "main-build",
+      "command": [
+        "/usr/bin/python3",
+        "tools/mb.py",
+        "build",
+        "--use",
+        "template"
+      ],
+      "exit_code": 0
+    },
+    {
+      "name": "sensor-v2-build",
+      "command": [
+        "/usr/bin/python3",
+        "tools/build_sensor_diagnostic.py"
+      ],
+      "exit_code": 0
+    },
+    {
+      "name": "gpio-v3-build",
+      "command": [
+        "/usr/bin/python3",
+        "tools/build_sensor_diagnostic.py",
+        "--gpio-only"
+      ],
+      "exit_code": 0
+    },
+    {
+      "name": "lamp-build",
+      "command": [
+        "/usr/bin/python3",
+        "tools/build_lamp_diagnostic.py"
+      ],
+      "exit_code": 0
+    },
+    {
+      "name": "report-build",
+      "command": [
+        "latexmk",
+        "-cd",
+        "-pdf",
+        "-interaction=nonstopmode",
+        "-halt-on-error",
+        "-outdir=/home/kidi970/Documents/ChatGPT/ADAptive/build/report-ready",
+        "docs/main.tex"
+      ],
+      "exit_code": 0
+    },
+    {
+      "name": "slides-build",
+      "command": [
+        "latexmk",
+        "-cd",
+        "-pdf",
+        "-interaction=nonstopmode",
+        "-halt-on-error",
+        "-outdir=/home/kidi970/Documents/ChatGPT/ADAptive/build/slides-ready",
+        "docs/presentation.tex"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "document_sha256": {
+    "docs/bibliography.bib": "d5b219dd5ebdccbbadf27a90c41102de4b122577c4f4108e88e101ea957aaad0",
+    "docs/code/current/Code/diagnostics/lamp_diagnostic.adb": "397a513ca9d66bd92ab3ccecd47b383e268315e55fe3e66bb1beeea0341fc940",
+    "docs/code/current/Code/diagnostics/lamp_diagnostic.gpr": "6fdda30ec5e20be5a38f301981bf99ab1eb044f6b17a63f94d92b21d6ee3ce26",
+    "docs/code/current/Code/diagnostics/sensor_diagnostic.adb": "b82fede5a5a8fbfffdbd5e1e4e8bb9ac5b464acc581ddf915f70d8750bbaa2a7",
+    "docs/code/current/Code/diagnostics/sensor_diagnostic.gpr": "e816215a5142ee55f9a5ba42923febbada998b7244f654ec42ad50e502a693ee",
+    "docs/code/current/Code/diagnostics/sensor_gpio_diagnostic.adb": "f71f0aefcb02e11e72f3b8a2e97a1be60226ab27a37d7a66a727e16d17daf9a4",
+    "docs/code/current/Code/diagnostics/sensor_gpio_diagnostic.gpr": "7a8bb0a64a19dd812b23480c046253d63d134e832fd410734f6346145c9659b3",
+    "docs/code/current/Code/itrs.gpr": "2d85eafbd09993902b58553e8c8640c8d0e74bba097adabd919fb89c7a58bab7",
+    "docs/code/current/Code/src/adaptive_controller.adb": "55cac4eac3898b80762b470d57535e93b2eca030d0360969faa127351583ce75",
+    "docs/code/current/Code/src/adaptive_controller.ads": "b1aa52ba947a7b154a03a00c78a74cb47b9ef95aabea788eb676b56dd4568797",
+    "docs/code/current/Code/src/adaptive_display.adb": "1ae8b97884412d5d05159c3487620eba0dcf8131943ddcb9ae517f295152fa3c",
+    "docs/code/current/Code/src/adaptive_display.ads": "ed0d0ecec233f9b8bbec3167c636278a9046994dc12284e8cc4f2006f14167e7",
+    "docs/code/current/Code/src/adaptive_echo.adb": "0113f6339f729ec9c2f0a3eeb711de1f6dca896ce5293cf1a12ca9260b0269d4",
+    "docs/code/current/Code/src/adaptive_echo.ads": "f73be23ef02ed84e197ede5671e005ca57df91456c90187f789d44d62e31308f",
+    "docs/code/current/Code/src/adaptive_errors.adb": "a9545f96eda2e19db21599a7c0b826ee14961c180c1c08fbc2bbc15011e49cb3",
+    "docs/code/current/Code/src/adaptive_errors.ads": "925d43986cf855cc7af33c5e2fb2bebc5eff54e32197503eddd50187a278d6ce",
+    "docs/code/current/Code/src/adaptive_fault_handler.adb": "0486ef452f4fc7c4d241272f4961520c76efd264d3a512609d2cc3650360ac6b",
+    "docs/code/current/Code/src/adaptive_fault_handler.ads": "65410ae7f31619e0b578568c4524788dd6eddd72208dc2b6de0aa30c5be6b5f3",
+    "docs/code/current/Code/src/adaptive_fsm.adb": "3173cecc7c058f0319c68c5f50456154c4a24219dc0def4e334b55e020c730db",
+    "docs/code/current/Code/src/adaptive_fsm.ads": "8d37189f2d69ce7839776410f8a5d74e9bc99823c0619e7b160539f3481915f0",
+    "docs/code/current/Code/src/adaptive_lamp_control.adb": "6905b497240d6b1686b367d0c1d9b83cf5372f5a0ae48d15ce652d74c6248c16",
+    "docs/code/current/Code/src/adaptive_lamp_control.ads": "5ecf73913d8f0edda4fda5345ef4cd7acf4dbaa1ba6e9e7a7bcbfe4b0f8c9713",
+    "docs/code/current/Code/src/adaptive_lamp_policy.adb": "675191eb31f44d1f5b63fe2fd4ee5afeb26a4b1bf619d9f2822419bc6a6d299f",
+    "docs/code/current/Code/src/adaptive_lamp_policy.ads": "6f8bfff1b5ddfd48ce121b61985693414e44d5753e5ada93103d372fed31faa9",
+    "docs/code/current/Code/src/adaptive_lights.adb": "a816349130b77491ddb5307c03d8f7d409b59786bdbe8372aed0aab1dfda7717",
+    "docs/code/current/Code/src/adaptive_lights.ads": "36f0f1a25cdab5d4487c1b0c37aa926bb2bb24b41fa08c157c6fae0333da5dc2",
+    "docs/code/current/Code/src/adaptive_motion.adb": "fc059a25f52e24d73b1a95183a24d8dc43a91c064602e2358ee1d6a09a22889c",
+    "docs/code/current/Code/src/adaptive_motion.ads": "9e9f8d3b890465593e29b573cf1b7f5e611eb801162765b464faa86bb0821c39",
+    "docs/code/current/Code/src/adaptive_navigation.adb": "190003c63676a4036db3d28b3c1c2fc6a60a7fb65ace94aa428ead9a321d6de4",
+    "docs/code/current/Code/src/adaptive_navigation.ads": "c5d42208c529ab3fae39e4b727c0b9f0eb3e3baaa3c7fcd3e0ff6978d50b6f66",
+    "docs/code/current/Code/src/adaptive_policy.adb": "826741045ffe4c8b0085a14b86843d24b7a19d0f2232c46fa29a9af09987375b",
+    "docs/code/current/Code/src/adaptive_policy.ads": "82f90e6ae9748f8cda983b2907d494d44444ece7da179703a095549e757a0f27",
+    "docs/code/current/Code/src/adaptive_quick_scan.adb": "1e1932c9b23cf399319a2048325f78d8acc66b907ffbc7b4a77aa69328b635bb",
+    "docs/code/current/Code/src/adaptive_quick_scan.ads": "97911397674f131c40b7c880fd962a7747bda0cbe2e52dabea987528eff622b3",
+    "docs/code/current/Code/src/adaptive_range_model.adb": "bb3172b35c4be742e8381ebea20ebea9927bac04be362b76e5fca7eb13165192",
+    "docs/code/current/Code/src/adaptive_range_model.ads": "1ebde99bfd1fa85cacceea704196986589763b14fecff4f5ed0e5c5ec2f2ad56",
+    "docs/code/current/Code/src/adaptive_safety.adb": "e7b044f989480f994110bca1b02831f3393b4a95d3281e74027fd8236a1eb825",
+    "docs/code/current/Code/src/adaptive_safety.ads": "90cf1e6c26319a40a121ae3b60e16e99d67476b7c52feca00b9a2be293401a15",
+    "docs/code/current/Code/src/adaptive_scan_policy.adb": "e8c37a9647133059ea5a8c40dc140f1dd5c6bf3676860a50cdf908d60c6d3ad3",
+    "docs/code/current/Code/src/adaptive_scan_policy.ads": "43084bfce1b6f3d888223480ac5724cdda56eb678d5b0eb1c2c63b5fbf67313f",
+    "docs/code/current/Code/src/adaptive_sensors.adb": "d718b3659a85d245b0935e5347c35544f0cc05ccbb5ddd01e62485751b1eb60e",
+    "docs/code/current/Code/src/adaptive_sensors.ads": "8e402f933c2c04b57177a7b72c8dc48aae622ea4827019c2a1044a930bbf9b66",
+    "docs/code/current/Code/src/main.adb": "aa720ebabb404bf8e0bafe9411e182a0b2e7e50f76b2da46a35ee5a9c3816f52",
+    "docs/code/current/SHA256.json": "603848167f41b2311252fa03135064e9a0fdd4e68fe30d2220451e6d2b58f857",
+    "docs/code/current/alire.toml": "ce3a9a354bd6d44429a24ae79d293c3a8bbec852ddfb923d8643a1bd51d1845f",
+    "docs/code/current/appendix.tex": "346cd3d1fd8dd9cacfbb8c220941ee76f015948ae4e40606656520f88bf64240",
+    "docs/code/current/patches/ada-drivers-2026-10-23.patch": "974d142755323a30af23f91df71b82bb6e526abd0bb622eeb6b0601914d6abb2",
+    "docs/code/current/proof/lamps.gpr": "2568805d3e5578b7ff5ee3f14cca3aa3a6bfa14a4853b2da768b5c69cad2799b",
+    "docs/development-2026-10-23.tex": "78cb07bebc98b3f8482fcbdd7ac0a1fa0a0a6aa968b9d166067e9f930447b235",
+    "docs/development-history.tex": "e70a421a9dc0b5ef29f2837909dea0dcea761481200dec1e71f05c23405afcaa",
+    "docs/figures/image1.png": "398d617ffaca3a5801c8375695c979cfee245b85138e04ab434fc8b363e3f7e0",
+    "docs/figures/image2.png": "4bb42d8224da17d160b1175258b14c2170c660d886cca473f3987cc15270734f",
+    "docs/integration-2026-11-02.tex": "15a16c7a37177de2e23f7977bf575f6372cf8dec5eec59ba3633ad918597d62e",
+    "docs/lamp-hardware-result-2026-11-02.tex": "90a352631e4cce082f6d44f5dd74422b2fb25c99a8bc5801659251aac685523f",
+    "docs/lights-scan-2026-11-02.tex": "ac59604879d9b03d90375ebcd82a66b08f83bc555d0c2c22f6411dcf08d61f03",
+    "docs/main.tex": "208bc0d80c62a2758a6f06d744b509e30707b27955c0fdcb00fd3b7a3b74b637",
+    "docs/presentation.tex": "6a95b4288396e99410adbf76d89da9937e7e116ef6a14c02189bb5d3ab0e04d0",
+    "docs/report-body.tex": "c193e922a0f1b466ade97aac2a4dce14dd38d7d3f739b0ea70abcfd042b19a3d",
+    "docs/sections/01-introduction.tex": "7014c50687a6fd5b31b86f04c1f1c0d2b9e7e746f0ad247eca5ee9608f4f577e",
+    "docs/sections/02-requirements.tex": "81ce7b6439571b11f7e964db69d9bc3391b5e5e35e708774cacc06fd4c3885c3",
+    "docs/sections/03-theory.tex": "850fba8241c2cc15f6934b7ea4354a2970a1e1fd91a4fb7eb448e862c6ecf188",
+    "docs/sections/04-design.tex": "fbfbba6a7b454cf1ce5e1f154e3875de50ecef45ed620d2e95deefad0d11e37c",
+    "docs/sections/05-implementation.tex": "63e17505b1267ce4bbb69caa7f5f552620d3edad99551d928c550ed66211d8ec",
+    "docs/sections/06-timing.tex": "f21011ef00edeb10cc432c8968f4fffb71425bbde3922793868f6efae323e5f1",
+    "docs/sections/07-results.tex": "ac96fcb908aa44c846eacb78c40598fe2ab3a1c61091a518d3c044a61bfe353b",
+    "docs/sections/08-process.tex": "fea18b671c8e0de8f9840c8a250b73f36c43b4597a77ceaee4cf06b0b2b17807",
+    "docs/sections/09-discussion.tex": "b7d270fbd26b9ab6e66150119ff0cc2b29db2ee70742fb2e537c12448947a3be",
+    "docs/sections/10-conclusion.tex": "19d735c014c56e777fd6945e25206443022d1c64d79644fddafaafa69704e046",
+    "docs/sensor-reference60-2026-10-23.tex": "99d586c8c8793b0241eb86e7d5756afff0a26ecfcdec32b2de212c67c4a61987",
+    "docs/sensor-study-2026-10-23.tex": "f299043a98cfa9bc66ee8b68c0b9810d87cc6f5861f6e34e994ec2926c66f02d"
+  },
+  "source_sha256": {
+    "Code/diagnostics/lamp_diagnostic.adb": "397a513ca9d66bd92ab3ccecd47b383e268315e55fe3e66bb1beeea0341fc940",
+    "Code/diagnostics/lamp_diagnostic.gpr": "6fdda30ec5e20be5a38f301981bf99ab1eb044f6b17a63f94d92b21d6ee3ce26",
+    "Code/diagnostics/sensor_diagnostic.adb": "b82fede5a5a8fbfffdbd5e1e4e8bb9ac5b464acc581ddf915f70d8750bbaa2a7",
+    "Code/diagnostics/sensor_diagnostic.gpr": "e816215a5142ee55f9a5ba42923febbada998b7244f654ec42ad50e502a693ee",
+    "Code/diagnostics/sensor_gpio_diagnostic.adb": "f71f0aefcb02e11e72f3b8a2e97a1be60226ab27a37d7a66a727e16d17daf9a4",
+    "Code/diagnostics/sensor_gpio_diagnostic.gpr": "7a8bb0a64a19dd812b23480c046253d63d134e832fd410734f6346145c9659b3",
+    "Code/itrs.gpr": "2d85eafbd09993902b58553e8c8640c8d0e74bba097adabd919fb89c7a58bab7",
+    "Code/src/adaptive_controller.adb": "55cac4eac3898b80762b470d57535e93b2eca030d0360969faa127351583ce75",
+    "Code/src/adaptive_controller.ads": "b1aa52ba947a7b154a03a00c78a74cb47b9ef95aabea788eb676b56dd4568797",
+    "Code/src/adaptive_display.adb": "1ae8b97884412d5d05159c3487620eba0dcf8131943ddcb9ae517f295152fa3c",
+    "Code/src/adaptive_display.ads": "ed0d0ecec233f9b8bbec3167c636278a9046994dc12284e8cc4f2006f14167e7",
+    "Code/src/adaptive_echo.adb": "0113f6339f729ec9c2f0a3eeb711de1f6dca896ce5293cf1a12ca9260b0269d4",
+    "Code/src/adaptive_echo.ads": "f73be23ef02ed84e197ede5671e005ca57df91456c90187f789d44d62e31308f",
+    "Code/src/adaptive_errors.adb": "a9545f96eda2e19db21599a7c0b826ee14961c180c1c08fbc2bbc15011e49cb3",
+    "Code/src/adaptive_errors.ads": "925d43986cf855cc7af33c5e2fb2bebc5eff54e32197503eddd50187a278d6ce",
+    "Code/src/adaptive_fault_handler.adb": "0486ef452f4fc7c4d241272f4961520c76efd264d3a512609d2cc3650360ac6b",
+    "Code/src/adaptive_fault_handler.ads": "65410ae7f31619e0b578568c4524788dd6eddd72208dc2b6de0aa30c5be6b5f3",
+    "Code/src/adaptive_fsm.adb": "3173cecc7c058f0319c68c5f50456154c4a24219dc0def4e334b55e020c730db",
+    "Code/src/adaptive_fsm.ads": "8d37189f2d69ce7839776410f8a5d74e9bc99823c0619e7b160539f3481915f0",
+    "Code/src/adaptive_lamp_control.adb": "6905b497240d6b1686b367d0c1d9b83cf5372f5a0ae48d15ce652d74c6248c16",
+    "Code/src/adaptive_lamp_control.ads": "5ecf73913d8f0edda4fda5345ef4cd7acf4dbaa1ba6e9e7a7bcbfe4b0f8c9713",
+    "Code/src/adaptive_lamp_policy.adb": "675191eb31f44d1f5b63fe2fd4ee5afeb26a4b1bf619d9f2822419bc6a6d299f",
+    "Code/src/adaptive_lamp_policy.ads": "6f8bfff1b5ddfd48ce121b61985693414e44d5753e5ada93103d372fed31faa9",
+    "Code/src/adaptive_lights.adb": "a816349130b77491ddb5307c03d8f7d409b59786bdbe8372aed0aab1dfda7717",
+    "Code/src/adaptive_lights.ads": "36f0f1a25cdab5d4487c1b0c37aa926bb2bb24b41fa08c157c6fae0333da5dc2",
+    "Code/src/adaptive_motion.adb": "fc059a25f52e24d73b1a95183a24d8dc43a91c064602e2358ee1d6a09a22889c",
+    "Code/src/adaptive_motion.ads": "9e9f8d3b890465593e29b573cf1b7f5e611eb801162765b464faa86bb0821c39",
+    "Code/src/adaptive_navigation.adb": "190003c63676a4036db3d28b3c1c2fc6a60a7fb65ace94aa428ead9a321d6de4",
+    "Code/src/adaptive_navigation.ads": "c5d42208c529ab3fae39e4b727c0b9f0eb3e3baaa3c7fcd3e0ff6978d50b6f66",
+    "Code/src/adaptive_policy.adb": "826741045ffe4c8b0085a14b86843d24b7a19d0f2232c46fa29a9af09987375b",
+    "Code/src/adaptive_policy.ads": "82f90e6ae9748f8cda983b2907d494d44444ece7da179703a095549e757a0f27",
+    "Code/src/adaptive_quick_scan.adb": "1e1932c9b23cf399319a2048325f78d8acc66b907ffbc7b4a77aa69328b635bb",
+    "Code/src/adaptive_quick_scan.ads": "97911397674f131c40b7c880fd962a7747bda0cbe2e52dabea987528eff622b3",
+    "Code/src/adaptive_range_model.adb": "bb3172b35c4be742e8381ebea20ebea9927bac04be362b76e5fca7eb13165192",
+    "Code/src/adaptive_range_model.ads": "1ebde99bfd1fa85cacceea704196986589763b14fecff4f5ed0e5c5ec2f2ad56",
+    "Code/src/adaptive_safety.adb": "e7b044f989480f994110bca1b02831f3393b4a95d3281e74027fd8236a1eb825",
+    "Code/src/adaptive_safety.ads": "90cf1e6c26319a40a121ae3b60e16e99d67476b7c52feca00b9a2be293401a15",
+    "Code/src/adaptive_scan_policy.adb": "e8c37a9647133059ea5a8c40dc140f1dd5c6bf3676860a50cdf908d60c6d3ad3",
+    "Code/src/adaptive_scan_policy.ads": "43084bfce1b6f3d888223480ac5724cdda56eb678d5b0eb1c2c63b5fbf67313f",
+    "Code/src/adaptive_sensors.adb": "d718b3659a85d245b0935e5347c35544f0cc05ccbb5ddd01e62485751b1eb60e",
+    "Code/src/adaptive_sensors.ads": "8e402f933c2c04b57177a7b72c8dc48aae622ea4827019c2a1044a930bbf9b66",
+    "Code/src/main.adb": "aa720ebabb404bf8e0bafe9411e182a0b2e7e50f76b2da46a35ee5a9c3816f52",
+    "alire.toml": "ce3a9a354bd6d44429a24ae79d293c3a8bbec852ddfb923d8643a1bd51d1845f",
+    "patches/ada-drivers-2026-10-23.patch": "974d142755323a30af23f91df71b82bb6e526abd0bb622eeb6b0601914d6abb2",
+    "proof/lamps.gpr": "2568805d3e5578b7ff5ee3f14cca3aa3a6bfa14a4853b2da768b5c69cad2799b"
+  },
+  "passed": true
+}

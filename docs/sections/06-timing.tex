@@ -1,0 +1,71 @@
+\chapter{Sanntidsanalyse}
+\label{ch:timing}
+\section{Modellen må svare til programmet}
+Den aktive kjernen er sekvensiell og inneholder venting på tid og I/O.
+Én generell periodisk CPU-modell kan derfor ikke uten videre bevise
+reaksjonen. Den ønskede lysperioden er 50 ms med lav prioritet; den er et
+mykt mål og kan få jitter fra høyere prioriterte aktiviteter. Interne
+driveravbrudd, taktkilde, prioritet og blokkering må dokumenteres ved måling.
+
+For fastprioriterte periodiske/sporadiske oppgaver brukes ofte iterasjonen
+\begin{equation}\label{eq:rta}
+ R_i^{(k+1)}=C_i+B_i+
+ \sum_{j\in hp(i)}\left\lceil\frac{R_i^{(k)}+J_j}{T_j}\right\rceil C_j,
+\end{equation}
+med WCET $C$, blokkering $B$, periode/minste ankomstavstand $T$ og jitter
+$J$ \cite{josephpandya,rta}. Modellen krever begrunnede forutsetninger;
+selvsuspensjon og I/O-venting må behandles særskilt. Kriteriet er
+$R_i\le D_i$. Her foreligger verken dokumenterte $C_i$ eller et komplett
+tasksett som lar oss hevde at dette er oppfylt.
+
+\section{Konfigurerte tidsbidrag}
+\begin{tabularx}{\textwidth}{@{}P{42mm}P{29mm}Y@{}}\toprule
+Bidrag & Kodeparameter & Tolkning\\\midrule
+Akustisk triggeravstand & Minst 65 ms & Nominelt frontbesøk hver 130 ms, side hver 260 ms i Cruise. Forsinkelser kan øke intervallene.\\
+ECHO-frister, applikasjon & 3 + 23 ms & Grense for stigning og fall i aktiv driver; GPIO-diagnostikk bruker 10 + 23 ms.\\
+I2C-skriving & 20 ms per kall & Timeoutparameter, ikke alene bevist kjøretid.\\
+Fallback-stopp & Opptil 8 kall & 160 ms samlet konfigurasjonsbudsjett, pluss overhead og scheduling.\\
+Servo stabilisering & 500 ms & Stasjonær designventing, ikke målt maksimal servotid.\\
+Sideevidens & Høyst 2000 ms & Alder målt fra eldste stråle frem til svingkommando.\\
+Lys-task & 50 ms & Ønsket myk oppdatering, ingen målt jittergrense.\\\bottomrule
+\end{tabularx}
+
+Ved fremoverkjøring må en hindring først vente til neste relevante trigger.
+Deretter kommer sensorlesing, beslutning og stopptransaksjon:
+\begin{equation}
+ t_r=G_{\mathrm{relevant}}+L_{\mathrm{sensor}}+
+ C_{\mathrm{beslutning}}+L_{\mathrm{stopp}}+I,
+\end{equation}
+der $G$ er største målte/analytisk begrunnede triggergap og $I$ omfatter
+avbrudd, scheduling og andre forsinkelser. 130 ms er et nominelt
+frontintervall, ikke automatisk en øvre grense for $G$.
+
+\section{Stoppknapp og fysiske deadlines}
+Knapp B er en \emph{programvarebasert stoppforespørsel}. Avbruddet setter
+flagget raskt, men driverkall og en pågående venting kan forsinke
+foreground-kodens reaksjon. I Cruise sjekkes flagget før og etter
+sensorlesing samt i motorpakken før og etter sending. Under stasjonært
+servoarbeid kan programmet fortsatt være i en 500 ms venting.
+Knappen er derfor ikke dokumentert som en uavhengig hard nødstopp.
+Ved bortfall av I2C kan programmet ikke garantere å slå av motorene.
+
+En fysisk reaksjonsfrist må velges fra tilgjengelig klaring og
+ligning~\ref{eq:stop}, med en konservativt målt fart og retardasjon.
+\todo{Fyll inn $v_{\max}$, minste dokumenterte $a_b$, margin $m$, største
+reaksjonstid og valgt deadline med rådata.} En fast terskel på 45 cm kan
+ikke forsvares bare fordi den finnes i kildekoden. Svinggrensen 25 cm og
+sidegrensen 15 cm må tilsvarende vurderes mot chassis og måleusikkerhet.
+
+\section{Plan for tidsmåling og verifikasjon}
+Mål på micro:biten med tidsstempel eller logikkanalysator: hindrings-/
+stoppstimulus, relevant trigger, ferdig ECHO, stoppforespørsel,
+akseptert motorstopp og faktisk stillstand. Skill prosessortid fra
+veggklokketid og fysisk bremsing. Registrer også triggergap, lysjitter,
+skannealder ved kjøring og stakkmargin. Logging som endrer lasten må
+beskrives i forsøksoppsettet.
+
+Gjenta ved begge svingretninger, laveste forventede batterispenning og
+relevante reflektorer. Rapporter antall forsøk, maksimum, fordeling og
+usikkerhet. Det største observerte tallet er et måleresultat, ikke bevist
+WCET. Hvis fristen overskrides, må fart eller driftsområde reduseres,
+eller arkitekturen endres før kravet godkjennes.

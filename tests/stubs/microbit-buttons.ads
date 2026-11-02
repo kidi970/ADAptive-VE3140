@@ -4,4 +4,5 @@ package MicroBit.Buttons is
    type Callback is access procedure (Button : Button_Id; State : Button_State);
    Subscription_Accepted : Boolean := True;
    function Subscribe (Handler : Callback) return Boolean;
+   procedure Emit (Button : Button_Id; State : Button_State);
 end MicroBit.Buttons;

@@ -1,0 +1,82 @@
+\chapter{Teori og beregningsgrunnlag}
+\label{ch:theory}
+\section{Sanntid, tasking og exceptions i Ada}
+Et sanntidssystem vurderes både etter resultatet og tidspunktet resultatet
+foreligger. En deadline må begrunnes i prosessen som styres. For bilen
+avhenger en forsvarlig reaksjonsfrist av fart, avstand og bremseevne.
+En innstilt ventetid eller et vellykket bygg er ikke et deadlinebevis.
+
+Ada gir avgrensede typer, pakker, exceptions og eksplisitt samtidighet.
+Et protected object kan beskytte kortvarige operasjoner på delt tilstand;
+beskyttelsen erstatter ikke planlegging av lange eller ventende operasjoner.
+Tasking og synkronisering beskrives i språkets referansemanual
+\cite{adarm,adaprotected2026}. I løsningen publiserer motor-/kontrollkoden
+lystilstand, mens én task utfører GPIO-skriving. Ingen I2C, logging eller
+\kode{delay} skjer inne i protected object.
+
+En exception som ikke håndteres lokalt, forplanter seg til en omgivende handler
+innen samme task. En feil som avslutter en separat task, blir ikke en vanlig
+exception i hovedprogrammet \cite{adaexceptions2026}. Lys-tasken har derfor
+sin egen feilgrense og publiserer feil før den parkeres. Hovedprogrammet
+oppdager statusen og stopper gjennom sin egen feilgrense. Kjøretidsstøtten
+avhenger av valgt runtime \cite{adart2026}; prosjektet bruker full
+embedded-runtime og aktiverer assertions og overflow-sjekker i egen kode.
+
+\section{Ultralydmåling og usikkerhet}
+HC-SR04 bruker en triggerpuls og returnerer en ECHO-puls som representerer
+tur-retur-tiden til en reflektor. Avstanden modelleres som
+\begin{equation}d=\frac{c\,\Delta t}{2},\end{equation}
+der $c$ er lydhastigheten. Ved antatt $c=343$ m/s blir én centimeter omtrent
+58,3 mikrosekunder ECHO-tid. Temperatur, reflektorvinkel, overflate,
+minsteavstand og elektrisk oppsett påvirker resultatet. Databladet anbefaler
+mer enn 60 ms målesyklus \cite{hcsr04}; prosjektet bruker global 65 ms
+triggeravstand for de tre sensorene og forhindrer samtidig utsending.
+
+Ingen ECHO, fast høy inngang eller tidsoverskridelse betyr ukjent avstand.
+Verdien 0 får aldri representere fri bane. Prosjektet godtar bare 2--200 cm
+i beslutninger. Ved stasjonær filtrering må alle tre prøver være gyldige,
+minst ett par være innen 15 cm, og den minste av de tre beholdes.
+Et kort ekko kastes dermed ikke fordi to andre ser lenger. Dette er et
+konservativt konsistensfilter, ikke en median og ikke en sannhetsgaranti.
+
+\section{Mecanum og motorkommandoer}
+Skrå ruller gir Mecanum-hjul både langsgående og sideveis kraftbidrag.
+Et korrekt montert firehjulsoppsett kan kombinere translasjon og rotasjon
+\cite{mecanum}. Den aktive løsningen bruker rett frem og rotasjon til
+venstre/høyre. Sidelengs kjøring og ryggemanøvrer inngår ikke i demonstrert
+autonomi. Hjulplassering, rulleretning og motorfortegn må kontrolleres
+fysisk; en ideell kinematisk matrise alene dokumenterer ikke dette.
+
+DFR0548 mottar PWM-registerverdier via I2C \cite{dfr0548}. PWM 800 er en
+åpen kommando, ikke en måling av fart. Batterispenning, last, underlag og
+friksjon endrer bevegelsen ved samme kommando. Derfor kan verken
+kjørelengde eller svingvinkel beregnes sikkert fra tidsvarighet alene.
+
+\section{Korridor, søkekostnad og stopplengde}
+To stråler med vinkelavstand $\Delta\theta$ og minste målt avstand $d$
+brukes i en enkel korridormodell:
+\begin{equation}
+ w=2d\sin(\Delta\theta/2),\qquad
+ w_{\mathrm{krav}}=16+2\cdot5=26\text{ cm}.
+\end{equation}
+Ved $\Delta\theta=12^\circ$ kreves $d\ge124{,}4$ cm. Beregningen gir en
+konkret avvisningsregel. Den forutsetter en tilstrekkelig sammenhengende
+åpning og beskriver ikke hele området mellom sparsomme ultralydstråler
+eller hele bilens sveipareal. Sentrerte målinger og sideklaring kreves i
+tillegg. Smale eller absorberende hindringer kan fortsatt overses.
+
+For to uavhengige søkekandidater med kostnad $c_i$ og sannsynlighet $p_i$
+for aksept er forventet kostnad ved rekkefølgen $1,2$ lik
+$c_1+(1-p_1)c_2$. Sammenligning med motsatt rekkefølge gir størst
+$p_i/c_i$ først. Prosjektet har ingen målte $p_i$; størst sideklaring først
+er en begrunnet heuristikk, ikke dokumentert global optimalitet.
+
+En bremsemodell med konstant retardasjon $a_b>0$ gir
+\begin{equation}\label{eq:stop}
+ d_{\mathrm{stopp}}=v\,t_r+\frac{v^2}{2a_b}+m.
+\end{equation}
+For tilgjengelig avstand $d>m$ følger
+$v_{\max}=\sqrt{(a_b t_r)^2+2a_b(d-m)}-a_b t_r$.
+Dette er analysegrunnlag; modellen er ikke en implementert fartsregulator.
+Fart, konservativ retardasjon, reaksjonstid og margin må måles før
+den kan begrunne bilens driftsområde.

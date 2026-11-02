@@ -2,6 +2,7 @@ with Ada.Real_Time; use Ada.Real_Time;
 with MicroBit; use MicroBit;
 with MicroBit.Ultrasonic;
 with MicroBit.Console; use MicroBit.Console;
+with Adaptive_Safety;
 package body Adaptive_Sensors is
    package Front_Sensor is new MicroBit.Ultrasonic (MB_P13, MB_P1);
    package Left_Sensor is new MicroBit.Ultrasonic (MB_P14, MB_P2);
@@ -11,7 +12,9 @@ package body Adaptive_Sensors is
       D : Distance;
    begin
       -- One acoustic transmitter at a time; at least 65 ms between triggers.
+      if Adaptive_Safety.Stop_Requested then return 0; end if;
       delay until Next_Trigger;
+      if Adaptive_Safety.Stop_Requested then return 0; end if;
       Next_Trigger := Clock + Milliseconds (65);
       case Which is
          when Front => D := Distance (Front_Sensor.Read);

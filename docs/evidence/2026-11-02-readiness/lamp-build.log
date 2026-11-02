@@ -1,0 +1,2 @@
+gprbuild: "lamp_diagnostic" up to date
+mb: alr exec -- gprbuild -p -P Code/diagnostics/lamp_diagnostic.gpr --root-dir=. --relocate-build-tree=build/lamp-diagnostic

@@ -18,8 +18,13 @@ package body MicroBit.I2C is
       Status : out I2C_Status; Timeout : Natural := 1000) is
       pragma Unreferenced (This);
    begin
-      pragma Assert (Addr = 16#80#);
+      pragma Assert (Addr in 16#80# | 16#78#);
       Calls := Calls + 1;
+      if Addr = 16#80# and Data (Data'First) = 16#3E# then
+         Last_Servo_Aim := Ada.Real_Time.Clock;
+      end if;
+      Last_Data := (others => 0);
+      for I in Data'Range loop Last_Data (I - Data'First) := Data (I); end loop;
       Trace (Calls) := (Data (Data'First), Data (Data'First + 1),
                         Data'Length, Timeout);
       if Stop_During_Write then

@@ -1,0 +1,4 @@
+project Lamp_Diagnostic extends "sensor_gpio_diagnostic.gpr" is
+   for Object_Dir use "obj-lamps";
+   for Main use ("lamp_diagnostic.adb");
+end Lamp_Diagnostic;

@@ -1,0 +1,10 @@
+project Lamps_Proof is
+   for Source_Dirs use ("../Code/src");
+   for Source_Files use ("adaptive_lamp_policy.ads", "adaptive_lamp_policy.adb");
+   for Object_Dir use "../build/proof/lamps";
+   for Target use "arm-eabi";
+   for Runtime ("Ada") use "embedded-nrf52833";
+   package Compiler is
+      for Switches ("Ada") use ("-gnat2022", "-gnata", "-gnato");
+   end Compiler;
+end Lamps_Proof;

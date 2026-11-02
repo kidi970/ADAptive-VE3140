@@ -37,7 +37,14 @@ package body Adaptive_Motion is
       -- If auto-increment is unknown, address each motor PWM channel's
       -- FULL_OFF bit independently. Recovery must never wake the oscillator.
       if Burst_Enabled then
-         Write ((0 => 16#06#, 1 .. 32 => 0));
+         declare
+            Buffer : I2C_Data (0 .. 32) := (0 => 16#06#, others => 0);
+         begin
+            for Channel in 0 .. 7 loop
+               Buffer (4 + 4 * Channel) := 16#10#; -- explicit FULL_OFF
+            end loop;
+            Write (Buffer);
+         end;
       else
          for Channel in 0 .. 7 loop
             Write ((UInt8 (16#09# + 4 * Channel), 16#10#));
@@ -76,6 +83,8 @@ package body Adaptive_Motion is
          raise Adaptive_Errors.Stop_Latched_Error with "Drive inhibited";
       elsif not Ready then
          raise Adaptive_Errors.Motor_Not_Ready with "Motor setup incomplete";
+      elsif not Adaptive_Safety.Start_Requested then
+         raise Adaptive_Errors.Motor_Not_Ready with "Press button A to arm";
       end if;
       case Direction is
          when Straight =>

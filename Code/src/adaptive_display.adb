@@ -4,6 +4,9 @@ with MicroBit.I2C;
 with HAL; use HAL;
 with HAL.I2C; use HAL.I2C;
 package body Adaptive_Display is
+   type Panel_State is (Dormant, Starting, Ready, Disabled);
+   Panel : Panel_State := Dormant;
+   function Available return Boolean is (Panel = Ready);
    Status : I2C_Status;
    Port : constant Any_I2C_Port := MicroBit.I2C.ControllerExt;
    procedure Show_Direction (Direction : Character) is
@@ -54,11 +57,13 @@ package body Adaptive_Display is
 
    procedure Send (Name : String; Data : I2C_Data) is
    begin
+      if Panel not in Starting | Ready then return; end if;
       Port.Master_Transmit
         (Addr => 16#78#, Data => Data, Status => Status, Timeout => 20);
 
       if Status /= Ok then
-         Put_Line (Name & ": " & I2C_Status'Image (Status));
+         Panel := Disabled;
+         Put_Line ("OLED DISABLED " & Name & ": " & I2C_Status'Image (Status));
       end if;
    end Send;
 
@@ -170,6 +175,7 @@ package body Adaptive_Display is
 
    procedure Show_Front (Message : String) is
    begin
+      if not Available then return; end if;
       -- Select page 1
       Send ("PAGE", (16#00#, 16#B1#));
 
@@ -195,6 +201,7 @@ package body Adaptive_Display is
 
    procedure Show_Status (Message : String) is
    begin
+      if not Available then return; end if;
       -- Select page 6
       Send ("STATUS PAGE", (16#00#, 16#B6#));
 
@@ -288,6 +295,8 @@ package body Adaptive_Display is
 
    procedure Initialize is
    begin
+   if Panel /= Dormant then return; end if;
+   Panel := Starting;
    -- Motor and OLED share one bus; retain its existing configuration.
    if not MicroBit.I2C.InitializedExt then
       MicroBit.I2C.InitializeExt (MicroBit.I2C.S100kbps);
@@ -297,6 +306,7 @@ package body Adaptive_Display is
 
    -- Initialize OLED
    Send ("OFF", (16#00#, 16#AE#));
+   if Panel = Disabled then return; end if;
    Send ("CHARGE", (16#00#, 16#8D#, 16#14#));
    Send ("ADDRESS", (16#00#, 16#20#, 16#02#));
    Send ("NORMAL", (16#00#, 16#A4#));
@@ -304,6 +314,7 @@ package body Adaptive_Display is
 
    -- Clear all 8 pages of display memory
    for Page in 0 .. 7 loop
+      exit when Panel = Disabled;
       Send ("PAGE", (16#00#, UInt8 (16#B0# + Page)));
 
       -- Start at column 0
@@ -311,11 +322,12 @@ package body Adaptive_Display is
 
       -- 8 blocks * 16 bytes = 128 columns
       for Block in 1 .. 8 loop
+         exit when Panel = Disabled;
          Send ("CLEAR", Zero_Block);
       end loop;
    end loop;
 
-   Put_Line ("OLED memory cleared");
+   if Panel = Disabled then return; end if;
 
    -- Select page 3
    Send ("TEXT PAGE", (16#00#, 16#B3#));
@@ -329,7 +341,10 @@ package body Adaptive_Display is
    -- Display on
    Send ("ON", (16#00#, 16#AF#));
 
-   Put_Line ("ADAptive displayed");
+   if Panel /= Disabled then
+      Panel := Ready;
+      Put_Line ("ADAptive displayed");
+   end if;
 
    end Initialize;
 end Adaptive_Display;

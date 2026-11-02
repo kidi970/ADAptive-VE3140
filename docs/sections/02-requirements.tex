@@ -1,0 +1,54 @@
+\chapter{Krav og akseptanse}
+\label{ch:requirements}
+\section{Funksjonelle krav}
+De opprinnelige krav-ID-ene beholdes. Formuleringene nedenfor presiserer
+hvordan kravene kan testes, uten å sette likhetstegn mellom kode og fysisk
+oppnådd funksjon. \emph{Implementert} betyr at funksjonen finnes i den
+aktive koden; \emph{godkjent} krever også dokumenterte fysiske resultater.
+
+\begin{tabularx}{\textwidth}{@{}P{12mm}Y Y@{}}
+\toprule ID & Etterprøvbart krav & Status og akseptanse\\\midrule
+FR1 & Kjøre autonomt etter bevisst start. & A-gate og løpende styring testet på vert. Autonom løype gjenstår.\\
+FR2 & Oppdage hindring og ukjent sensormåling. & Avstandsgrenser og ugyldige data testet. Tre fysiske kanaler må kalibreres.\\
+FR3 & Velge retning fra sensordata. & Første gjennomførbare skannekandidat testet; fysiske skannevinkler gjenstår.\\
+FR4 & Utføre unnamanøver ved hindring. & Begge svinggrener og avbrudd testet mot fakes. Chassisklaring må måles.\\
+FR5 & Styre fire Mecanum-motorer korrekt. & Motorkommandoer bygger. Alle hjulfortegn og begge svingretninger må bekreftes løftet.\\
+FR6 & Fortsette etter unnamanøver. & Sving går via ny verifikasjon. Sammenhengende fysisk sekvens gjenstår.\\\bottomrule
+\end{tabularx}
+
+\section{Sanntids- og systemkrav}
+RT1 krever regelmessig sensorovervåking, RT2 reaksjon innen en begrunnet
+frist og RT3 at kritiske aktiviteter møter sine deadlines. Disse kravene
+er ennå ikke godkjent. Koden konfigurerer minst 65 ms mellom akustiske
+triggere, men en periodeparameter er ikke en målt maksimal reaksjonstid.
+Kapittel~\ref{ch:timing} beskriver analyse og manglende måleverdier.
+
+SR1--SR4 gjelder micro:bit V2, Ada, Mecanum-bil med fire motorer og
+tilkoblede sensorer. Brukeren har bekreftet oppsettet; byggene retter seg
+mot \kode{embedded-nrf52833}. Motor- og sensorforsyning er frakoblet i
+siste dokumenterte fysiske oppsett. Forsyning, ECHO-nivåer og faktisk
+motorrespons må verifiseres før integrasjonstesten kan godkjennes.
+
+\section{Utledede feil- og brukerkrav}
+\begin{tabularx}{\textwidth}{@{}P{13mm}Y Y@{}}\toprule
+ID & Krav & Kontrollerbar egenskap\\\midrule
+S1 & Ingen automatisk kjøring ved oppstart. & A må forespørre start; initialisering alene gir ingen kjørekommando.\\
+S2 & B har forrang over A. & Stopp er latchet; frigivelse av B eller et nytt A-trykk opphever ikke stoppen.\\
+S3 & Feil må ikke føre til automatisk omstart. & Første feil lagres; én stoppoperasjon; deretter parkert feiltilstand.\\
+S4 & Ikke hevde fysisk stopp fra busskvittering. & Programmet skiller sendt stopp fra ubekreftet stopp.\\
+S5 & Gamle skannedata skal ikke tillate sving. & Eldste stråles alder kontrolleres også etter siste sensorkontroll før kjøring.\\
+S6 & Lys må ikke konkurrere om motorbussen. & Én GPIO-eier; protected object deler kun status.\\\bottomrule
+\end{tabularx}
+
+\section{Faglig sporbarhet}
+Sterk typing og pakker knyttes til \kode{Adaptive_Policy}; exceptions og
+propagation til \kode{Adaptive_Errors} og \kode{Adaptive_Fault_Handler};
+tasking, delte ressurser og prioritet til \kode{Adaptive_Lights} og
+\kode{Adaptive_Lamp_Control}. Responstid og blokkering behandles mot
+den faktiske sekvensielle styringen. Kontrakter og formell analyse knyttes
+til den reelle lyspolicyen, og testbarhet til den generiske kontrolleren.
+
+Akseptansetesten skal registrere firmwarehash, oppsett, rådata, kriterium,
+utfall og alle mislykkede forsøk. Et krav lukkes først når kriteriet er
+bestått med den samme konfigurasjonen som demonstreres. Kravene om
+fysisk funksjon og tid kan derfor ikke lukkes av vertsbaserte tester.

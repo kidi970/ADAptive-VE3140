@@ -1,0 +1,10 @@
+PASS 1729 checks
+PASS range model: 24 checks
+PASS 38 fault checks
+PASS 94 lamp checks
+PASS 49 adaptive scan checks
+PASS 521 integrated controller checks
+PASS 76 motion checks (mock I2C)
+PASS 32 display checks (mock I2C)
+PASS 6 safety button checks
+PASS 30 navigation checks (mock sensors/I2C)

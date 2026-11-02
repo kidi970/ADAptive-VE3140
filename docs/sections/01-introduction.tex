@@ -1,0 +1,45 @@
+\chapter{Innledning}
+\label{ch:intro}
+\section{Problem og mål}
+Oppgaven i VE3140 ber om en fungerende sanntidsprototype i Ada på micro:bit V2
+og Mecanum-bil, en LaTeX-rapport med teori og deadlineanalyse, vesentlig
+Ada-kode som vedlegg og en vurdering av prosjektgjennomføringen. Den bevarte
+oppgaveteksten i \kode{grunnlag/oppgavetekst.png} anbefaler 15--20 sider
+rapporttekst og oppgir at kodevedlegg kommer i tillegg. Rapporten følger
+den opprinnelige strukturen med innledning, metode, resultater og diskusjon.
+
+Problemstillingen er: \emph{Hvordan kan micro:bit V2 kombinere avstandsmåling,
+kjørebeslutninger og motorstyring slik at bilen beveger seg autonomt og
+reagerer forutsigbart på hindringer og feil?} En tilfredsstillende løsning
+må både virke fysisk og gjøre reaksjonstiden etterprøvbar. Kompilering og
+et høyt antall tester alene besvarer ikke dette.
+
+Målet for demonstrasjonen er fremoverkjøring, stopp ved hindring,
+stasjonær retningsskanning, klarert sving og ny fremoverkjøring. Det skal
+være mulig å forklare hvilken tilstand bilen befinner seg i, hvorfor en
+måling godtas eller avvises, og hva som skjer når en komponent svikter.
+Bremselys og blinklys skal formidle styringens intensjon.
+
+\section{Avgrensning og dokumentgrunnlag}
+Arbeidet gjelder en liten undervisningsrobot i et kontrollert område.
+Raspberry Pi er utviklingsvert; autonomien avhenger ikke av en kontinuerlig
+USB-forbindelse. Koden bruker faste PWM-kommandoer, uten målt hjulhastighet
+eller lukket regulering. Kartbygging, dynamiske hindringer, PID og
+servoskanning mens bilen kjører er utenfor den validerte løsningen.
+
+Gjeldende kode, rålogger, den bevarte oppgaven og produsentdokumentasjon er
+kontrollgrunnlaget. Forelesningsfilen \kode{ISforelesninger.pdf} og en
+gjeldende sensurveiledning var ikke tilgjengelige ved denne gjennomgangen.
+Tidligere oppgitte forelesningssider brukes derfor ikke som ny kontrollert
+evidens. Faglig sporbarhet presenteres i kravtabellene; full pensumdekning
+må avstemmes når disse kildene er tilgjengelige.
+
+\section{KI-bruk og forfatteransvar}
+I denne oppfølgingen er Codex brukt til kodegjennomgang, kodeendringer,
+testutforming, bevisoppsett og redigering av LaTeX og presentasjon.
+Programtester og bygg er kjørt på Pi-en. Fysisk oppsett og observasjoner
+kommer fra brukerens opplysninger og daterte logger.
+\todo{Gruppen må beskrive øvrig KI-bruk, kontrollere denne deklarasjonen
+mot emnets regler og selv kunne forklare og forsvare koden.}
+Navn og studentnumre er videreført fra originalrapporten; arbeidsfordeling
+og ikke-dokumenterte gruppemøter er ikke konstruert.

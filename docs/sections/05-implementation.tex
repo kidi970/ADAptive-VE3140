@@ -1,0 +1,90 @@
+\chapter{Implementasjon og feilrespons}
+\label{ch:implementation}
+\section{Motoroppstart og begrenset gjenoppretting}
+Et fortsatt spenningssatt PWM-kort kan beholde eldre registerverdier når
+micro:biten starter på nytt. Motorpakken setter derfor alle åtte
+motorkanalenes FULL\_OFF-bit før oscillatorens oppvåkning. Når
+auto-increment er ukjent, adresseres kanalene hver for seg. Etter kjent
+oppsett kan en samlet 33-byte-transaksjon slå av alle åtte. Begge varianter
+bruker eksplisitt FULL\_OFF etter registerkartet \cite{pca9685_2026}.
+Stopp påvirker ikke servoens kanal 14.
+
+I2C-skriving har timeoutparameter 20 ms og rapporterer adresse, register
+og bussstatus ved feil. En feil opphever intern motorberedskap og låser
+stopp. Initialiseringen kan ikke fullføres delvis og likevel tillate kjøring.
+Ingen automatisk busstilbakestilling eller omstart skjer fra feilhandleren.
+Hvis bussen er ødelagt, kan heller ikke stopp garanteres via den samme bussen.
+
+\section{Exceptions med tydelig betydning}
+\begin{tabularx}{\textwidth}{@{}P{54mm}Y@{}}\toprule
+Exception & Betydning\\\midrule
+\kode{Motor_Bus_Error} & Motortransaksjonen feilet.\\
+\kode{Motor_Not_Ready} & Motor er ikke initialisert eller A har ikke armert.\\
+\kode{Servo_Limit_Error} & Vinkelen overskrider tillatt område.\\
+\kode{Safety_Setup_Error} & Stoppknappen kunne ikke registreres.\\
+\kode{Stop_Latched_Error} & En latchet stopp hindrer videre arbeid.\\
+\kode{Lights_Task_Error} & Separat lys-task har publisert feil.\\\bottomrule
+\end{tabularx}
+
+Vanlige hindringer og
+ugyldige avstandsmålinger er normal kontrollflyt som gir stopp, ikke en
+exception for hver måling.
+
+\kode{Adaptive_Fault_Handler} lagrer første feil, setter stoppintensjon og
+forsøker én begrenset stoppoperasjon. En sekundær stoppfeil lagres separat,
+slik at den ikke skjuler den opprinnelige årsaken. Logging skjer etter
+stoppforsøket; en loggerfeil blir registrert og kan ikke starte bilen.
+Hovedprogrammet blir deretter i feiltilstanden. Meldingen om akseptert
+stopp betyr busskvittering, ikke observert stillstand på hjulene.
+
+Kontrolleren setter sin egen tilstand til Fault før den propagaterer en
+exception til denne grensen. Senere kall kan ikke gjenoppta kjøring eller
+utløse en storm av nye stoppforsøk. Initialisering er tilsvarende ett forsøk.
+Motorfeil, taskfeil og B-stopp krever kontroll av årsaken og en bevisst omstart.
+
+\section{Skjerm og lys uten unødvendig blokkering}
+OLED er et tillegg til lokal retningsvisning. Ved første mislykkede
+OLED-transaksjon åpner koden en programvarebasert sperre: skjermen
+deaktiveres resten av kjøringen, og senere tekster gir ingen busstrafikk.
+Dette reduserer både gjentatte ventetider og belastning på den delte bussen.
+micro:bitens 5$\times$5-matrise fungerer fortsatt. Uventede Ada-exceptions
+skjules ikke av denne degraderingen.
+
+Lys-tasken bruker \kode{delay until} med 50 ms ønsket periode og hopper
+over tapte utgivelser. Blinkperioden er ett sekund med 50 prosent påtid.
+Et modusskifte starter blinkfasen på, slik at også en kort sving kan vises.
+Parkert/brems gir røde lys, kjøring rett frem slukker lysene, sving blinker
+på den valgte siden og Fault gir rødt med begge blinklys. Status viser
+kommando/intensjon, ikke målt nedbremsing. Ved intern taskfeil publiseres
+sticky feil og stoppflagg før tasken parkeres.
+
+\section{Skanning og kontinuerlig fremoverkjøring}
+I bevegelse brukes enkeltavlesninger i rekkefølgen front, venstre, front,
+høyre. Ved avvisning forsøkes stopp før logging, OLED eller en ny måling.
+Et B-trykk under en avlesning kontrolleres før neste handling. Når målingene
+er gode, sendes ingen ny start-/stoppkommando for hver runde.
+
+Skanning foregår etter stopp. Frontservoen sentreres, og alle tre sensorer
+kontrolleres. Fri front gir null sidepunkter. Ukjent eller utilstrekkelig
+svingklarering avslutter søket. Ellers prøves siden med størst sideklaring
+først, med forrige svingretning som regel ved likhet. Høyre bruker 72/60 grader,
+venstre 96/108 grader. Hvert sidepunkt stabiliserer servoen i 500 ms og
+filtrerer tre råprøver. En avvist stråle forkaster kandidatparet straks.
+
+Et bredt nok par krever ny sentrert sensorkontroll. Fersk fri front kan
+igjen velge rett frem. Høyst fire sideposisjoner prøves, men sentrerte
+kontroller og tre råprøver per punkt kommer i tillegg. Søkets resultat
+bevarer tidspunktet til den eldste strålen. Maksimal tillatt alder er
+2000 ms, også etter siste live-kontroll rett før svingkommandoen.
+
+Ved sentrering måles de faste sidesensorene mens frontservoen stabiliseres.
+Alle tre prøver per sensor beholdes, global triggeravstand gjelder fortsatt,
+og frontmålingen venter til minst 500 ms etter sentreringskommandoen.
+Det overlapper nyttig arbeid med nødvendig venting uten å innføre flere
+sensor-eiere eller korte ned servoventingen.
+
+Den tidligere ekstra servo-/filterrunden i Turn er fjernet: skanningen
+returnerer allerede sentrert med en ny kontroll. Turn kontrollerer alle
+live-sensorene og tidsgrensen før kjøring, og stopper etter den overvåkede
+svingsekvensen. En utløpt kandidat gir stopp. Alderbudsjettet er et
+designvalg; tidsbruk og faktisk gjennomførbarhet må testes på målmaskinen.

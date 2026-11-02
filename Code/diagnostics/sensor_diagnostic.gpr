@@ -6,7 +6,7 @@ project Sensor_Diagnostic is
    for Target use "arm-eabi";
    for Runtime ("Ada") use "embedded-nrf52833";
    package Compiler is
-      for Switches ("Ada") use ("-gnat2022", "-gnateDPROFILING=false", "-g", "-fstack-usage");
+      for Switches ("Ada") use ("-gnat2022", "-gnata", "-gnato", "-gnateDPROFILING=false", "-g", "-fstack-usage");
    end Compiler;
    package Linker is
       for Switches ("Ada") use ("-g", "-Wl,--print-memory-usage", "-Wl,--defsym=__stack_size=16384");

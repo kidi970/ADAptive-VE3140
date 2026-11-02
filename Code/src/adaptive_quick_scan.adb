@@ -43,6 +43,7 @@ package body Adaptive_Quick_Scan is
                   R.Expired_Pairs := R.Expired_Pairs + 1;
                elsif Acceptable (Pair, S, Current - Oldest) then
                   R.Direction := Candidate;
+                  R.Oldest_Pair_Ms := Oldest;
                   return R;
                end if;
             end if;

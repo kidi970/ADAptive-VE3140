@@ -1,0 +1,36 @@
+\chapter{Diskusjon}
+Løsningen har fått tydeligere grenser mellom normal kontroll, valgfri
+statusvisning og feil som skal låse kjøring. A-gaten reduserer risikoen for
+utilsiktet start. Motorens egen startkontroll gir et ekstra kontrollpunkt.
+Den begrensede feilhandleren bevarer årsak og stopper nye forsøk, mens
+OLED-feilsperren lar et valgfritt grensesnitt falle bort uten gjentatt
+bussarbeid. Disse egenskapene er testet i faktisk applikasjonskode.
+
+Jevnere fremoverkjøring kommer fra at gode enkeltmålinger ikke gir stopp
+eller en ny startkommando for hver runde. Skanningens tidlige retur og
+fjerningen av en duplisert kontrollrunde før sving reduserer unødvendig
+stasjonært arbeid. Sidemåling under servosentrering beholder filtreringen
+og utnytter ventetiden bedre. Likevel kan konservativ filtrering, brede korridorkrav
+og en utløpt 2000 ms-kandidat føre til hyppige stopp. Dette må observeres
+på bilen før parametre endres. Mindre venting er ikke automatisk bedre
+dersom servoen eller sensoren ikke har stabilisert seg.
+
+Viktigste begrensning er manglende fysisk integrasjon av dagens versjon.
+Native fakes kan injisere tidspunkter og feil presist, men representerer
+ikke akustisk krysstale, spenningsfall, støy eller motorens treghet.
+SPARK-beviset styrker lyspolicyens logiske egenskaper; det sier ingenting
+om en løs ledning eller om motorene faktisk stopper. De eldre sensor-
+og GPIO-prøvene må heller ikke brukes som validering av et nytt bilde.
+
+Det finnes heller ikke grunnlag for å kalle dette en ferdig verifisert
+sanntidsløsning. B-stopp er programvareavhengig, sensorstråler er sparsomme,
+fart er ikke målt og systemets WCET er ikke dokumentert. Uavhengig fysisk
+motorfrakobling må være mulig i forsøksoppsettet. Fart, akseptabel bane og
+reaksjonsfrist må fastsettes ut fra målingene før autonom demonstrasjon.
+
+For videre utvikling gir tidsstemplede sensordata, én tydelig motor-eier
+og karakterisert sensor-/busstid et bedre grunnlag enn å dele alt i flere
+tasks uten en konkret gevinst. Lukket hastighetsregulering eller scanning
+i bevegelse kan vurderes når det finnes fartstilbakemelding, målt
+servotid og en konservativ stoppmodell. En faglig god vurdering forutsetter
+at gruppen forklarer både det som virker og det resultatene ennå ikke støtter.

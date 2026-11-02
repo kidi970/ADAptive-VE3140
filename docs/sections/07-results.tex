@@ -1,0 +1,110 @@
+\chapter{Tester og resultater}
+\label{ch:results}
+\section{Metode og evidensnivå}
+Tester kjøres uten USB-/GPIO-tilgang og uten å programmere kortet i denne
+gjennomgangen. Den faktiske Ada-koden kompileres nativt med assertions og
+overflow-sjekker. Generiske grensesnitt og eksplisitte fakes erstatter bare
+maskinvare og tid der dette er nødvendig. ARM-bygget kontrollerer at den
+konkrete bindingen i \kode{Main} også kompilerer med riktige drivere.
+Dette er komplementære kontroller; de må ikke telles som fysiske forsøk.
+
+\begin{tabularx}{\textwidth}{@{}P{41mm}P{18mm}Y@{}}\toprule
+Kontroll & Resultat & Omfang\\\midrule
+Ada policy og grenser & 1729 & Eksisterende beslutninger, ugyldige data, overganger og grenseverdier.\\
+Range-modell & 24 & Pulsmodell og gyldighetsgrenser.\\
+Feilgrense & 38 & Primær feil, sekundær stoppfeil og loggerfeil.\\
+Lyspolicy/status & 94 & Mønstre, sticky feil og beskyttet deling.\\
+Adaptivt søk & 49 & Tidlig retur, geometri, alder og bevart stråletid.\\
+Integrert kontroller & 521 & 22 scenarier med reell styringsflyt og injiserte callbacks.\\
+Motor, simulert I2C & 76 & Alle 12 oppstartspunkter, arming og FULL\_OFF.\\
+OLED, simulert I2C & 32 & Sunn oppstart, timeout og ingen nye forsøk etter feil.\\
+Knapper & 6 & A/B, frigivelse og stoppforrang.\\
+Navigasjon & 30 & Reelle sensor-/motorpakker mot fakes; stopp i avlesning og full tidsstyrt skanning.\\\midrule
+Sum Ada & 2599 & Bestått; kontrollpunkter, ikke uavhengige kjøreforsøk.\\
+Python & 40 & Analyse, protokoll- og loggverktøy.\\\bottomrule
+\end{tabularx}
+
+\section{Samspill og feilinjeksjon}
+Kontrollertestene dekker venting uten A, stopp før arming, feil i
+initialisering, gjentatt initialisering, fri Cruise uten stopp/start,
+hindring, begge svingretninger, fri front etter skanning, blokkert område,
+endret klarering, avvist kjørepermit og utløpt evidens før/under siste
+kontroll. Videre testes B-stopp under sensorarbeid, taskfeil, motorfeil
+og samtidig sekundær stoppfeil. Assertions krever at servo, tekst-I/O og
+filtrert stasjonær kontroll ikke utføres mens testbilen er i bevegelse.
+
+At en test passer er ikke nok til å vise at den oppdager feil. Fire
+midlertidige kildekopier endres derfor bevisst: arming fjernes,
+ferskhetskontroll fjernes, OLED-feilsperren fjernes og motorens FULL\_OFF
+fjernes. Hver kopi må fortsatt kompilere og deretter bli avvist av riktig
+testassertion. En femte mutasjon fjerner frontservoens ventefrist og
+avvises av den reelle navigasjonstesten. Originalkoden endres ikke av
+disse mutasjonene.
+
+En full native skannerunde bruker reell 65 ms pacing og 500 ms servoventing
+med en kontrollert sensorsekvens. Testen kontrollerer 24 råprøver,
+sideavlesning under sentrering, ingen tidlig fronttrigger og at påfølgende
+live-kontroll kan fullføres innen evidensvinduet på verten. Ubrukt tillatelse
+utløper også. Vertstid er ikke målmaskinens WCET eller fysisk servotid.
+
+\section{Avgrenset formell verifikasjon}
+\kode{Adaptive_Lamp_Policy} har \kode{SPARK_Mode} i både spesifikasjon og
+body. Funksjonen \kode{Outputs} har \kode{Global => null} og en
+postcondition som blant annet krever rødt ved parkert/brems/feil,
+sideblink bare i riktig modus og begge blinklys samtidig bare i Fault.
+Det isolerte prosjektet analyserer akkurat denne produksjonsenheten
+\cite{sparktutorial2026}.
+
+GNATprove rapporterer fire samlede analysekontroller: dataavhengighet,
+terminering, en kjøretidssjekk og en funksjonskontrakt, uten ubeviste
+kontroller. En ekstra mutasjon som slår på bremselys i Moving må gi
+avvist postcondition og ikke-null returkode. Beviskjøringen bruker
+\kode{--checks-as-errors=on}. Beviset dekker ikke GPIO, taskplanlegging,
+elektrisk strøm, motorstopp eller resten av navigasjonen.
+
+\section{Bygg og reproduksjon}
+Hovedprogram, sensor V2, GPIO V3 og lysdiagnostikk bygges separat med
+GNAT ARM 15.1.2 og GPRbuild 25.0.1. Assertions og overflow-sjekker er
+aktivert i egne firmwareprosjekter. GNATprove er låst til 15.1.0.
+Bygg og tester gjentas med:
+\begin{lstlisting}[language={}]
+python3 tools/sync_report_sources.py --check
+python3 tools/check_project.py --full
+\end{lstlisting}
+Kommandoen åpner ikke kortet. Loggene og et maskinlesbart manifest med
+returkoder og kildehash lagres i \kode{build/readiness-review/}.
+Vesentlige resultater kopieres til datert evidens i Git; genererte
+firmwarefiler og PDF-er holdes utenfor versjonskontrollen.
+
+\section{Tidligere fysiske observasjoner}
+23. oktober ga tre stasjonære serier ved brukeroppgitt 60 cm totalt
+480/480 gyldige venstremålinger. Middelverdien var 57,108 cm,
+standardavvik omtrent 0,465 cm og avviket fra referansen $-2,892$ cm.
+Dette viser repeterbarhet i det oppsettet, men også et avvik som ikke
+kan korrigeres forsvarlig fra ett referansepunkt. Originaldata og analyser
+er bevart i \kode{evidence/2026-10-23-reference60/}.
+
+Tidligere 2. november ga GPIO V3 320 NO\_RISE-avlesninger mens
+sensorforsyningen var av. Dette er en forventet observasjon av oppsettet,
+ikke bevis for defekte sensorer. Senere lysdiagnostikk ga 362 godkjente
+GPIO-registerprøver over seks mønstre. Ingen LED-er var montert.
+Registerlatch er ikke en optisk eller elektrisk LED-test.
+
+Disse prøvene gjelder de dokumenterte eldre firmwarehashene. De er ikke
+gjentatt på dagens nye bygg. Kortet står fortsatt med den tidligere
+lysdiagnostikken; den nye autonome versjonen er ikke lastet.
+
+\section{Gjenstående fysisk akseptanse}
+\begin{enumerate}
+\item Monter og kontroller alle fire lys med egen motstand, riktig polaritet
+og felles GND. Verifiser sidevalg og baklys visuelt og elektrisk.
+\item Test oppstart med motorstrøm isolert. Lokaliser den åpne fysiske
+I2C-oppstartsfeilen; kontroller både OLED tilkoblet og frakoblet.
+\item Gi sensorene riktig forsyning. Kontroller ECHO-nivå og hver kanal ved
+flere oppmålte avstander; registrer feilrate, bias, MAE og RMSE.
+\item Løft hjulene og bekreft alle fortegn, begge svinger, A-arming og B-stopp.
+\item Mål lavfartsbevegelse, bremsing og responstid før autonom løype.
+Gjenta en sammenhengende sekvens med rålogg og video.
+\end{enumerate}
+Kriteriene og loggmalen ligger i \kode{KLAR-FOR-BENK.md}. Kravstatus i
+kapittel~\ref{ch:requirements} oppdateres fra resultatene, ikke fra planen.

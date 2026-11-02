@@ -1,0 +1,32 @@
+{
+  "build/main.elf": {
+    "bytes": 1000652,
+    "sha256": "0cd7c1f38e0ad9f7de861f6bb8aa5e795293b2d2dd09ab75a4a3f6b31103c56c",
+    "flashed_in_this_review": false
+  },
+  "build/main.hex": {
+    "bytes": 656759,
+    "sha256": "a4f8cde10e09ae7fbce7615b5c7f2c55cc509134b481ea02284d09f48a624425",
+    "flashed_in_this_review": false
+  },
+  "build/main.bin": {
+    "bytes": 233476,
+    "sha256": "017e6c90c7b94c605225c07cc19c488f909328b39b670687988fd4a60d52f752",
+    "flashed_in_this_review": false
+  },
+  "build/sensor-diagnostic/Code/diagnostics/obj/sensor_diagnostic": {
+    "bytes": 966036,
+    "sha256": "a847d1db6ea261e9d8133a1cd579bd3e97d768e6c5d59565c8cc81cc35bdc249",
+    "flashed_in_this_review": false
+  },
+  "build/sensor-diagnostic/Code/diagnostics/obj-gpio/sensor_gpio_diagnostic": {
+    "bytes": 735396,
+    "sha256": "78e478d5610971b9245f86f8f9566f93a1347bc80f63facc29d8103b19b709a2",
+    "flashed_in_this_review": false
+  },
+  "build/lamp-diagnostic/Code/diagnostics/obj-lamps/lamp_diagnostic": {
+    "bytes": 803760,
+    "sha256": "af014fa0b70270eb724817ba7ad25b24a83631d173e408e50d41f2e00d0d6146",
+    "flashed_in_this_review": false
+  }
+}

@@ -1,0 +1,73 @@
+\chapter{Systemdesign}
+\label{ch:design}
+\section{Ansvar og fysisk grensesnitt}
+Raspberry Pi 5 bygger, analyserer og samler logger. USB går fra Pi-ens
+USB-A til micro:bitens micro-USB; Linux og USB inngår ikke i den lokale
+kjøresløyfen \cite{microbitusb2026}. micro:bit V2 leser sensorer, velger
+bevegelse og skriver DFR0548. USB-frakobling er ingen implementert nødstopp.
+
+\begin{center}
+\begin{tikzpicture}[>=Latex,box/.style={draw=usnpurple,rounded corners,
+ align=center,font=\small,minimum height=12mm},node distance=9mm]
+\node[box] (pi) {Raspberry Pi 5\\Bygg og logging};
+\node[box,right=of pi] (mb) {micro:bit V2\\Ada-kontroller};
+\node[box,right=of mb] (motor) {DFR0548\\Fire motorer};
+\node[box,below=of mb] (sensors) {Tre HC-SR04\\Servo S2};
+\node[box,left=of sensors] (buttons) {Knapp A / B\\Start / stopp};
+\node[box,right=of sensors] (lights) {OLED på I2C\\Fire lysdioder};
+\draw[<->] (pi)--node[above,font=\scriptsize]{USB}(mb);
+\draw[->] (mb)--node[above,font=\scriptsize]{I2C}(motor);
+\draw[<->] (mb)--(sensors);\draw[->] (buttons)--(mb);
+\draw[<->] (mb)--(lights);
+\end{tikzpicture}
+\end{center}
+
+\begin{tabularx}{\textwidth}{@{}P{42mm}Y@{}}\toprule
+Komponent & Bekreftet plan\\\midrule
+HC-SR04 front & TRIG P13, ECHO P1\\
+HC-SR04 venstre & TRIG P14, ECHO P2\\
+HC-SR04 høyre & TRIG P15, ECHO P8\\
+Frontservo & S2, sentervinkel 84 grader\\
+Motor og OLED & Felles ekstern I2C, P19/P20\\
+Røde baklys, to & P0, separat 1 k$\Omega$ i hver LED-gren\\
+Gult foran venstre / høyre & P12 / P16, hver via egen 1 k$\Omega$\\\bottomrule
+\end{tabularx}
+
+LED-katodene går til felles GND. Pinnenumrene over tilhører micro:biten.
+ECHO krever kontrollert tilpasning til 3,3 V-inngangen; sensorens 5 V og
+motorforsyning kobles ikke direkte til GPIO. Pinneegenskaper må kontrolleres
+mot micro:bit-dokumentasjonen \cite{pins}. Med antatt rød fremspenning
+1,8 V gir 1 k$\Omega$ omtrent 1,5 mA per diode, totalt 3 mA på P0.
+Dette er beregnet strøm, ikke målt. All strøm, også USB, kobles fra ved montering.
+
+\section{Faktisk programvarearkitektur}
+\kode{Main} binder konkrete drivere til den generiske
+\kode{Adaptive_Controller}. Én foreground-eier utfører sensorarbeid,
+navigasjon og all motor-/servo-/OLED-I2C. Den periodiske lys-tasken eier
+kun P0/P12/P16 og leser korte statusbilder fra et protected object.
+Knappavbruddet setter bare atomiske start-/stoppflagg. Driverbiblioteket
+har i tillegg egne interne aktiviteter og avbrudd som må inngå i en senere
+tidsanalyse.
+
+Dette unngår konkurrerende eiere av akustiske triggere og motorbuss.
+Arkitekturen er ikke fire uavhengige periodiske sensor-, kontroll-, motor-
+og sikkerhetstasks. En slik oppdeling krever tidsstemplede data, definert
+stoppprioritet og en ny analyse av venting og køer. Å innføre tasks bare
+for å øke antallet ville ikke i seg selv forbedre responsen.
+
+\section{Tilstandsmaskin og startbetingelser}
+\begin{tabularx}{\textwidth}{@{}P{20mm}Y Y@{}}\toprule
+Tilstand & Aktivitet & Neste steg\\\midrule
+Stopped & Vent på A; stopp og pause ved aktiv drift. & Verify\\
+Verify & Sentrer, stabiliser, filtrer sensorer, kjør ny live-kontroll. & Cruise ved fri bane, ellers Scan\\
+Cruise & Front--venstre--front--høyre uten godkjenningspauser. & Fortsett, eller stopp ved avvisning\\
+Scan & Stoppet søk med ny sentrert klarering. & Verify, Turn eller Stopped\\
+Turn & Kontroller fersk skanneevidens, live sensorer, sving og stopp. & Verify eller Stopped\\
+Fault & Latchet feil; ytre handler forsøker stopp. & Ingen automatisk overgang\\\bottomrule
+\end{tabularx}
+
+Oppstart skjer i rekkefølgen lys, stoppknapp, motor og skjerm. Etter fullført
+oppsett parkeres programmet frem til A. Motorpakken kontrollerer også
+startflagget, initialisering og stoppflagget. Stopp sjekkes både før og
+etter en motorsending for å fange et knappetrykk under selve transaksjonen.
+Et A-trykk kan aldri nullstille en latchet stopp.

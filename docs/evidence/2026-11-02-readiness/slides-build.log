@@ -1,0 +1,8 @@
+Rc files read:
+  /etc/LatexMk
+Latexmk: This is Latexmk, John Collins, 11 Dec. 2024. Version 4.86.
+Latexmk: Changing directory to 'docs/'
+Latexmk: Nothing to do for 'presentation.tex'.
+Latexmk: All targets (/home/kidi970/Documents/ChatGPT/ADAptive/build/slides-ready/presentation.pdf) are up-to-date
+Latexmk: Undoing directory change
+

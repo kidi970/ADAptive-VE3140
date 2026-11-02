@@ -1,4 +1,4 @@
-package body Adaptive_Lamp_Policy is
+package body Adaptive_Lamp_Policy with SPARK_Mode is
    function Outputs (Mode : Lamp_Mode; Phase_Ms : Natural) return Lamp_Outputs is
       Blink : constant Boolean := Phase_Ms mod Blink_Period_Ms < 500;
    begin

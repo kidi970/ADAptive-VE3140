@@ -73,6 +73,7 @@ begin
    Reset; R := Search.Find;
    Check (R.Direction = Right and R.Points = 2 and First_Angle = 72,
           "right preferred and first feasible pair terminates");
+   Check (R.Oldest_Pair_Ms = 1_085, "carry original oldest ray time to drive gate");
    Reset; S := (30, 60, 40); Final_Guard := S; R := Search.Find;
    Check (R.Direction = Left and R.Points = 2 and First_Angle = 96, "left preferred");
    Reset; S := (30, 50, 50); Final_Guard := S; R := Search.Find (Left);

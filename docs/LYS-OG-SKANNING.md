@@ -73,7 +73,8 @@ er en planlagt demonstrasjon, ikke i seg selv en detektert kjøretøyfeil.
 
 `tools/lamp_experiment.py` kan verifisere bildet, resette bare den kjente
 lysdiagnostikken og sammenligne seriell status med nRF52s GPIO-utgangslatcher.
-Det krever isolert motorstrøm og eksplisitt bildevalg for flashing. Register-
+Det krever isolert motorstrøm og eksplisitt bildevalg for flashing. Den tidligere 362-prøverserien gjelder eldre diagnostikkhash, ikke dagens
+nybygg. Register-
 observasjoner beviser ikke at monterte LED-er lyser eller trekker riktig strøm.
 
 ## Skanning som avslutter ved første akseptable korridor
@@ -87,7 +88,8 @@ Den aktive navigasjonen har nå en generisk, testbar søkestrategi:
    svingretning. Høyre bruker 72°/60°, venstre 96°/108°.
 5. En ugyldig/blokkert stråle forkaster kandidatparet straks. Et tilstrekkelig
    bredt par må også bestå en ny sentrert kontroll av alle tre sensorer.
-6. Forkast paret hvis eldste måling er over 2000 ms gammel. Prøv ellers den
+6. Forkast paret hvis eldste måling er over 2000 ms gammel. Tidsstempelet
+   beholdes og sjekkes også etter siste live-kontroll før svingkommandoen. Prøv ellers den
    andre siden, og avslutt etter høyst fire sidepunkter. En ny sentrert
    måling med fri front kan også avslutte søket med kjøring rett frem.
 
@@ -96,7 +98,13 @@ Historiske policyfunksjoner og regresjonstester beholdes. Fire sidepunkter
 betyr opptil fire servoposisjoner, ikke bare fire råavlesninger: hver posisjon
 filtrerer tre avlesninger, og sentrerte sensorkontroller kommer i tillegg.
 Servoens tidligere 0,5 s stabilisering beholdes inntil bevegelsen er målt.
+Ved sentrering leses de faste sidesensorene mens frontservoen stabiliseres.
+Alle tre filterprøver per sensor beholdes; fronten avleses først etter
+minst 500 ms fra sentreringskommandoen. Global 65 ms triggerpacing gjelder.
 Loggen angir punktantall, foreldede par, tidsbruk og valgt retning.
+Den ekstra servo-/filterrunden i Turn er fjernet fordi skanningen allerede
+returnerer sentrert med ny kontroll; live-kontrollen beholdes. Utløpt evidens
+gir stopp. Fysisk skannetid må måles før dette alderbudsjettet godkjennes.
 
 Søkets mål er liten stoppetid til **første tilstrekkelig klarerte kandidat**.
 Det søker ikke globalt etter den bredeste eller korteste ruten. For to

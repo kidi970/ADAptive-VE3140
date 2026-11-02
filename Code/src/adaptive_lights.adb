@@ -48,6 +48,9 @@ package body Adaptive_Lights is
       loop
          delay until Next_Release;
          Adaptive_Lamp_Control.State.Read (Enabled, Mode, Failure);
+         if Adaptive_Safety.Stop_Requested and then Mode /= Faulted then
+            Mode := Braking;
+         end if;
          if Enabled then
             if not Configured then
                Configure (MB_P0); Configure (MB_P12); Configure (MB_P16);

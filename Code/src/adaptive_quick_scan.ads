@@ -11,6 +11,7 @@ package Adaptive_Quick_Scan is
       Direction : Choice := Blocked;
       Points : Natural range 0 .. 4 := 0;
       Expired_Pairs : Natural range 0 .. 2 := 0;
+      Oldest_Pair_Ms : Natural := 0;
    end record;
    -- Stationary first-feasible search. At most four side rays, including
    -- early rejection of an unknown/blocked ray. Never drives a motor.

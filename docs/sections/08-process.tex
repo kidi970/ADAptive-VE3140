@@ -1,0 +1,42 @@
+\chapter{Prosjektgjennomføring}
+\label{ch:process}
+Utviklingen har gått fra et sekvensielt prototypeprogram og usikre
+sensorobservasjoner til et mer avgrenset system med testbar kontrollflyt,
+tydelig feilrespons og sporbare datakilder. Daterte logger dokumenterer
+oppstartsregresjon og sensorarbeid 21.--23. oktober, 60 cm-referansen
+23. oktober samt Pi-integrasjon, exceptions, lys og adaptivt søk 2. november.
+Den tidligere lange rapporten er bevart som \kode{development-history.tex};
+daterte resultater er ikke omskrevet til nye resultater.
+
+Gjeldende arbeid ligger i
+\url{https://github.com/kidi970/ADAptive-VE3140}, på arbeidsgrenen
+\kode{codex/pi-integration-exceptions-2026-11-02}.
+Undermodulen Ada Drivers Library er låst til
+\kode{8e90f85575666684cc6e0b51830494de259bd3bc}; den kumulative
+\kode{patches/ada-drivers-2026-10-23.patch} må anvendes én gang etter
+uthenting. Lokalt er denne patchen allerede anvendt. Verktøyversjoner,
+prosjektfiler og hashmanifest følger dokumentasjonen.
+
+For hver programvareendring brukes en avgrenset begrunnelse og relevante
+kontroller. Feiltester skiller mellom applikasjonen og eksplisitte fakes;
+mutasjoner demonstrerer at nye testporter faktisk kan avvise feil.
+GitHub-oppsettet bygger prosjektet og tester kode ved relevante endringer;
+lokale resultater dokumenteres uavhengig av om en ekstern CI-kjøring er utført.
+Rapportens kodevedlegg kopieres automatisk fra gjeldende kilde og
+kontrolleres byte for byte for å unngå utdaterte kodeutdrag.
+
+Brukeren oppga omtrent 2--3 uker til demonstrasjon og én måned til eksamen.
+Eksakte datoer er ikke bekreftet. Videre arbeid prioriteres etter avhengighet:
+lys og strøm, sensorer og I2C, løftede hjul, tidsmåling og så løype.
+Fysisk sensor-/bussfunksjon er den viktigste åpne avhengigheten.
+Mer avansert regulering utsettes til nødvendig tilbakekobling og måledata finnes.
+
+\begin{tabularx}{\textwidth}{@{}P{42mm}Y@{}}\toprule
+Gruppemedlem & Må fylles av gruppen\\\midrule
+Nicolay Olafsen, 266584 & \todo{Eget ansvar, konkrete bidrag, gjennomganger og læringsutbytte.}\\
+Jacob Hellumstand Utengen, 228979 & \todo{Eget ansvar, konkrete bidrag, gjennomganger og læringsutbytte.}\\\bottomrule
+\end{tabularx}
+
+\todo{Dokumenter faktisk samarbeid, plan mot gjennomføring og hvilke valg
+gruppen selv tok. Avstem den endelige KI-deklarasjonen og presentasjonskravene.}
+Disse opplysningene kan ikke ferdigstilles fra kode eller oppdiktes i rapporten.

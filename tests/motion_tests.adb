@@ -24,6 +24,15 @@ begin
    Check (Calls = 0, "no I2C command before initialization");
    Adaptive_Motion.Initialize;
    Check (Motor_Stop_Acknowledged and not Motion_Commanded, "startup stops");
+   declare
+      Before : constant Natural := Calls;
+   begin
+      Drive (Straight);
+      Check (False, "drive before arming must raise");
+   exception
+      when Motor_Not_Ready => Check (Calls = Before, "unarmed drive never reaches bus");
+   end;
+   Request_Start;
    for I in 1 .. 8 loop
       Check (Trace (I).Register = UInt8 (16#09# + 4 * (I - 1))
              and Trace (I).Value = 16#10# and Trace (I).Length = 2,
@@ -39,6 +48,9 @@ begin
    Check (Motion_Commanded and not Motor_Stop_Acknowledged, "drive flags");
    Stop;
    Check (Calls = 2 and Trace (2).Length = 33, "known AI permits burst stop");
+   for Channel in 0 .. 7 loop
+      Check (Last_Data (4 + 4 * Channel) = 16#10#, "FULL_OFF on every motor PWM channel");
+   end loop;
    Check (not Motion_Commanded and Motor_Stop_Acknowledged, "acknowledged stop");
    Reset_Trace;
    Request_Stop;

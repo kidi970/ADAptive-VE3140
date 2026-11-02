@@ -1,49 +1,38 @@
 # ADAptive – VE3140
 
-**Videre oppfølging 2.11:** direkte Pi–micro:bit-forbindelse fungerer. Egen
-lys-task med protected object og adaptivt søk med høyst fire sidepunkter er
-implementert. **2000 Ada-kontroller og 40 Python-tester består.** Fire
-firmwareprosjekter bygger. Lysdiagnostikk er flashet og tilbakeverifisert;
-362 GPIO-registerprøver bestod seks mønstre. LED-ene er ikke montert ennå.
-320 sensoravlesninger ga forventet NO_RISE fordi sensorstrømmen var av.
-Ingen autonom firmware eller motorbevegelse er prøvd i denne oppfølgingen.
+Siste kodekontroll 2. november 2026: **2599 Ada-kontroller, 40 Python-tester,
+fire ARM-bygg og avgrenset SPARK-bevis består.** Kontrolleren krever A for
+start; B låser stopp. OLED-feil gir ingen forsøksstorm. Skannemålinger må
+være ferske helt frem til sving, og kontinuerlig Cruise unngår stopp/start
+når målingene er gode. Lys har egen task med protected status.
 
-- [Montering av fire dioder og skannealgoritmen](docs/LYS-OG-SKANNING.md)
-- [Oppfølgingens test- og utviklingslogg](docs/ADAptive-lys-skann-2026-11-02.md)
+- [Hva er klart og hva gjenstår på benken?](docs/KLAR-FOR-BENK.md)
+- [Pi-oppkobling](docs/PI-OPPKOBLING.md) og [montering av lys](docs/LYS-OG-SKANNING.md)
+- [Siste gjennomgang og verifikasjon](docs/ADAptive-kodekontroll-2026-11-02.md)
+- [Rapport og Overleaf-pakke](docs/README.md), [LaTeX-hovedfil](docs/main.tex)
+  og [presentasjon, 12 lysbilder](docs/presentation.tex)
+- [Faglig sporbarhet og demoplan](docs/PENSUM-OG-DEMOPLAN.md)
 
-**Tidligere samme dag – Raspberry Pi og feilhåndtering:** Byggeverktøy er klargjort på
-Pi 5. Navngitte exceptions, latchet feilrespons og tydelig ubekreftet stopp
-er integrert i hovedprogrammet og diagnostikk V2. Motorutgangene settes av
-før oppvåkning; 1857 native Ada-kontroller og 35 Python-tester består.
-Hovedprogram, diagnostikk V2 og GPIO V3 bygger. Ingen ny flashing eller
-fysisk kjøring er utført; tidligere I2C-oppstartsfeil er fortsatt fysisk uavklart.
+```sh
+python3 tools/check_project.py --full
+python3 tools/package_delivery.py
+```
 
-- [Direkte oppkobling fra Pi til bilen](docs/PI-OPPKOBLING.md)
-- [Pensumkobling, taskarkitektur og demoplan](docs/PENSUM-OG-DEMOPLAN.md)
-- [Dagens endringer og verifikasjon](docs/ADAptive-pi-unntak-2026-11-02.md)
-- [Rapportkilde](docs/main.tex) og [presentasjonsutkast, 10 lysbilder](docs/presentation.tex)
+Dette kontrollerer og pakker programvare uten å åpne, resette eller
+programmere kortet. Ved endring av Ada-kode kjøres først
+`python3 tools/sync_report_sources.py`. Full kontroll krever native GNAT,
+den låste Alire-verktøykjeden og LaTeX. Se Pi-veiledningen for nytt checkout
+med undermodul og kumulativ driverpatch.
 
-`python3 tools/pi_link.py status` identifiserer USB uten å åpne seriellport.
-Koble fra motorstrømmen før USB-tilkobling av ukjent firmware.
-Autonom kjøring er fortsatt ikke ferdig fysisk validert.
+**Fysisk status:** Ingen ny flashing eller biltest i siste kodegjennomgang.
+Kortet står med tidligere lysdiagnostikk. De 362 godkjente GPIO-prøvene
+gjelder dette eldre bildet og monterte LED-er er ikke testet.
+Sensor-/motorstrømmen var av i siste dokumenterte oppsett. Ny autonom
+firmware, fysisk I2C-oppstart, sensorfunksjon, fart, bremsing og deadlines
+må testes. Pensum-PDF og gjeldende sensurveiledning er fortsatt utilgjengelige.
 
----
-
-Ada-robot med Mecanum-hjul, tre HC-SR04, servo og OLED. Aktiv navigasjon er sekvensiell; full autonom gulvkjøring og begge svingretninger er ennå ikke fysisk validert.
-
-23.10.2026: Oppstartsfeilen er rettet og fremover/stopp tidligere fysisk bekreftet. En separat diagnostikk har nå samlet **640 stasjonære sensoravlesninger** med motorstrømmen frakoblet. Venstre kanal er fortsatt ustabil; lengre ECHO-startfrist ga flere mottatte ekko, men løste ikke feilene. En ugyldig måling betyr fortsatt ukjent avstand.
-
-- [Sensorprotokoll, koblingskontroll og reproduksjon](docs/SENSORPROTOKOLL.md)
-- [Sensorøktens utviklingslogg](docs/ADAptive-sensorlogg-2026-10-23.md) og [rådata](docs/evidence/2026-10-23-sensors/)
-- [Forrige utviklingsøkt](docs/ADAptive-utviklingslogg-2026-10-23.md)
-- [Eksisterende Overleaf-rapport](https://no.overleaf.com/project/6ad865902324e2538069556e)
-
-Kontroller: `python tools/test_navigation.py` og `python -m unittest discover -s tests -p test_sensor_analysis.py -v`.
-Bygg stasjonær diagnostikk med `python tools/build_sensor_diagnostic.py`. Diagnostikken er adskilt fra `build/main.elf`; `tools/mb.py flash` velger det autonome hovedprogrammet og skal ikke brukes til sensortesten. Micro:biten står etter sensorøkten med diagnostikk som bare sender stopp og sentrerer servoen. Behold motorstrømmen frakoblet under videre sensorfeilsøking.
-
-Fart, bremsing, kinematikkfortegn og fysisk svingklarering må måles før mer avansert kjøring. PWM er ikke målt fart. PID og IMU-fusjon er ikke integrert. Ved et nytt checkout brukes driverpatchen `patches/ada-drivers-2026-10-23.patch` mot den angitte undermodulrevisjonen, slik forrige utviklingslogg beskriver.
-
-Oppsettet fra den opprinnelige kursmalen følger nedenfor.
+Tidligere resultater er bevart i daterte logger under `docs/` og i
+`docs/development-history.tex`. Den gamle kursmalens bruksveiledning følger.
 
 ---
 
