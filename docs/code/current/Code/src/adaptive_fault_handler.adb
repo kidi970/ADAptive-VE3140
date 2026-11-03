@@ -1,5 +1,6 @@
 package body Adaptive_Fault_Handler is
    use Ada.Exceptions;
+   use type Adaptive_Errors.Fault_Code;
    Saved : Fault_Status;
 
    function Status return Fault_Status is (Saved);
@@ -11,7 +12,13 @@ package body Adaptive_Fault_Handler is
       if Saved.Latched then return; end if;
       Saved.Latched := True;
       Saved.Primary := Adaptive_Errors.Classify (Exception_Identity (Occurrence));
-      Latch_Stop;
+      begin
+         Latch_Stop;
+      exception
+         when Latch_Error : others =>
+            Saved.Latch_Fault :=
+              Adaptive_Errors.Classify (Exception_Identity (Latch_Error));
+      end;
       begin
          Stop_Motors;
          Saved.Stop_Command := Acknowledged;
@@ -29,6 +36,10 @@ package body Adaptive_Fault_Handler is
          Log ("FAULT LATCHED " & Adaptive_Errors.Fault_Code'Image (Saved.Primary));
          Log (Exception_Name (Occurrence));
          Log (Exception_Message (Occurrence));
+         if Saved.Latch_Fault /= Adaptive_Errors.No_Fault then
+            Log ("STOP LATCH ERROR " &
+                 Adaptive_Errors.Fault_Code'Image (Saved.Latch_Fault));
+         end if;
          Log ("STOP COMMAND " & Stop_Result'Image (Saved.Stop_Command));
          if Saved.Stop_Command = Failed then
             Log ("STOP UNCONFIRMED");

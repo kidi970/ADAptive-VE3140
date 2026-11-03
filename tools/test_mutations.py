@@ -9,6 +9,9 @@ import mb
 
 REPO = Path(__file__).resolve().parents[1]
 CASES = (
+    ('latch failure suppresses motor stop', 'adaptive_fault_handler.adb', 'fault_tests',
+     "      begin\n         Latch_Stop;\n      exception\n         when Latch_Error : others =>\n            Saved.Latch_Fault :=\n              Adaptive_Errors.Classify (Exception_Identity (Latch_Error));\n      end;",
+     '      Latch_Stop;'),
     ('unarmed controller', 'adaptive_controller.adb', 'controller_tests',
      'if not Start_Requested then Pause (20); return; end if;', 'null;'),
     ('expired turn evidence', 'adaptive_controller.adb', 'controller_tests',

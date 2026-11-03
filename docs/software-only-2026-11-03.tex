@@ -151,7 +151,7 @@ nye målinger. Verken synkron klarering, servo-orientering eller svingtillatelse
 utledes fra disse filene. Referansen «ca. 60 cm» brukes ikke som ubetinget
 kalibreringskorreksjon.
 
-Samlet native kontroll gir \textbf{3716 Ada-kontrollpunkter} i 14 suiter:
+Den første native kontrollen ga \textbf{3716 Ada-kontrollpunkter} i 14 suiter:
 1729 policy/FSM, 24 range, 50 feilgrense, 94 lys, 49 skanning,
 521 kontroller, 140 offline-modeller, 24 logger, 866 benk/OLED,
 75 innebygd USB-I/O, 76 motor, 32 display, 6 sikkerhet og 30 navigasjon.
@@ -184,15 +184,33 @@ python3 tools/package_delivery.py --tag programvare-2026-11-03 \
 Sjekkene binder resultater til kilde-, test-, verktøy- og dokumenthash.
 Native ARM64-programmer kjøres på Pi-en; ARM bare-metal-firmware
 kompileres og inspiseres som filer. Ingen av disse kommandoene flasher kortet.
-Tilgang til Overleaf-nettprosjektet var utilgjengelig fordi lokal
-nettlesertilgang er deaktivert i Work. Dette kapitlet og oppdaterte
-kildefiler er derfor integrert i lokalrapporten og en ny Overleaf-ZIP;
-\textbf{nettprosjektet er ikke oppdatert}. Historiske resultater og
-utviklingshistorikken er bevart.
+Rapporten har en datert hovedfil i det eksisterende Overleaf-prosjektet.
+Kildearkivet inneholder rapport, presentasjon og kodevedlegg. Historiske
+resultater og utviklingshistorikken er bevart.
 
-Prioritert videre programvarearbeid er en samlet, eksplisitt oppstartsmodell
-med fail-safe-grense også rundt nødvendige elaboreringsavhengigheter,
-fulgt av analyse av komplette kallkjeder og sekundærstack. Fysisk
-sensorstabilitet, I2C-oppstart, lys, knapper, bevegelse, sving, stopplengde,
-responstid og stackmaksimum har fortsatt status \textbf{ikke testet} for
-byggene fra denne økten.
+\section{Etterkontroll av oppstart og feilhåndtering}
+Ada-binderen viser at blant annet \kode{Nrf.Device},
+\kode{Microbit.Displayrt}, \kode{Microbit.Buttons} og
+\kode{Adaptive_Sensors} elaboreres før \kode{Main}. Unntak i
+denne fasen ligger utenfor feilhåndtereren i \kode{Main}. Vertstester av
+kontrolleren starter etter denne fasen. En oppstartslogg fra kortet er
+derfor nødvendig for å godkjenne fysisk oppstart.
+
+Ved feil registrerer \kode{Adaptive_Fault_Handler} den opprinnelige
+feilklassen og forsøker motorstopp én gang. En exception fra funksjonen
+som låser stopp, registreres separat, slik at stoppforsøket fortsatt
+utføres før logging. En vertstest injiserer denne feilen og kontrollerer
+stoppforsøk, feilkoder, loggrekkefølge og at en ny feil ikke gjentar
+stoppforsøket. En mutasjon som fjerner håndteringen, skal avvises.
+
+ELF-symbolene viser 16,384 byte primærstack, 2,048 byte avbruddsstack
+og 512 byte som standard sekundærstack. Kompilatoren rapporterer
+472 byte for rammen til \kode{Main} og 784 byte for den dynamiske rammen
+til den instansierte \kode{Handle}. Tallene gjelder enkeltrammer.
+Total kallkjede, bruk av sekundærstack og fysisk stackmaksimum er åpne.
+
+Programvarekontroll, bevis, firmwarebygg og rapportkompilering dekker
+hver sine krav. Sensorstabilitet, I2C-oppstart, lys, knapper, bevegelse,
+sving, stopplengde og responstid har status \textbf{ikke testet} for
+dette bygget. Den fysiske akseptansen følger kravene i
+kapittel~\ref{ch:requirements}.

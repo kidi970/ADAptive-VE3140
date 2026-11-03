@@ -6,6 +6,7 @@ procedure Fault_Tests is
    Checks : Natural := 0;
    Stop_Fails, Log_Fails, Latched : Boolean := False;
    Stop_Calls, Log_Calls : Natural := 0;
+   Latch_Error_Reported : Boolean := False;
    procedure Check (Condition : Boolean; Name : String) is
    begin
       if not Condition then raise Program_Error with Name; end if;
@@ -15,6 +16,15 @@ procedure Fault_Tests is
    begin
       Latched := True;
    end Latch;
+   procedure Broken_Latch is
+   begin
+      raise Program_Error with "injected latch failure";
+   end Broken_Latch;
+   procedure Fallback_Stop is
+   begin
+      Check (not Latched, "fallback stops even without a successful latch");
+      Stop_Calls := Stop_Calls + 1;
+   end Fallback_Stop;
    procedure Stop is
    begin
       Check (Latched, "latch precedes stop");
@@ -28,14 +38,24 @@ procedure Fault_Tests is
       Check (Message'Length > 0, "diagnostic exists");
       if Log_Fails then raise Program_Error with "injected logger failure"; end if;
    end Log;
+   procedure Fallback_Log (Message : String) is
+   begin
+      Check (Stop_Calls = 5, "fallback stops before reporting latch failure");
+      if Message = "STOP LATCH ERROR PROGRAM_FAULT" then
+         Latch_Error_Reported := True;
+      end if;
+   end Fallback_Log;
    package Normal is new Adaptive_Fault_Handler (Latch, Stop, Log);
    package Bus_Failure is new Adaptive_Fault_Handler (Latch, Stop, Log);
    package Log_Failure is new Adaptive_Fault_Handler (Latch, Stop, Log);
    package Both_Fail is new Adaptive_Fault_Handler (Latch, Stop, Log);
+   package Latch_Failure is new Adaptive_Fault_Handler
+     (Broken_Latch, Fallback_Stop, Fallback_Log);
    use type Normal.Stop_Result;
    use type Bus_Failure.Stop_Result;
    use type Log_Failure.Stop_Result;
    use type Both_Fail.Stop_Result;
+   use type Latch_Failure.Stop_Result;
 begin
    Check (Classify (Motor_Bus_Error'Identity) = Motor_Bus_Fault, "bus classifier");
    Check (Classify (Motor_Not_Ready'Identity) = Initialization_Fault, "init classifier");
@@ -92,5 +112,25 @@ begin
           and Both_Fail.Status.Stop_Command = Both_Fail.Failed
           and Both_Fail.Status.Logging_Failed, "combined failure contained");
    Check (Stop_Calls = 4, "one bounded stop per fault boundary");
+   Latched := False;
+   begin
+      raise Storage_Error;
+   exception
+      when E : others => Latch_Failure.Handle (E);
+   end;
+   Check (Latch_Failure.Status.Primary = Storage_Fault
+          and Latch_Failure.Status.Latch_Fault = Program_Fault,
+          "latch failure preserves both error classes");
+   Check (Stop_Calls = 5
+          and Latch_Failure.Status.Stop_Command = Latch_Failure.Acknowledged,
+          "a failed latch cannot suppress the stop attempt");
+   Check (Latch_Error_Reported and not Latch_Failure.Status.Logging_Failed,
+          "latch failure is reported after stopping");
+   begin
+      raise Constraint_Error;
+   exception
+      when E : others => Latch_Failure.Handle (E);
+   end;
+   Check (Stop_Calls = 5, "a failed latch cannot cause a retry storm");
    Put_Line ("PASS" & Natural'Image (Checks) & " fault checks");
 end Fault_Tests;
