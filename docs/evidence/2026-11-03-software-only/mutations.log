@@ -1,0 +1,6 @@
+PASS mutation rejected: unarmed controller: raised PROGRAM_ERROR : initialized and armed drive
+PASS mutation rejected: expired turn evidence: raised PROGRAM_ERROR : evidence expiring before or during preflight cannot grant drive
+PASS mutation rejected: OLED retry storm: raised PROGRAM_ERROR : first fault opens circuit breaker
+PASS mutation rejected: missing motor FULL_OFF: raised PROGRAM_ERROR : FULL_OFF on every motor PWM channel
+PASS mutation rejected: front sampled before servo settles: raised PROGRAM_ERROR : front sampling never starts before servo settling deadline
+PASS mutation rejected: SPARK moving brake violates postcondition

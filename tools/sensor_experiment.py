@@ -11,6 +11,7 @@ import json
 import time
 from datetime import datetime, timezone
 from pathlib import Path
+from diagnostic_guard import image_hash, preflight, verify_probe
 
 REPO = Path(__file__).resolve().parents[1]
 IMAGE = REPO / 'build/sensor-diagnostic/Code/diagnostics/obj/sensor_diagnostic'
@@ -71,8 +72,7 @@ def verify_image(target, image):
     return segments
 
 
-def main():
-    import serial
+def main(argv=None, *, hardware=None):
     from analyze_sensors import read_samples
     parser = argparse.ArgumentParser(description=__doc__)
     action = parser.add_mutually_exclusive_group()
@@ -82,16 +82,25 @@ def main():
     parser.add_argument('--motor-power-disconnected', action='store_true',
                         help='Record the already physically confirmed motor-power isolation')
     parser.add_argument('--probe-id', help='Require this CMSIS-DAP probe ID')
+    parser.add_argument('--image-sha256', help='Expected ELF SHA-256; required for --flash/--reset')
+    parser.add_argument('--backup', type=Path, help='Verified double-read flash/UICR backup; required for --flash')
     parser.add_argument('--port', default='COM5')
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--context', required=True, help='Actual setup and provenance of reference distances')
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
     if not args.motor_power_disconnected:
         parser.error('Motor power must be physically disconnected; record it with --motor-power-disconnected')
     image = GPIO_IMAGE if args.gpio_only else IMAGE
     profile = 'gpio-v3' if args.gpio_only else 'v2'
     if not image.is_file():
         parser.error('Build the selected diagnostic first')
+    prerequisites = None
+    if args.flash or args.reset:
+        try:
+            prerequisites = preflight(image, args.image_sha256, args.probe_id,
+                                      flash=args.flash, backup=args.backup)
+        except (OSError, ValueError) as exc:
+            parser.error(str(exc))
     args.output.mkdir(parents=True, exist_ok=False)
     meta = {'image': str(image), 'sha256': hashlib.sha256(image.read_bytes()).hexdigest(),
             'profile': profile, 'port': args.port, 'baud': 115200, 'bytesize': 8,
@@ -100,26 +109,41 @@ def main():
             'flash_requested': args.flash, 'reset_requested': args.reset,
             'started_utc': utc_now(), 'completed': False,
             'firmware_verified': False, 'local_image_hash_is_not_running_firmware_proof': True}
+    if prerequisites is not None:
+        meta['preflight'] = prerequisites
     raw = bytearray()
     chunks = []
     try:
-        with serial.Serial(args.port, 115200, bytesize=8, parity='N', stopbits=1,
-                           timeout=.1, xonxoff=False, rtscts=False, dsrdtr=False) as port:
-            port.reset_input_buffer()
+        if hardware is None:
+            import serial
+            serial_factory = serial.Serial
             if args.flash or args.reset:
                 from pyocd.core.helpers import ConnectHelper
                 from pyocd.flash.file_programmer import FileProgrammer
-                options = {'connect_mode': 'attach', 'resume_on_disconnect': False,
-                           'auto_unlock': False,
-                           'cmsis_dap.prefer_v1': True, 'cmsis_dap.limit_packets': True,
-                           'cmsis_dap.deferred_transfers': False}
-                with ConnectHelper.session_with_chosen_probe(
-                        unique_id=args.probe_id, target_override='nrf52833', options=options,
-                        blocking=False, return_first=False) as session:
+                hardware = (serial_factory, ConnectHelper.session_with_chosen_probe, FileProgrammer)
+            else:
+                hardware = (serial_factory, None, None)
+        serial_factory, session_factory, programmer_factory = hardware
+        chosen = None
+        if args.flash or args.reset:
+            options = {'connect_mode': 'attach', 'resume_on_disconnect': False,
+                       'auto_unlock': False,
+                       'cmsis_dap.prefer_v1': True, 'cmsis_dap.limit_packets': True,
+                       'cmsis_dap.deferred_transfers': False}
+            chosen = session_factory(unique_id=args.probe_id, target_override='nrf52833',
+                                     options=options, blocking=False, return_first=False)
+            verify_probe(chosen, args.probe_id)
+        with serial_factory(port=None, baudrate=115200, bytesize=8, parity='N', stopbits=1,
+                            timeout=.1, xonxoff=False, rtscts=False, dsrdtr=False) as port:
+            port.dtr = False; port.rts = False; port.port = args.port; port.open()
+            port.reset_input_buffer()
+            if args.flash or args.reset:
+                with chosen as session:
                     meta['probe_id'] = session.probe.unique_id
+                    image_hash(image, args.image_sha256)
                     if args.flash:
                         session.target.reset_and_halt()
-                        FileProgrammer(session).program(str(image), file_format='elf')
+                        programmer_factory(session).program(str(image), file_format='elf')
                     meta['flash_segments'] = verify_image(session.target, image)
                     meta['firmware_verified'] = True
                     # Reset only after byte verification; never resume an unknown image.

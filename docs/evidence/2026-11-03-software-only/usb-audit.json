@@ -1,0 +1,354 @@
+{
+  "scope": "static-file inventory; no device access or firmware execution",
+  "hardware_access": false,
+  "elf_sha256": "c8df3de1cbab81dc1b305014265df9e7fb49e8d5083575bd495cf0bd946e186e",
+  "elf": {
+    "machine": "ARM",
+    "format": "ELF32 little-endian",
+    "entry_point": 53673,
+    "vector_initial_sp": 536897488,
+    "vector_reset_pc": 53673,
+    "vector_matches_stack_end": true,
+    "vector_matches_entry": true,
+    "environment_primary_stack": {
+      "start": 536881104,
+      "end": 536897488,
+      "reserved_bytes": 16384
+    },
+    "interrupt_stack": {
+      "start": 536879056,
+      "end": 536881104,
+      "reserved_bytes": 2048
+    },
+    "secondary_stack_default_bytes": 512,
+    "secondary_pool_reserved_bytes": 528,
+    "static_ram_end": 536897488,
+    "symbol_count": 1891
+  },
+  "stack_files": [
+    {
+      "file": "adaptive_log.su",
+      "sha256": "ced76a2a10ad120d043164d92290b00691f11b5152cf9b46b37268322459de32",
+      "entries": [
+        {
+          "location": "Code/src/adaptive_log_core.adb:5:4:Failed",
+          "reported_frame_bytes": 4,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_log_core.adb:6:4:Truncated_Last_Line",
+          "reported_frame_bytes": 4,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_log_core.adb:13:7:Send",
+          "reported_frame_bytes": 40,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_log_core.adb:8:4:Try_Line",
+          "reported_frame_bytes": 104,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_log.adb:10:4:Write_Byte",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_log.adb:17:4:Failed",
+          "reported_frame_bytes": 8,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_log.adb:19:4:Put_Line",
+          "reported_frame_bytes": 40,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_log.adb:8:4:Ready",
+          "reported_frame_bytes": 4,
+          "qualifier": "static",
+          "frame_is_static": true
+        }
+      ]
+    },
+    {
+      "file": "adaptive_log_core.su",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "entries": []
+    },
+    {
+      "file": "adaptive_range_model.su",
+      "sha256": "854e02d457fb14e7dc87487c1a2bcb19b6ff54d5914ac2c49ec33d09fb381754",
+      "entries": [
+        {
+          "location": "<built-in>:echo_statusH",
+          "reported_frame_bytes": 32,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "<built-in>:echo_resultIP",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_range_model.adb:2:4:Pulse_Distance",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_range_model.adb:4:4:Working_Range",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_range_model.adb:5:4:Divider_Output",
+          "reported_frame_bytes": 24,
+          "qualifier": "static",
+          "frame_is_static": true
+        }
+      ]
+    },
+    {
+      "file": "adaptive_usb_io.su",
+      "sha256": "e2d8344ea33fd0d93f1534f1fc355e4bc1d5e328ade2c0993879ea02316dc678",
+      "entries": [
+        {
+          "location": "<built-in>:pinsIP",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_usb_io_core.adb:6:4:Require_Initialized",
+          "reported_frame_bytes": 8,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_usb_io_core.adb:10:4:Initialize",
+          "reported_frame_bytes": 24,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_usb_io_core.adb:24:4:Center_On",
+          "reported_frame_bytes": 8,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_usb_io_core.adb:31:4:Center_Off",
+          "reported_frame_bytes": 8,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_usb_io_core.adb:37:4:Button_A_Pressed",
+          "reported_frame_bytes": 8,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_usb_io_core.adb:41:4:Button_B_Pressed",
+          "reported_frame_bytes": 8,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_usb_io.adb:4:4:Configure_Input",
+          "reported_frame_bytes": 24,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_usb_io.adb:12:4:Configure_Output",
+          "reported_frame_bytes": 24,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_usb_io.adb:20:4:Write_Level",
+          "reported_frame_bytes": 24,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_usb_io.adb:25:4:Read_Level",
+          "reported_frame_bytes": 24,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_usb_io.adb:32:4:Initialize",
+          "reported_frame_bytes": 8,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_usb_io.adb:33:4:Center_On",
+          "reported_frame_bytes": 8,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_usb_io.adb:34:4:Center_Off",
+          "reported_frame_bytes": 8,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_usb_io.adb:35:4:Button_A_Pressed",
+          "reported_frame_bytes": 8,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_usb_io.adb:36:4:Button_B_Pressed",
+          "reported_frame_bytes": 8,
+          "qualifier": "static",
+          "frame_is_static": true
+        }
+      ]
+    },
+    {
+      "file": "adaptive_usb_io_core.su",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "entries": []
+    },
+    {
+      "file": "b__standalone_usb.su",
+      "sha256": "6075833d29ff4d625c13df70701efebddc3e073ef3af76f97f08199b84d3f7dd",
+      "entries": [
+        {
+          "location": "<built-in>:Tsec_default_sized_stacksBIP",
+          "reported_frame_bytes": 40,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "b__standalone_usb.adb:35:4:adafinal",
+          "reported_frame_bytes": 8,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "b__standalone_usb.adb:51:4:adainit",
+          "reported_frame_bytes": 8,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "b__standalone_usb.adb:164:4:main",
+          "reported_frame_bytes": 24,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "b__standalone_usb.adb:7:1:ada_main",
+          "reported_frame_bytes": 8,
+          "qualifier": "static",
+          "frame_is_static": true
+        }
+      ]
+    },
+    {
+      "file": "standalone_usb.su",
+      "sha256": "f3cddaa574347b193b341e6c7ff25243c6545f6be30286e79b4385c99236e475",
+      "entries": [
+        {
+          "location": "Code/bench/standalone_usb.adb:11:7:Earlier",
+          "reported_frame_bytes": 32,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/bench/standalone_usb.adb:9:4:Illuminate_Until",
+          "reported_frame_bytes": 40,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/bench/standalone_usb.adb:6:1:Standalone_Usb",
+          "reported_frame_bytes": 784,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "<built-in>:B69b",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        }
+      ]
+    }
+  ],
+  "binder": {
+    "file": "b__standalone_usb.adb",
+    "sha256": "44ba27a536582f6fb4822dce5f4bbd6268200892771499b046ee13997830151f",
+    "elaboration_calls": [
+      "ada_main",
+      "Ada.Strings.Text_Buffers",
+      "System.Bb.Timing_Events",
+      "Ada.Exceptions",
+      "System.Soft_Links",
+      "Ada.Tags",
+      "System.Exception_Table",
+      "Ada.Streams",
+      "System.Finalization_Root",
+      "Ada.Finalization",
+      "System.Storage_Pools",
+      "Ada.Real_Time",
+      "System.Pool_Global",
+      "HAL.GPIO",
+      "Nrf.Gpio",
+      "Nrf.Gpio"
+    ]
+  },
+  "hex": {
+    "file": "usb.hex",
+    "sha256": "9480ac56978f2a462015e4a78513afc2cd82d5781c56e190beb66e23e4be0e64",
+    "checksums_valid": true,
+    "records": 7066,
+    "data_bytes": 112992,
+    "lowest_address": 0,
+    "highest_address": 112991,
+    "elf_load_bytes": 112992,
+    "elf_segment_file_bytes": 112992,
+    "elf_segment_padding_bytes": 0,
+    "padding_bytes_present_in_hex": 0,
+    "padding_bytes_missing_from_hex": 0,
+    "different_padding_bytes": 0,
+    "missing_bytes": 0,
+    "extra_bytes": 0,
+    "different_bytes": 0,
+    "matches_elf_load_bytes": true,
+    "scope": "allocated section bytes at PT_LOAD physical addresses; omitted segment padding permitted; no device readback"
+  },
+  "stack_and_binder_provenance_matches_elf": null,
+  "whole_program_stack_upper_bound_bytes": null,
+  "measured_stack_high_water_bytes": null,
+  "limitations": [
+    "Individual .su frames cannot be summed into a call-chain bound.",
+    "Dynamic frames, dispatch calls, compiler helpers and runtime frames require further analysis.",
+    "Compiler stack files may be cached: their identity is recorded, not their freshness certified.",
+    "Binder and .su hashes identify files but do not prove they belong to this ELF build.",
+    "Primary, secondary, interrupt and per-task stacks are distinct budgets.",
+    "Reserved stack bytes are not evidence of adequate measured margin.",
+    "Binder elaboration runs before the application main exception handler."
+  ],
+  "largest_reported_individual_frame_bytes": 784,
+  "dynamic_frame_count": 0
+}

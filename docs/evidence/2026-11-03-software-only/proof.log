@@ -1,0 +1,9 @@
+Phase 1 of 3: generation of data representation information ...
+Phase 2 of 3: generation of Global contracts ...
+Phase 3 of 3: flow analysis and proof ...
+adaptive_lamp_policy.adb:3:44: info: division check proved
+adaptive_lamp_policy.ads:7:13: info: implicit aspect Always_Terminates on "Outputs" has been proved, subprogram will terminate
+adaptive_lamp_policy.ads:8:11: info: data dependencies proved
+adaptive_lamp_policy.ads:10:10: info: postcondition proved
+Summary logged in /home/kidi970/Documents/ChatGPT/ADAptive/build/proof/lamps/gnatprove/gnatprove.out
+mb: alr exec -- gnatprove -P proof/lamps.gpr -u adaptive_lamp_policy.adb --mode=all --level=1 --report=all --checks-as-errors=on --timeout=10 -j1

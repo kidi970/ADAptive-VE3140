@@ -13,7 +13,7 @@ TARGET = REPO / 'docs/code/current'
 def sources():
     paths = [REPO / 'Code/itrs.gpr', REPO / 'alire.toml',
              REPO / 'patches/ada-drivers-2026-10-23.patch', REPO / 'proof/lamps.gpr']
-    for directory in ('Code/src', 'Code/diagnostics'):
+    for directory in ('Code/src', 'Code/diagnostics', 'Code/bench'):
         paths.extend(p for p in (REPO / directory).iterdir()
                      if p.suffix in ('.adb', '.ads', '.gpr'))
     return {p.relative_to(REPO).as_posix(): p.read_bytes() for p in sorted(paths)}

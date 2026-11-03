@@ -5,7 +5,7 @@ with Ada.Real_Time; use Ada.Real_Time;
 with Adaptive_Quick_Scan;
 with Adaptive_Scan_Policy;
 with Adaptive_Safety;
-with MicroBit.Console; use MicroBit.Console;
+with Adaptive_Log; use Adaptive_Log;
 package body Adaptive_Navigation is
    Previous : Choice := Blocked;
    Turn_Deadline : Time := Time_First;

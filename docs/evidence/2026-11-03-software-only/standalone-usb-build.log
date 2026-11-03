@@ -1,0 +1,9 @@
+gprbuild: "standalone_usb" up to date
+mb: alr exec -- gprbuild -p -P Code/bench/standalone_usb.gpr --root-dir=. --relocate-build-tree=build/standalone
+{
+  "profile": "usb",
+  "forbidden_symbols": [],
+  "passed": true,
+  "meaning": "Linked-image inspection; not an electrical measurement or a physical isolation check."
+}
+mb: alr exec -- arm-eabi-objcopy -O ihex /home/kidi970/Documents/ChatGPT/ADAptive/build/standalone/Code/bench/obj-usb/standalone_usb /home/kidi970/Documents/ChatGPT/ADAptive/build/standalone/usb.hex

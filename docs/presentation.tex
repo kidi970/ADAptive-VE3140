@@ -2,7 +2,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[norsk]{babel}
-\usepackage{lmodern,booktabs,tikz}
+\usepackage{lmodern,booktabs,tikz,array}
 \usetikzlibrary{arrows.meta,positioning}
 \definecolor{adaptive}{HTML}{31105C}
 \setbeamercolor{structure}{fg=adaptive}
@@ -14,7 +14,7 @@
 \subtitle{Autonom Mecanum-bil i Ada\\Integrasjon, feilrespons og verifikasjon}
 \author{Nicolay Olafsen \and Jacob Hellumstand Utengen}
 \institute{VE3140 -- Intelligente sanntidssystemer, USN}
-\date{2. november 2026}
+\date{3. november 2026}
 \begin{document}
 \begin{frame}
 \titlepage
@@ -167,29 +167,42 @@ Historiske 60 cm-forsøk ga 480/480 gyldige venstremålinger og middel
 flerpunktkalibrering; det beviser ikke kollisjonssikkerhet.
 \end{frame}
 
-\begin{frame}{Hva er faktisk testet?}
+\begin{frame}{Programvarekontroll 3. november}
 \small
-\begin{tabular}{@{}p{.42\textwidth}p{.49\textwidth}@{}}\toprule
-Kontroll & Status 2.11.2026\\\midrule
-Native Ada-kontroller & 2599 består; faktisk kontroller, motor og sensorkode mot fakes\\
-Python-tester & 40 består; inkluderer GPIO-loggvalidering\\
-ARM-bygg & Hovedprogram, V2, GPIO V3 og lysdiagnostikk består\\
-Direkte Pi-test, tidligere & 362 GPIO-prøver; dagens nye bygg er ikke flashet\\
-SPARK & Faktisk lyspolicy: kontrakt og kjøretidssjekk verifisert\\\bottomrule
-\end{tabular}\par
-\vspace{5mm}
-Feilinjeksjon: alle tolv oppstartspunkter, B under avlesning/sending og
-sekundær stoppfeil. Fem kildemutasjoner og én bevismutasjon avvises.
-Fysiske deadlines gjenstår; SPARK-beviset gjelder bare lyspolicyen.
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{.42\textwidth}>{\raggedright\arraybackslash}p{.49\textwidth}@{}}\toprule
+Kontroll & Resultat fra denne økten\\\midrule
+Native Ada-kontroller & 3716 bestått, inkludert benk/OLED og offline modeller\\
+Python & 114 tester bestått; falske porter/prober/backender\\
+Feilinjeksjon & 20 mutasjoner avvist, inklusive SPARK-kontrakt\\
+ARM-bygg & Hovedprogram, tre diagnostikker og to standalone-profiler\\
+Statisk kontroll & ELF/HEX og avhengigheter; stackmaksimum ukjent\\\bottomrule
+\end{tabular}
+\vspace{4mm}
+\alert{Ingen fysisk test, flashing, reset eller kontakt med micro:biten.}\par
+\smallskip
+Historiske GPIO-/sensorforsøk gjelder eldre bygg.
 \end{frame}
 
-\begin{frame}{Neste demonstrasjon og ferdigstilling}
+\begin{frame}{Hva programvarearbeidet forbedrer}
+\begin{itemize}
+\item Logging har tekstgrense, linjefrist og pollinggrense; feil stopper nye forsøk.
+\item Manglende OLED og injiserte bussunntak stanser ikke sensorbenkmodellen.
+\item SI-stopplengde og vinkeltransformasjon testes med eksplisitte antakelser.
+\item Gamle observasjoner kan ikke bli ny tillatelse bare ved å bytte beslutnings-ID.
+\item Historiske rådata avspilles gjennom faktisk Ada-filter, uten kalibreringspåslag.
+\end{itemize}
+\vspace{4mm}
+Modellene dokumenterer programvareegenskaper. Fysisk sikkerhetsmargin,
+svingbane, sensorstabilitet og oppstart er ikke testet på de nye byggene.
+\end{frame}
+
+\begin{frame}{Gjenstående krav før ferdigstilling}
 \begin{enumerate}
-\item Monter fire LED-er med én 1 k$\Omega$-motstand per diode.
-\item Gi sensorene korrekt strøm og utfør oppmålte sensortester.
-\item Bekreft begge svingretninger med løftede hjul.
-\item Mål lavfartskjøring, reaksjonstid og faktisk stopplengde.
-\item Gjenta autonom sekvens med rålogg og video.
+\item Fysisk lys- og sensorfunksjon: ikke testet på de nye byggene.
+\item Oppstart og I2C på kortet: ikke testet.
+\item Begge svingretninger og autonom løype: ikke testet.
+\item Fart, reaksjonstid, stopplengde og stackmaksimum: ikke testet.
+\item Neste programvareoppgave: komplett oppstarts- og stackanalyse.
 \end{enumerate}
 \vspace{5mm}
 Hovedrapporten beskriver dagens løsning; utviklingshistorikken er bevart

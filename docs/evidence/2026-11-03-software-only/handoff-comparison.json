@@ -1,0 +1,58 @@
+{
+  "tools/standalone_bench.py": {
+    "zip_sha256": "6adfbd5f756944eb45c6b6bd722da1e92ebddc1f7a5b6edf5e3159e6f0d05ba7",
+    "existing_sha256": null
+  },
+  "tools/test_navigation.py": {
+    "zip_sha256": "a4c2fc5910835609e3dfaadb402f22cffb43a6ce01855a6b4ef5791dcc8333f9",
+    "existing_sha256": "9da9cd65515c3098fe5573062f71c4147788f071c487e340e15a5fe8a4ecebec"
+  },
+  "tests/bench_tests.adb": {
+    "zip_sha256": "273233aeb1eafc4ecbe76defd3c5f8c1e09483f681b0fddaf15148cfc89437d1",
+    "existing_sha256": null
+  },
+  "tests/test_standalone_bench.py": {
+    "zip_sha256": "fccf6cdf5588a13aa00679b7108bd1d839c8ce84b4e68f0f077610c585ead768",
+    "existing_sha256": null
+  },
+  "Code/bench/standalone_components.adb": {
+    "zip_sha256": "efdf146dc759398b97ebc46e7d8c72b6b5f61ca2d581b3bcc8fa47d7d233b078",
+    "existing_sha256": null
+  },
+  "Code/bench/standalone_components.gpr": {
+    "zip_sha256": "5640051e3126dbd9e9b25318f58a0042169ddd7c20c8cb9cfe3c1ba39c337890",
+    "existing_sha256": null
+  },
+  "Code/bench/standalone_usb.gpr": {
+    "zip_sha256": "b31d8e1f18a3db51815546c3d80a2da9c5016b9a5ad8198b9ac931955b0a09a2",
+    "existing_sha256": null
+  },
+  "Code/bench/standalone_usb.adb": {
+    "zip_sha256": "613ba9d1c4415f99a01327304fab6c057e673577db48fc499d28c5d2d4b3d219",
+    "existing_sha256": null
+  },
+  "Code/src/adaptive_bench_model.ads": {
+    "zip_sha256": "9d0dd1eea67970cd7b3286c7e74d06ab9b0f4958f2fcad6f4b9595b4fbbee05b",
+    "existing_sha256": null
+  },
+  "Code/src/adaptive_oled_codec.adb": {
+    "zip_sha256": "431218cb77b721aa9b995d1420cae5e28fbe075582e3a3a1a42f6a5cb4770a90",
+    "existing_sha256": null
+  },
+  "Code/src/adaptive_bench_oled.ads": {
+    "zip_sha256": "b1904e8e046f62555074cf022b08c35d4e63c16315b5a0210d599f14454dbfe4",
+    "existing_sha256": null
+  },
+  "Code/src/adaptive_bench_model.adb": {
+    "zip_sha256": "d3888c918924bbcc556f783ea5192ba0d0a99071b183d4d267120fda6d222313",
+    "existing_sha256": null
+  },
+  "Code/src/adaptive_bench_oled.adb": {
+    "zip_sha256": "a2c0b667a82a10a95884cdfe92ca34320120521912306a03e4ccdedb7ad16716",
+    "existing_sha256": null
+  },
+  "Code/src/adaptive_oled_codec.ads": {
+    "zip_sha256": "919d23790394a5f9bc039c187d6615f14f63434588b38623a08ada4b13233a6a",
+    "existing_sha256": null
+  }
+}

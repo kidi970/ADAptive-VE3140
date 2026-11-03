@@ -12,6 +12,7 @@ import time
 from pathlib import Path
 
 from sensor_experiment import verify_image, utc_now
+from diagnostic_guard import image_hash, preflight, verify_probe
 
 REPO = Path(__file__).resolve().parents[1]
 IMAGE = REPO / 'build/lamp-diagnostic/Code/diagnostics/obj-lamps/lamp_diagnostic'
@@ -35,40 +36,53 @@ def validate(raw, samples):
     return checks
 
 
-def main():
-    import serial
-    from pyocd.core.helpers import ConnectHelper
-    from pyocd.flash.file_programmer import FileProgrammer
+def main(argv=None, *, hardware=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--flash', action='store_true')
     parser.add_argument('--motor-power-disconnected', action='store_true', required=True)
     parser.add_argument('--leds-mounted', action='store_true', help='Record actual wiring, not an assumption')
     parser.add_argument('--port', required=True)
     parser.add_argument('--probe-id', required=True)
+    parser.add_argument('--image-sha256', required=True, help='Expected SHA-256 of the selected ELF')
+    parser.add_argument('--backup', type=Path, help='Verified double-read flash/UICR backup; required for --flash')
     parser.add_argument('--output', type=Path, required=True)
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
     if not IMAGE.is_file(): parser.error('Build lamp_diagnostic first')
+    try:
+        prerequisites = preflight(IMAGE, args.image_sha256, args.probe_id,
+                                  flash=args.flash, backup=args.backup)
+    except (OSError, ValueError) as exc:
+        parser.error(str(exc))
     args.output.mkdir(parents=True, exist_ok=False)
     meta = {'started_utc': utc_now(), 'image_sha256': hashlib.sha256(IMAGE.read_bytes()).hexdigest(),
             'motor_power_disconnected_reported': True, 'leds_mounted_reported': args.leds_mounted,
             'flash_requested': args.flash, 'completed': False, 'firmware_verified': False,
             'physical_light_or_voltage_verified': False, 'motor_commands_sent': 0}
+    meta['preflight'] = prerequisites
     raw = bytearray(); samples = []
     try:
         options = {'connect_mode': 'attach', 'auto_unlock': False,
                    'resume_on_disconnect': False, 'cmsis_dap.prefer_v1': True,
                    'cmsis_dap.limit_packets': True, 'cmsis_dap.deferred_transfers': False}
-        with serial.Serial(port=None, baudrate=115200, timeout=0.05) as link:
+        if hardware is None:
+            import serial
+            from pyocd.core.helpers import ConnectHelper
+            from pyocd.flash.file_programmer import FileProgrammer
+            hardware = (serial.Serial, ConnectHelper.session_with_chosen_probe, FileProgrammer)
+        serial_factory, session_factory, programmer_factory = hardware
+        chosen = session_factory(unique_id=args.probe_id, target_override='nrf52833',
+                                 options=options, blocking=False, return_first=False)
+        verify_probe(chosen, args.probe_id)
+        with serial_factory(port=None, baudrate=115200, timeout=0.05) as link:
             link.dtr = False; link.rts = False; link.port = args.port; link.open()
-            with ConnectHelper.session_with_chosen_probe(unique_id=args.probe_id,
-                    target_override='nrf52833', options=options, blocking=False,
-                    return_first=False) as session:
+            with chosen as session:
                 target = session.target
+                image_hash(IMAGE, args.image_sha256)
                 if args.flash:
                     # Attaching to a sleeping task can retain PSP/exception
                     # state that is unsuitable for executing a RAM flash algo.
                     target.reset_and_halt()
-                    FileProgrammer(session).program(str(IMAGE), file_format='elf')
+                    programmer_factory(session).program(str(IMAGE), file_format='elf')
                 meta['flash_segments'] = verify_image(target, IMAGE)
                 meta['firmware_verified'] = True
                 link.reset_input_buffer()

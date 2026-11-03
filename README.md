@@ -1,38 +1,41 @@
 # ADAptive – VE3140
 
-Siste kodekontroll 2. november 2026: **2599 Ada-kontroller, 40 Python-tester,
-fire ARM-bygg og avgrenset SPARK-bevis består.** Kontrolleren krever A for
-start; B låser stopp. OLED-feil gir ingen forsøksstorm. Skannemålinger må
-være ferske helt frem til sving, og kontinuerlig Cruise unngår stopp/start
-når målingene er gode. Lys har egen task med protected status.
+Programvarearbeid 3. november 2026: **3716 native Ada-kontroller,
+114 Python-tester, seks ARM-bygg og avgrenset SPARK-bevis består.**
+Overleveringens standalone-kode er innlemmet med bevarte driverrettinger.
+Logging har tids-/pollinggrense; benk-OLED tåler injiserte bussunntak.
+Rene navigasjons-/stopplengdemodeller og historisk avspilling kjøres offline.
 
-- [Hva er klart og hva gjenstår på benken?](docs/KLAR-FOR-BENK.md)
-- [Pi-oppkobling](docs/PI-OPPKOBLING.md) og [montering av lys](docs/LYS-OG-SKANNING.md)
-- [Siste gjennomgang og verifikasjon](docs/ADAptive-kodekontroll-2026-11-02.md)
-- [Rapport og Overleaf-pakke](docs/README.md), [LaTeX-hovedfil](docs/main.tex)
-  og [presentasjon, 12 lysbilder](docs/presentation.tex)
-- [Faglig sporbarhet og demoplan](docs/PENSUM-OG-DEMOPLAN.md)
+- [Utviklingslogg og avgrensninger fra denne økten](docs/ADAptive-utviklingslogg-2026-11-03.md)
+- [Integrerbart LaTeX-kapittel](docs/software-only-2026-11-03.tex)
+- [Rapport og Overleaf-pakke](docs/README.md), [hovedfil](docs/main.tex)
+  og [presentasjon](docs/presentation.tex)
+- [Forrige kodekontroll, bevart historikk](docs/ADAptive-kodekontroll-2026-11-02.md)
 
 ```sh
-python3 tools/check_project.py --full
-python3 tools/package_delivery.py
+python3 tools/sync_report_sources.py
+python3 tools/check_project.py --full --out build/software-only-2026-11-03/verified
+python3 tools/package_delivery.py --tag programvare-2026-11-03 --verification build/software-only-2026-11-03/verified/verification.json
 ```
 
-Dette kontrollerer og pakker programvare uten å åpne, resette eller
-programmere kortet. Ved endring av Ada-kode kjøres først
-`python3 tools/sync_report_sources.py`. Full kontroll krever native GNAT,
-den låste Alire-verktøykjeden og LaTeX. Se Pi-veiledningen for nytt checkout
-med undermodul og kumulativ driverpatch.
+Disse kommandoene tester, bygger og pakker bare lokale filer. De åpner ikke
+USB, serieport, debugprobe, GPIO eller I²C og flasher/resetter ikke kortet.
+Native GNAT, den pinnede Alire-verktøykjeden og LaTeX kreves. Driverpatchen
+må være anvendt én gang; se tidligere Pi-veiledning for nytt checkout.
 
-**Fysisk status:** Ingen ny flashing eller biltest i siste kodegjennomgang.
-Kortet står med tidligere lysdiagnostikk. De 362 godkjente GPIO-prøvene
-gjelder dette eldre bildet og monterte LED-er er ikke testet.
-Sensor-/motorstrømmen var av i siste dokumenterte oppsett. Ny autonom
-firmware, fysisk I2C-oppstart, sensorfunksjon, fart, bremsing og deadlines
-må testes. Pensum-PDF og gjeldende sensurveiledning er fortsatt utilgjengelige.
+**Fysisk status for denne øktens bygg: ikke testet.** Oppstart på kortet,
+sensor-/bussfunksjon, lys, knappetrykk, sving, fart, bremsing, deadlines og
+stackmaksimum er ikke bekreftet av mocks eller kompilering. Ingen fysisk
+brukerhandling er etterspurt. Komponentprofilens benkpinner P0/P9/P16/P3
+er forskjellige fra bilens lysplan P0/P12/P16. Offline-modellene gir ingen
+ny motorautorisasjon i produksjonskoden.
 
-Tidligere resultater er bevart i daterte logger under `docs/` og i
-`docs/development-history.tex`. Den gamle kursmalens bruksveiledning følger.
+Overleaf-nettprosjektet er **ikke oppdatert**: lokal nettlesertilgang er
+deaktivert i Work. Den lokale rapporten og Overleaf-ZIP-en er oppdatert.
+Historiske forsøksresultater og øvrig gruppearbeid er bevart i daterte
+filer under `docs/` og i `docs/development-history.tex`. Pensum-PDF og
+sensurveiledning er fortsatt ikke tilgjengelige for full faglig avstemming.
+Den eldre kursmalens generelle bruksveiledning følger nedenfor.
 
 ---
 

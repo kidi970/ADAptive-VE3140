@@ -1,0 +1,8 @@
+PASS mutation rejected: omit-kinetic-braking: raised PROGRAM_ERROR : SI reaction plus braking plus margin
+PASS mutation rejected: accept-timeout-ray: raised PROGRAM_ERROR : every supplied scan ray must be valid
+PASS mutation rejected: reuse-consumed-generation: raised PROGRAM_ERROR : new observations still cannot reuse consumed generation
+PASS mutation rejected: new-id-with-old-observations: raised PROGRAM_ERROR : larger generation cannot turn same measurements into new confirmation
+PASS mutation rejected: floor-independent-center-check: raised PROGRAM_ERROR : 5P SI guard mismatch cannot shrink under centimetre flooring
+PASS mutation rejected: floor-previous-center-check: raised PROGRAM_ERROR : 7P SI center mismatch cannot shrink under centimetre flooring
+PASS mutation rejected: logger-capacity-overrun: raised PROGRAM_ERROR : oversize length
+PASS mutation rejected: usb-led-writes-button-pin: raised PROGRAM_ERROR : source row disabled before centre column and then enabled

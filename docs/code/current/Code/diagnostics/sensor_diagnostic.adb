@@ -1,6 +1,6 @@
 with Ada.Real_Time; use Ada.Real_Time;
 with MicroBit; use MicroBit;
-with MicroBit.Console; use MicroBit.Console;
+with Adaptive_Log; use Adaptive_Log;
 with Adaptive_Echo;
 with Adaptive_Range_Model; use Adaptive_Range_Model;
 with Adaptive_Motion;

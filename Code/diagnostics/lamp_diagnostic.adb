@@ -1,5 +1,5 @@
 with Ada.Real_Time; use Ada.Real_Time;
-with MicroBit.Console; use MicroBit.Console;
+with Adaptive_Log; use Adaptive_Log;
 with Adaptive_Lights;
 with Adaptive_Lamp_Policy; use Adaptive_Lamp_Policy;
 with Adaptive_Lamp_Control;

@@ -40,6 +40,8 @@ jobs:
           python3 tools/test_navigation.py
           python3 -m unittest discover -s tests -p 'test_*.py'
           python3 tools/test_mutations.py
+          python3 tools/test_offline_mutations.py
+          python3 tools/test_diagnostic_guard_mutations.py
           python3 tools/sync_report_sources.py --check
 
       # Provision through Alire, exactly as a student does. Alire maps a crate
@@ -86,6 +88,9 @@ jobs:
           python3 tools/build_sensor_diagnostic.py
           python3 tools/build_sensor_diagnostic.py --gpio-only
           python3 tools/build_lamp_diagnostic.py
+          python3 tools/standalone_bench.py build --profile usb
+          python3 tools/standalone_bench.py build --profile components
+          python3 tools/audit_firmware.py --out build/firmware-audit.json
 
       - uses: actions/upload-artifact@v4
         with:

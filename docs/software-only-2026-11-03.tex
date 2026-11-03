@@ -1,0 +1,198 @@
+\chapter{Programvareutvikling 3. november 2026}
+\label{ch:software-only}
+\statusbox{Denne økten omfatter kildekodegjennomgang, native tester,
+simulering, historisk avspilling og krysskompilering. Maskinvareavhengige
+akseptansekrav har status \textbf{ikke testet}. Ingen flashing, reset,
+serieport-, USB-, debugprobe-, GPIO- eller I2C-tilgang er utført.}
+
+\section{Arbeidsgrunnlag og bevaring}
+Arbeidet tok utgangspunkt i eksisterende Pi-arbeidskopi på grenen
+\kode{codex/pi-integration-exceptions-2026-11-02}, commit
+\kode{2f338d4}. Overleveringspakken \kode{ADAptive-standalone.zip}
+ble mottatt senere i økten. ZIP-kontroll og alle oppførte SHA-256-verdier
+stemte. Pakkehashen er
+\kode{e8a063d6aa58a21919bbbbf2cdfce1e573a3025af165fbe973997de8c49c53ff}.
+Pakkens historiske base \kode{cf1178c} er en annen arbeidsgren, og dens
+programvaretall er historiske resultater. Ingen vedlagt binærfil er kjørt
+eller kopiert til kortet.
+
+Tretten nye overlayfiler ble innlemmet etter sammenligning.
+Pakkens eldre testkjører erstattet ikke den nyere lokale testkjøreren;
+benksuiten ble integrert i denne. Driverpatchen i pakken er byteidentisk
+med den allerede anvendte lokale patchen. Undermodulen ble derfor ikke
+patchet på nytt. Kildearkiv, endringsstatus, driverdiff og eksisterende
+byggbilder ble sikret lokalt før endringer/nybygg. Eksisterende
+firmwarebackup under \kode{ADAptive-bench} er urørt. Arkivets
+USB-identifikatorer, historiske maskininventar og firmwarebinærer inngår
+ikke i denne nye offentlige kildeendringen.
+
+\section{Oppstart, logging og feilgrenser}
+Den pinnede Nordic-driverens UART-sendefunksjon ignorerer parameteren
+\kode{Timeout} og venter på TXDRDY uten tidsfrist. Det kunne blokkere
+oppstart og feillogging selv om I2C-kallene var avgrenset.
+\kode{Adaptive_Log_Core} gir nå maksimalt 160 tegn pluss CR/LF,
+synlig trunkering, kontroll av innlagte linjeskift og en felles linjefrist
+på 30 ms. Høyst 100\,000 pollingforsøk gjelder også dersom klokken stanser.
+Ved tidsavbrudd eller callback-unntak deaktiveres loggeren frem til omstart.
+Den konkrete \kode{Adaptive_Log}-bindingen bruker direkte UART-registere;
+den gamle uavgrensede sendefunksjonen kalles ikke av denne bindingen.
+En vellykket retur betyr levert til UART-registeret, ikke observert på USB.
+Tidssjekk og pollinggrense er kodeegenskaper; målt maksimal kjøretid er ukjent.
+
+Både hovedprogram og diagnostikk bruker den nye loggeren. Motorpakken
+koder de to uendrede PWM-800-mønstrene direkte. Dette fjerner den ellers
+ubrukte DFR0548-pakkeavhengigheten som trakk inn gammel konsoll-elaborering.
+Motorkanalrekkefølge og sikkerhetsgrenser beholdes, og registermønstrene
+kontrolleres i native tester.
+
+USB-programmet bygger separat fra motor, servo, ekstern OLED, I2C og
+ultralyd. Koblingskontrollen undersøker faktisk linkede symboler;
+prosjektfilens kildekatalog alene er ikke et bevis på avhengighetsfrihet.
+For USB-profilen erstatter en liten adapter DisplayRT/Buttons med
+eksplisitt initialisering av bare innebygd midt-LED og knapp A/B. UART-bindingen
+refererer heller ikke det generelle Device-objektet som trakk inn
+TWI-driveren. Strengt symbolforbud ble beholdt; avhengigheten ble fjernet
+i koden. LED-en får nominelt 900 us per 22,5 ms, ikke kontinuerlig
+DC-aktivering. Dette er kode- og filkontroll, ikke målt lys eller timing.
+Komponentprogrammet er en egen profil uten motorstyring eller DisplayRT.
+Dets \emph{benkeforslag} bruker P0/P9/P16/P3, mens bilens plan bruker
+P0 til to baklys og P12/P16 til venstre/høyre blinklys. Profilene er ikke
+utskiftbare koblingsbeskrivelser. Ingen fysisk oppkobling er vurdert som
+verifisert i denne økten.
+
+Maskinvareadapterens OLED-unntak behandles som utilgjengelig skjerm i
+benkekoden. Sensorforsøket kan dermed fortsette når skjermadapteren feiler.
+Tekstkoding har fast 129-byte OLED-payload og høyst 21 tegn.
+Ikke-endelige tall og ugyldige modellparametre avvises i benkeberegningene.
+En syntetisk komponentindikasjon er fortsatt ikke en kjøretillatelse.
+
+Ada elaborerer avhengige pakker før \kode{Main} begynner. I hovedprogrammet konfigurerer DisplayRT,
+Buttons og ultralydadaptere innebygde registere i denne fasen;
+\kode{nRF.Device} har også interne errata-tiltak. \kode{Main} sin
+unntaksgrense dekker ikke hele denne fasen. At USB-programmet er uten
+\emph{eksterne} komponentavhengigheter betyr derfor ikke at oppstarten er
+uten intern registertilgang. Fysisk oppstartsfeil er \textbf{ikke testet}.
+
+\section{Stack og statisk filkontroll}
+\kode{tools/audit_firmware.py} leser bare lokale ELF-, HEX-, binder- og
+kompilatorfiler. Analysen utfører ikke målmaskinens instruksjoner.
+ELF-vektorer og linkerreservering kontrolleres separat fra enkeltfunksjoners
+\kode{.su}-opplysninger. Hovedbygget reserverer 16\,384 byte primærstack og
+2048 byte interruptstack. Standard sekundærstack er 512 byte per runtime-
+stack, med en binderpool på 1056 byte. Lys-tasken har i tillegg eksplisitt
+2048 byte. Disse er forskjellige budsjetter.
+
+Hovedbyggets registrerte rammer inneholder seks dynamiske oppføringer;
+største rapporterte enkeltfunksjonsramme er 704 byte. Dette er en
+kompilatoropplysning om enkeltfunksjoner, ikke målt totalforbruk.
+Dynamiske rammer, runtime, interruptnesting, dispatch og sammenhengende
+kallkjeder er ikke tilstrekkelig avgrenset til et samlet bevis. Cachede
+stack-/binderfiler kan være eldre enn ELF-en; registrerte hasher viser
+identitet, ikke automatisk felles byggeproveniens. Feillogging sammenføyer ikke lenger exceptionnavn og exceptionmelding
+til én stor midlertidig streng. Størrelsen 16 KB alene
+beviser ingen margin. Samlet øvre stackgrense og målt maksimum står som
+\textbf{ukjent / ikke testet}, og økningen fra 4 KB regnes ikke som ny
+fysisk verifikasjon.
+
+\section{Rene modeller og navigasjonsscenarier}
+\kode{Adaptive_Offline_Model} bruker SI-enheter og eksplisitte tidsstempler.
+\kode{Measured} innenfor 0,02--2,00 m og innenfor valgt aldersbudsjett er
+brukbar; timeout, manglende verdi, null, ikke-endelig tall og fremtidig
+eller foreldet tidsstempel er ukjent. Welfords algoritme beregner middel
+og populasjonsstandardavvik med eksplisitt teller og gyldighetsandel.
+Statistikken gir aldri alene klareringsbevis.
+
+Stopplengdemodellen er implementert og testet som
+\begin{equation}
+ d_{\mathrm{krav}} = v_{\max} t_{\mathrm{latens}} +
+ \frac{v_{\max}^2}{2a_{\min}} + m .
+\end{equation}
+Her må $v_{\max}$ være en begrunnet fart i m/s, $t_{\mathrm{latens}}$ en
+øvre latens i s, $a_{\min}>0$ en nedre retardasjon i m/s$^2$, og $m$
+en margin i m. PWM er ikke målt fart. Ugyldige parametre avvises;
+modellen kan bare skjerpe de eksisterende absolutte tersklene.
+Som \emph{syntetisk} eksempel gir $v=0{,}5$, $t=0{,}3$, $a=0{,}4$
+og $m=0{,}05$ kravet $0{,}5125$ m. Ingen av disse parameterne er
+målt på bilen. Produksjonskoden tar fortsatt ikke en ukalibrert dynamisk
+stopplengdemodell i bruk.
+
+Koordinater beregnes bare når en eksplisitt vinkelkalibrering er oppgitt:
+\begin{align}
+ \theta &= (u-u_0)k+\psi,\\
+ x &= o_x+d\cos\theta, & y &= o_y+d\sin\theta.
+\end{align}
+$u$ er servokommando, $k$ signert fysisk grad per kommando, $\psi$
+monteringsvinkel og $(o_x,o_y)$ sensoroffset. En syntetisk enhetskalibrering
+ville gi $134-84=50^\circ$, ikke $90^\circ$. Faktisk vinkelkalibrering og
+strålebredde er ukjent. Chord-estimatet $2d\sin(\Delta\theta/2)$ er en
+betinget vurdering av samplet åpning, ikke et bevis for hele svingbanen.
+
+Frakoblede 1P/5P/7P-scenarier dekker fri front, én mulig side, to mulige
+sider, ingen retning, isolert lang avstand, ugyldig måling og foreldet
+måling. Hele det oppgitte målesettet og de uavhengige guard-verdiene må
+være gyldige. Hysterese rangerer bare sider som allerede har bestått
+avstands-/breddekrav. Senterkonsistens kontrolleres i meter før konservativ
+nedrunding til centimeter. Retningsbeslutninger har engangsbruk: både
+ny generasjon og helt nye observasjoner etter forrige aksepterte beslutning
+kreves. Tidsstempler må leveres sannferdig av datakilden; modellen er ikke
+en autentisering av sensorer. Modellene styrer ikke bilens motorer.
+
+\section{Historisk avspilling og faktiske resultater}
+\kode{tools/replay_sensors.py} bygger et lite \emph{native} Ada-program
+som bruker den faktiske \kode{Adaptive_Policy.Filter}. Tre oktoberlogger
+og loggen med avslått sensorforsyning avspilles med kildehash.
+\kode{legacy_cm} brukes eksplisitt for sammenligning med den aktuelle
+driverens tellebaserte avstand; dette blandes ikke med klokkeavledet cm.
+Hver sensor/fase deles i ikke-overlappende tripler. Hver oktoberfil har
+320 råprøver og 104 komplette tripler; alle 104 ble akseptert av filteret.
+Filen med avslått forsyning har 320 ugyldige råprøver og 0 av 104 aksepterte
+tripler. Haler oppgis separat. Dette er ny analyse av gamle data, ikke
+nye målinger. Verken synkron klarering, servo-orientering eller svingtillatelse
+utledes fra disse filene. Referansen «ca. 60 cm» brukes ikke som ubetinget
+kalibreringskorreksjon.
+
+Samlet native kontroll gir \textbf{3716 Ada-kontrollpunkter} i 14 suiter:
+1729 policy/FSM, 24 range, 50 feilgrense, 94 lys, 49 skanning,
+521 kontroller, 140 offline-modeller, 24 logger, 866 benk/OLED,
+75 innebygd USB-I/O, 76 motor, 32 display, 6 sikkerhet og 30 navigasjon.
+Python-suiten gir \textbf{114 beståtte tester}. Tjue bevisste feil avvises:
+fem eksisterende applikasjonsmutasjoner, åtte nye modell/logger/USB-mutasjoner,
+seks mockbaserte verktøymutasjoner og én SPARK-kontraktmutasjon.
+Lyspolicyens avgrensede bevis består fortsatt.
+
+Seks ARM-prosjekter kompileres: hovedprogram, sensor V2, GPIO V3,
+lysdiagnostikk, standalone USB og standalone komponenter. Den strenge symbolkontrollen finner ingen forbudte avhengigheter i
+USB-bildet; forbudet beholdes. ELF/HEX-kontroll skiller virkelige allokerte lastbyte fra
+justeringspadding i lastsegmenter. Manglende allokerte byte og feil
+kontrollsummer avvises. Ingen av disse byggene er kjørt på micro:biten.
+
+De nye aktive diagnoseverktøyene testes med falske serieporter,
+prober og programmerere. Feil probe-ID, feil forventet SHA-256, manglende
+backup og feil readback må avbryte. Flashforutsetningen krever samsvarende,
+kontrollsummerte full-flash- og UICR-kopier; eksisterende backup endres
+ikke. Disse guardene er testet med syntetiske filer. De gir ikke grunnlag
+for å påstå at fysisk flashing fungerer. Eldre aktive verktøy, blant annet
+\kode{bench_capture.py}, inngår ikke i de maskinvarefrie kjøringene.
+
+\section{Reproduksjon og dokumentstatus}
+\begin{lstlisting}[language={}]
+python3 tools/sync_report_sources.py --check
+python3 tools/check_project.py --full --out build/software-only-2026-11-03/verified
+python3 tools/package_delivery.py --tag programvare-2026-11-03 \
+  --verification build/software-only-2026-11-03/verified/verification.json
+\end{lstlisting}
+Sjekkene binder resultater til kilde-, test-, verktøy- og dokumenthash.
+Native ARM64-programmer kjøres på Pi-en; ARM bare-metal-firmware
+kompileres og inspiseres som filer. Ingen av disse kommandoene flasher kortet.
+Tilgang til Overleaf-nettprosjektet var utilgjengelig fordi lokal
+nettlesertilgang er deaktivert i Work. Dette kapitlet og oppdaterte
+kildefiler er derfor integrert i lokalrapporten og en ny Overleaf-ZIP;
+\textbf{nettprosjektet er ikke oppdatert}. Historiske resultater og
+utviklingshistorikken er bevart.
+
+Prioritert videre programvarearbeid er en samlet, eksplisitt oppstartsmodell
+med fail-safe-grense også rundt nødvendige elaboreringsavhengigheter,
+fulgt av analyse av komplette kallkjeder og sekundærstack. Fysisk
+sensorstabilitet, I2C-oppstart, lys, knapper, bevegelse, sving, stopplengde,
+responstid og stackmaksimum har fortsatt status \textbf{ikke testet} for
+byggene fra denne økten.

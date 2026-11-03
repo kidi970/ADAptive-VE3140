@@ -1,0 +1,481 @@
+{
+  "scope": "static-file inventory; no device access or firmware execution",
+  "hardware_access": false,
+  "elf_sha256": "ba622981f246bdf0bf86fe149db6dcee9c16db6722bcbc09525b7217d3de486d",
+  "elf": {
+    "machine": "ARM",
+    "format": "ELF32 little-endian",
+    "entry_point": 107877,
+    "vector_initial_sp": 536898232,
+    "vector_reset_pc": 107877,
+    "vector_matches_stack_end": true,
+    "vector_matches_entry": true,
+    "environment_primary_stack": {
+      "start": 536881848,
+      "end": 536898232,
+      "reserved_bytes": 16384
+    },
+    "interrupt_stack": {
+      "start": 536879800,
+      "end": 536881848,
+      "reserved_bytes": 2048
+    },
+    "secondary_stack_default_bytes": 512,
+    "secondary_pool_reserved_bytes": 528,
+    "static_ram_end": 536898232,
+    "symbol_count": 2638
+  },
+  "stack_files": [
+    {
+      "file": "adaptive_bench_model.su",
+      "sha256": "9c6118e021b0e3f6a6483cadb14ff3c97c0ff59c540204db7bf8dd26c3e4c1e3",
+      "entries": [
+        {
+          "location": "<built-in>:TreadingsBIP",
+          "reported_frame_bytes": 40,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "<built-in>:statisticsIP",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "<built-in>:indicationH",
+          "reported_frame_bytes": 32,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "<built-in>:voltage_boundsIP",
+          "reported_frame_bytes": 32,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_bench_model.adb:6:4:Summarize",
+          "reported_frame_bytes": 96,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_bench_model.adb:37:7:Usable",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_bench_model.adb:36:4:Assess",
+          "reported_frame_bytes": 32,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_bench_model.adb:54:4:Led_Current_Ma",
+          "reported_frame_bytes": 48,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_bench_model.adb:72:4:Divider_Bounds",
+          "reported_frame_bytes": 72,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_bench_model.adb:4:4:Finite",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        }
+      ]
+    },
+    {
+      "file": "adaptive_bench_oled.su",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "entries": []
+    },
+    {
+      "file": "adaptive_echo.su",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "entries": []
+    },
+    {
+      "file": "adaptive_log.su",
+      "sha256": "ced76a2a10ad120d043164d92290b00691f11b5152cf9b46b37268322459de32",
+      "entries": [
+        {
+          "location": "Code/src/adaptive_log_core.adb:5:4:Failed",
+          "reported_frame_bytes": 4,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_log_core.adb:6:4:Truncated_Last_Line",
+          "reported_frame_bytes": 4,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_log_core.adb:13:7:Send",
+          "reported_frame_bytes": 40,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_log_core.adb:8:4:Try_Line",
+          "reported_frame_bytes": 104,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_log.adb:10:4:Write_Byte",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_log.adb:17:4:Failed",
+          "reported_frame_bytes": 8,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_log.adb:19:4:Put_Line",
+          "reported_frame_bytes": 40,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_log.adb:8:4:Ready",
+          "reported_frame_bytes": 4,
+          "qualifier": "static",
+          "frame_is_static": true
+        }
+      ]
+    },
+    {
+      "file": "adaptive_log_core.su",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "entries": []
+    },
+    {
+      "file": "adaptive_oled_codec.su",
+      "sha256": "45eab4d4519dccec296a1925c18dcaf7b3cf0a7133027cde919ae72ef192d23f",
+      "entries": [
+        {
+          "location": "<built-in>:bytesIP",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_oled_codec.adb:2:4:Font",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_oled_codec.adb:48:4:Encode_Line",
+          "reported_frame_bytes": 232,
+          "qualifier": "static",
+          "frame_is_static": true
+        }
+      ]
+    },
+    {
+      "file": "adaptive_range_model.su",
+      "sha256": "854e02d457fb14e7dc87487c1a2bcb19b6ff54d5914ac2c49ec33d09fb381754",
+      "entries": [
+        {
+          "location": "<built-in>:echo_statusH",
+          "reported_frame_bytes": 32,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "<built-in>:echo_resultIP",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_range_model.adb:2:4:Pulse_Distance",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_range_model.adb:4:4:Working_Range",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_range_model.adb:5:4:Divider_Output",
+          "reported_frame_bytes": 24,
+          "qualifier": "static",
+          "frame_is_static": true
+        }
+      ]
+    },
+    {
+      "file": "b__standalone_components.su",
+      "sha256": "ba7e6e8b21d5ff147d838610683bbe30ebf0a4a55b7913671a6d4b609a096ed2",
+      "entries": [
+        {
+          "location": "<built-in>:Tsec_default_sized_stacksBIP",
+          "reported_frame_bytes": 40,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "b__standalone_components.adb:48:4:adafinal",
+          "reported_frame_bytes": 8,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "b__standalone_components.adb:64:4:adainit",
+          "reported_frame_bytes": 8,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "b__standalone_components.adb:204:4:main",
+          "reported_frame_bytes": 24,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "b__standalone_components.adb:7:1:ada_main",
+          "reported_frame_bytes": 8,
+          "qualifier": "static",
+          "frame_is_static": true
+        }
+      ]
+    },
+    {
+      "file": "standalone_components.su",
+      "sha256": "bd813ead80b0786d7715b1358ab68a3e68c2d5e7d32d5652030046f64a53840e",
+      "entries": [
+        {
+          "location": "Code/src/adaptive_echo.adb:13:7:Finish",
+          "reported_frame_bytes": 24,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_echo.adb:9:4:Read",
+          "reported_frame_bytes": 96,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/bench/standalone_components.adb:14:1:Standalone_Components",
+          "reported_frame_bytes": 2088,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_echo.adb:7:4:Microseconds",
+          "reported_frame_bytes": 72,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_echo.adb:13:7:Finish",
+          "reported_frame_bytes": 24,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_echo.adb:9:4:Read",
+          "reported_frame_bytes": 96,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_echo.adb:7:4:Microseconds",
+          "reported_frame_bytes": 72,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_echo.adb:13:7:Finish",
+          "reported_frame_bytes": 24,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_echo.adb:9:4:Read",
+          "reported_frame_bytes": 96,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_echo.adb:7:4:Microseconds",
+          "reported_frame_bytes": 72,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_bench_oled.adb:5:4:Ready",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_bench_oled.adb:6:4:Address",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_bench_oled.adb:7:4:Send",
+          "reported_frame_bytes": 48,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_bench_oled.adb:17:4:Show_Line",
+          "reported_frame_bytes": 200,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_bench_oled.adb:24:4:Initialize",
+          "reported_frame_bytes": 72,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/bench/standalone_components.adb:29:4:Oled_Write",
+          "reported_frame_bytes": 200,
+          "qualifier": "dynamic",
+          "frame_is_static": false
+        },
+        {
+          "location": "Code/bench/standalone_components.adb:44:4:Initialize_Oled_Bus",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/bench/standalone_components.adb:55:4:Read_Window",
+          "reported_frame_bytes": 576,
+          "qualifier": "dynamic",
+          "frame_is_static": false
+        },
+        {
+          "location": "Code/bench/standalone_components.adb:79:4:Indicate",
+          "reported_frame_bytes": 32,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/bench/standalone_components.adb:88:4:Distance_Text",
+          "reported_frame_bytes": 144,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "<built-in>:B193b",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "<built-in>:B254b",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "<built-in>:B327b",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "<built-in>:B434b",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        }
+      ]
+    }
+  ],
+  "binder": {
+    "file": "b__standalone_components.adb",
+    "sha256": "b0051244e6012a7ac77fbdfbfc1c5fd706d97bdc9e80ede33e34044a2f5bb3c0",
+    "elaboration_calls": [
+      "ada_main",
+      "Ada.Strings.Text_Buffers",
+      "System.Bb.Timing_Events",
+      "Ada.Exceptions",
+      "System.Soft_Links",
+      "Ada.Tags",
+      "System.Exception_Table",
+      "Ada.Streams",
+      "System.Finalization_Root",
+      "Ada.Finalization",
+      "System.Storage_Pools",
+      "Ada.Real_Time",
+      "System.Pool_Global",
+      "HAL.GPIO",
+      "HAL.I2C",
+      "HAL.SPI",
+      "HAL.UART",
+      "Nrf.Gpio",
+      "Nrf.Gpio",
+      "Nrf.Spi_Master",
+      "Nrf.Spi_Master",
+      "Nrf.Timers",
+      "Nrf.Timers",
+      "Nrf.Twi",
+      "Nrf.Twi",
+      "Nrf.Uart",
+      "Nrf.Uart",
+      "Nrf.Device",
+      "Nrf.Device",
+      "Microbit.Timehighspeed"
+    ]
+  },
+  "hex": {
+    "file": "components.hex",
+    "sha256": "f0c6e18929f8c514c2d00fadf190a46306b3f4e2d9981943d5b074f653d02c3f",
+    "checksums_valid": true,
+    "records": 11060,
+    "data_bytes": 176876,
+    "lowest_address": 0,
+    "highest_address": 176879,
+    "elf_load_bytes": 176876,
+    "elf_segment_file_bytes": 176880,
+    "elf_segment_padding_bytes": 4,
+    "padding_bytes_present_in_hex": 0,
+    "padding_bytes_missing_from_hex": 4,
+    "different_padding_bytes": 0,
+    "missing_bytes": 0,
+    "extra_bytes": 0,
+    "different_bytes": 0,
+    "matches_elf_load_bytes": true,
+    "scope": "allocated section bytes at PT_LOAD physical addresses; omitted segment padding permitted; no device readback"
+  },
+  "stack_and_binder_provenance_matches_elf": null,
+  "whole_program_stack_upper_bound_bytes": null,
+  "measured_stack_high_water_bytes": null,
+  "limitations": [
+    "Individual .su frames cannot be summed into a call-chain bound.",
+    "Dynamic frames, dispatch calls, compiler helpers and runtime frames require further analysis.",
+    "Compiler stack files may be cached: their identity is recorded, not their freshness certified.",
+    "Binder and .su hashes identify files but do not prove they belong to this ELF build.",
+    "Primary, secondary, interrupt and per-task stacks are distinct budgets.",
+    "Reserved stack bytes are not evidence of adequate measured margin.",
+    "Binder elaboration runs before the application main exception handler."
+  ],
+  "largest_reported_individual_frame_bytes": 2088,
+  "dynamic_frame_count": 2
+}

@@ -1,0 +1,2 @@
+gprbuild: "sensor_gpio_diagnostic" up to date
+mb: alr exec -- gprbuild -p -P Code/diagnostics/sensor_gpio_diagnostic.gpr --root-dir=. --relocate-build-tree=build/sensor-diagnostic

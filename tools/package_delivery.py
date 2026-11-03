@@ -7,7 +7,7 @@ from pathlib import Path
 import shutil
 import subprocess
 import zipfile
-from check_project import REPO, document_hashes
+from check_project import REPO, document_hashes, verification_inputs
 from sync_report_sources import sources
 
 
@@ -18,13 +18,17 @@ def sha(data):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--tag', default='kodekontroll-2026-11-02')
+    parser.add_argument('--verification', type=Path, default=REPO / 'build/readiness-review/verification.json')
     args = parser.parse_args()
     if not args.tag or any(c not in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_' for c in args.tag):
         raise SystemExit('Use a plain filename tag')
-    verification = REPO / 'build/readiness-review/verification.json'
+    verification = args.verification
     checked = json.loads(verification.read_text())
     required = {'ada-tests', 'python-tests', 'mutations', 'proof', 'main-build',
-                'sensor-v2-build', 'gpio-v3-build', 'lamp-build', 'report-build', 'slides-build'}
+                'sensor-v2-build', 'gpio-v3-build', 'lamp-build', 'report-build', 'slides-build',
+                'guard-mutations', 'offline-mutations', 'historical-replay', 'driver-patch',
+                'standalone-usb-build', 'standalone-components-build',
+                'firmware-audit', 'usb-audit', 'components-audit'}
     if not checked['passed'] or not required.issubset(
             c['name'] for c in checked['checks'] if c['exit_code'] == 0):
         raise SystemExit('Run python3 tools/check_project.py --full first')
@@ -32,6 +36,8 @@ def main():
         raise SystemExit('Code changed since verification')
     if checked.get('document_sha256') != document_hashes():
         raise SystemExit('Document sources changed since verification')
+    if checked.get('verification_inputs_sha256') != verification_inputs():
+        raise SystemExit('Test or tool sources changed since verification')
     subprocess.run(['python3', 'tools/sync_report_sources.py', '--check'], cwd=REPO, check=True)
     out = REPO / 'build/deliverables'
     out.mkdir(parents=True, exist_ok=True)

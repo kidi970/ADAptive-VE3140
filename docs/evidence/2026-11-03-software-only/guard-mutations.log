@@ -1,0 +1,6 @@
+PASS mock-only mutation rejected: wrong-probe guard (1 assertion failures)
+PASS mock-only mutation rejected: image-hash guard (2 assertion failures)
+PASS mock-only mutation rejected: backup guard (2 assertion failures)
+PASS mock-only mutation rejected: standalone wrong-probe guard (1 assertion failures)
+PASS mock-only mutation rejected: standalone trigger spacing (1 assertion failures)
+PASS mock-only mutation rejected: standalone RAW/frame consistency (1 assertion failures)

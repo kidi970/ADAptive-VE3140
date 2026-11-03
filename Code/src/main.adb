@@ -8,7 +8,7 @@ with Adaptive_Display;
 with Adaptive_Safety;
 with Adaptive_Lights;
 with Adaptive_Lamp_Control;
-with MicroBit.Console; use MicroBit.Console;
+with Adaptive_Log; use Adaptive_Log;
 procedure Main is
    procedure Latch_Fault is
    begin

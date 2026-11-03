@@ -1,7 +1,6 @@
 with MicroBit.I2C;
 with HAL; use HAL;
 with HAL.I2C; use HAL.I2C;
-with DFR0548; use DFR0548;
 with Adaptive_Safety;
 with Adaptive_Errors;
 with Adaptive_Lamp_Control;
@@ -75,8 +74,16 @@ package body Adaptive_Motion is
    end Initialize;
    procedure Drive (Direction : Choice) is
       Buffer : I2C_Data (0 .. 32) := (0 => 16#06#, others => 0);
-      F : constant I2C_Data := Convert_Wheel_PWM_Registers ((800, 0));
-      B : constant I2C_Data := Convert_Wheel_PWM_Registers ((0, 800));
+      PWM_Count : constant UInt16 := 800;
+      -- Encode the two fixed channel patterns directly. Importing the legacy
+      -- DFR0548 helper also elaborates MicroBit.Console before Main, even
+      -- though none of that driver's bus operations is used here.
+      F : constant I2C_Data (1 .. 8) :=
+        (3 => UInt8 (PWM_Count and 16#FF#),
+         4 => UInt8 (Shift_Right (PWM_Count, 8)), others => 0);
+      B : constant I2C_Data (1 .. 8) :=
+        (7 => UInt8 (PWM_Count and 16#FF#),
+         8 => UInt8 (Shift_Right (PWM_Count, 8)), others => 0);
    begin
       if Direction = Blocked then Stop; return; end if;
       if Adaptive_Safety.Stop_Requested then

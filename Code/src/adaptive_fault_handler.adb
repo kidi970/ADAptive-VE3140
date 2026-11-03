@@ -24,13 +24,16 @@ package body Adaptive_Fault_Handler is
       -- Logging is always after the stop attempt. A failing logger must not
       -- escape the recovery boundary or cause an automatic restart.
       begin
-         Log ("FAULT LATCHED " & Adaptive_Errors.Fault_Code'Image (Saved.Primary)
-              & " " & Exception_Name (Occurrence)
-              & " " & Exception_Message (Occurrence));
+         -- Avoid concatenating both unconstrained exception strings on the
+         -- small secondary stack. The concrete logger bounds each record.
+         Log ("FAULT LATCHED " & Adaptive_Errors.Fault_Code'Image (Saved.Primary));
+         Log (Exception_Name (Occurrence));
+         Log (Exception_Message (Occurrence));
          Log ("STOP COMMAND " & Stop_Result'Image (Saved.Stop_Command));
          if Saved.Stop_Command = Failed then
-            Log ("STOP UNCONFIRMED " & Exception_Name (Stop_Id)
-                 & "; DISCONNECT MOTOR POWER");
+            Log ("STOP UNCONFIRMED");
+            Log (Exception_Name (Stop_Id));
+            Log ("DISCONNECT MOTOR POWER");
          end if;
       exception
          when others => Saved.Logging_Failed := True;

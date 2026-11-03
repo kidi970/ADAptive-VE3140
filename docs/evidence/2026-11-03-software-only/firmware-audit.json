@@ -1,0 +1,1010 @@
+{
+  "scope": "static-file inventory; no device access or firmware execution",
+  "hardware_access": false,
+  "elf_sha256": "34fc71676b4f799e03dc573f75e19358fe8b4ed22b686da072965c43e52a4ed6",
+  "elf": {
+    "machine": "ARM",
+    "format": "ELF32 little-endian",
+    "entry_point": 141573,
+    "vector_initial_sp": 536903352,
+    "vector_reset_pc": 141573,
+    "vector_matches_stack_end": true,
+    "vector_matches_entry": true,
+    "environment_primary_stack": {
+      "start": 536886968,
+      "end": 536903352,
+      "reserved_bytes": 16384
+    },
+    "interrupt_stack": {
+      "start": 536884920,
+      "end": 536886968,
+      "reserved_bytes": 2048
+    },
+    "secondary_stack_default_bytes": 512,
+    "secondary_pool_reserved_bytes": 1056,
+    "static_ram_end": 536903352,
+    "symbol_count": 3354
+  },
+  "stack_files": [
+    {
+      "file": "adaptive_controller.su",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "entries": []
+    },
+    {
+      "file": "adaptive_display.su",
+      "sha256": "daedc19c82bbc98b876c4698b03515a41087175dab11aeeb522e74a6016d39a9",
+      "entries": [
+        {
+          "location": "<built-in>:panel_stateH",
+          "reported_frame_bytes": 32,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_display.adb:9:4:Available",
+          "reported_frame_bytes": 4,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_display.adb:15:7:Draw",
+          "reported_frame_bytes": 56,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_display.adb:12:4:Show_Direction",
+          "reported_frame_bytes": 192,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_display.adb:58:4:Send",
+          "reported_frame_bytes": 152,
+          "qualifier": "dynamic",
+          "frame_is_static": false
+        },
+        {
+          "location": "Code/src/adaptive_display.adb:72:4:Draw_Char",
+          "reported_frame_bytes": 40,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_display.adb:176:4:Show_Front",
+          "reported_frame_bytes": 128,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_display.adb:202:4:Show_Status",
+          "reported_frame_bytes": 128,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_display.adb:296:4:Initialize",
+          "reported_frame_bytes": 224,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_display.adb:6:1:Adaptive_Display",
+          "reported_frame_bytes": 8,
+          "qualifier": "static",
+          "frame_is_static": true
+        }
+      ]
+    },
+    {
+      "file": "adaptive_errors.su",
+      "sha256": "1386669362e28fda5189d781f50331f52faf84e04000d69c94465ad590c60842",
+      "entries": [
+        {
+          "location": "<built-in>:fault_codeH",
+          "reported_frame_bytes": 32,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_errors.adb:3:4:Classify",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        }
+      ]
+    },
+    {
+      "file": "adaptive_fault_handler.su",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "entries": []
+    },
+    {
+      "file": "adaptive_fsm.su",
+      "sha256": "fed9ad3122da9fd3edaa79aee14f0ef9fc59a65ddd87af94513fd7ec9965c7c7",
+      "entries": [
+        {
+          "location": "<built-in>:stateH",
+          "reported_frame_bytes": 32,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "<built-in>:eventH",
+          "reported_frame_bytes": 32,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_fsm.adb:2:4:Next_State",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_fsm.adb:26:4:Confirm",
+          "reported_frame_bytes": 32,
+          "qualifier": "static",
+          "frame_is_static": true
+        }
+      ]
+    },
+    {
+      "file": "adaptive_lamp_control.su",
+      "sha256": "8dd3e3e31f4b88738ffea0cd331a614eab5a873a036f605b28eb82fb8db33cf6",
+      "entries": [
+        {
+          "location": "<built-in>:stateTVIP",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_lamp_control.adb:3:7:Enablen",
+          "reported_frame_bytes": 32,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "<built-in>:B8b",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_lamp_control.adb:3:7:Enablep",
+          "reported_frame_bytes": 32,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_lamp_control.adb:7:7:Set_Moden",
+          "reported_frame_bytes": 32,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "<built-in>:B12b",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_lamp_control.adb:7:7:Set_Modep",
+          "reported_frame_bytes": 32,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_lamp_control.adb:11:7:Latch_Faultn",
+          "reported_frame_bytes": 32,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "<built-in>:B16b",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_lamp_control.adb:11:7:Latch_Faultp",
+          "reported_frame_bytes": 32,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_lamp_control.adb:15:7:Task_Failedn",
+          "reported_frame_bytes": 32,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "<built-in>:B20b",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_lamp_control.adb:15:7:Task_Failedp",
+          "reported_frame_bytes": 32,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_lamp_control.adb:20:7:Readn",
+          "reported_frame_bytes": 40,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "<built-in>:B24b",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_lamp_control.adb:20:7:Readp",
+          "reported_frame_bytes": 48,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_lamp_control.ads:3:1:Adaptive_Lamp_Control",
+          "reported_frame_bytes": 8,
+          "qualifier": "static",
+          "frame_is_static": true
+        }
+      ]
+    },
+    {
+      "file": "adaptive_lamp_policy.su",
+      "sha256": "373eed98fffb303a885ab59ffe24a73888da3c801c996a685fc0cc54d5205c2e",
+      "entries": [
+        {
+          "location": "<built-in>:lamp_modeH",
+          "reported_frame_bytes": 32,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "<built-in>:lamp_outputsIP",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_lamp_policy.adb:2:4:Outputs",
+          "reported_frame_bytes": 24,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_lamp_policy.adb:2:4:Outputs",
+          "reported_frame_bytes": 80,
+          "qualifier": "static",
+          "frame_is_static": true
+        }
+      ]
+    },
+    {
+      "file": "adaptive_lights.su",
+      "sha256": "e68cec52971b547bbb3ef665d0dc4265c80cf30034eaeea604c5a2dcc85515af",
+      "entries": [
+        {
+          "location": "Code/src/adaptive_lights.adb:11:4:Initialize",
+          "reported_frame_bytes": 8,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_lights.adb:16:4:Failed",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "<built-in>:lamp_taskTKVIP",
+          "reported_frame_bytes": 88,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_lights.adb:33:7:Configure",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_lights.adb:26:4:Lamp_Task",
+          "reported_frame_bytes": 128,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_lights.adb:41:7:Write",
+          "reported_frame_bytes": 24,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "<built-in>:lamp_taskTK",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_lights.adb:8:1:Adaptive_Lights",
+          "reported_frame_bytes": 32,
+          "qualifier": "static",
+          "frame_is_static": true
+        }
+      ]
+    },
+    {
+      "file": "adaptive_log.su",
+      "sha256": "ced76a2a10ad120d043164d92290b00691f11b5152cf9b46b37268322459de32",
+      "entries": [
+        {
+          "location": "Code/src/adaptive_log_core.adb:5:4:Failed",
+          "reported_frame_bytes": 4,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_log_core.adb:6:4:Truncated_Last_Line",
+          "reported_frame_bytes": 4,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_log_core.adb:13:7:Send",
+          "reported_frame_bytes": 40,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_log_core.adb:8:4:Try_Line",
+          "reported_frame_bytes": 104,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_log.adb:10:4:Write_Byte",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_log.adb:17:4:Failed",
+          "reported_frame_bytes": 8,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_log.adb:19:4:Put_Line",
+          "reported_frame_bytes": 40,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_log.adb:8:4:Ready",
+          "reported_frame_bytes": 4,
+          "qualifier": "static",
+          "frame_is_static": true
+        }
+      ]
+    },
+    {
+      "file": "adaptive_log_core.su",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "entries": []
+    },
+    {
+      "file": "adaptive_motion.su",
+      "sha256": "7c834be6886f369fe77e4d92df143724d6b310b96c041491e22df128d27a3643",
+      "entries": [
+        {
+          "location": "Code/src/adaptive_motion.adb:12:4:Write",
+          "reported_frame_bytes": 208,
+          "qualifier": "dynamic",
+          "frame_is_static": false
+        },
+        {
+          "location": "Code/src/adaptive_motion.adb:32:4:Stop",
+          "reported_frame_bytes": 72,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_motion.adb:55:4:Initialize",
+          "reported_frame_bytes": 40,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_motion.adb:75:4:Drive",
+          "reported_frame_bytes": 168,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_motion.adb:123:4:Aim",
+          "reported_frame_bytes": 40,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_motion.adb:8:1:Adaptive_Motion",
+          "reported_frame_bytes": 8,
+          "qualifier": "static",
+          "frame_is_static": true
+        }
+      ]
+    },
+    {
+      "file": "adaptive_navigation.su",
+      "sha256": "8b646c3c121644ce5da61d079e2d8e87a814c171dc127c0e12cd33b176312f04",
+      "entries": [
+        {
+          "location": "Code/src/adaptive_navigation.adb:12:4:Turn_Evidence_Fresh",
+          "reported_frame_bytes": 8,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_quick_scan.adb:3:4:Find",
+          "reported_frame_bytes": 160,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_navigation.adb:14:4:Scan_Path",
+          "reported_frame_bytes": 304,
+          "qualifier": "dynamic",
+          "frame_is_static": false
+        },
+        {
+          "location": "Code/src/adaptive_navigation.adb:22:7:Recenter",
+          "reported_frame_bytes": 32,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_navigation.adb:30:7:Read_Guard",
+          "reported_frame_bytes": 40,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_navigation.adb:43:7:Point",
+          "reported_frame_bytes": 200,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_navigation.adb:18:7:Now_Ms",
+          "reported_frame_bytes": 64,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_navigation.adb:20:7:Stop_Requested",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_navigation.adb:85:7:Check",
+          "reported_frame_bytes": 168,
+          "qualifier": "dynamic",
+          "frame_is_static": false
+        },
+        {
+          "location": "Code/src/adaptive_navigation.adb:83:4:Monitor_Motion",
+          "reported_frame_bytes": 32,
+          "qualifier": "static",
+          "frame_is_static": true
+        }
+      ]
+    },
+    {
+      "file": "adaptive_policy.su",
+      "sha256": "21c3991eb3f5b6c6666e6282fc30a46183cc13d25fce0ddb57b845163806613f",
+      "entries": [
+        {
+          "location": "<built-in>:distancesIP",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "<built-in>:choiceH",
+          "reported_frame_bytes": 32,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "<built-in>:snapshotIP",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_policy.adb:4:4:Valid",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_policy.adb:5:4:Clear",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_policy.adb:8:7:Close",
+          "reported_frame_bytes": 24,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_policy.adb:7:4:Filter",
+          "reported_frame_bytes": 40,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_policy.adb:21:4:Forward_Safe",
+          "reported_frame_bytes": 24,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_policy.adb:24:4:Turn_Safe",
+          "reported_frame_bytes": 24,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_policy.adb:27:4:Corridor",
+          "reported_frame_bytes": 48,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_policy.adb:39:4:Wide_Enough",
+          "reported_frame_bytes": 72,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_policy.adb:51:4:Select_Five",
+          "reported_frame_bytes": 80,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_policy.adb:72:4:Select_Seven",
+          "reported_frame_bytes": 72,
+          "qualifier": "static",
+          "frame_is_static": true
+        }
+      ]
+    },
+    {
+      "file": "adaptive_quick_scan.su",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "entries": []
+    },
+    {
+      "file": "adaptive_safety.su",
+      "sha256": "a19fcebb81593d9bd50ed4a0e4271d864ccc2b22983b69fc60cba9bc87d4630d",
+      "entries": [
+        {
+          "location": "Code/src/adaptive_safety.adb:6:4:Request_Stop",
+          "reported_frame_bytes": 4,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_safety.adb:10:4:Request_Start",
+          "reported_frame_bytes": 4,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_safety.adb:14:4:On_Button",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_safety.adb:23:4:Initialize",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        }
+      ]
+    },
+    {
+      "file": "adaptive_scan_policy.su",
+      "sha256": "1be789e0c6f5b5fd08220a3783951a74de911e06ce7fa4642ab8c0e60568b0b4",
+      "entries": [
+        {
+          "location": "<built-in>:Tangle_pairBIP",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_scan_policy.adb:2:4:Angles",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_scan_policy.adb:10:4:Preferred",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_scan_policy.adb:18:4:Acceptable",
+          "reported_frame_bytes": 48,
+          "qualifier": "static",
+          "frame_is_static": true
+        }
+      ]
+    },
+    {
+      "file": "adaptive_sensors.su",
+      "sha256": "249c66b22dba9bd14595ed991ec7d2816de6cef1a49d8d5bd72650964db4861c",
+      "entries": [
+        {
+          "location": "Code/libs/Ada_Drivers_Library/boards/MicroBit_v2/src/full/microbit-ultrasonic.adb:7:4:Initialize",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/libs/Ada_Drivers_Library/boards/MicroBit_v2/src/full/microbit-ultrasonic.adb:29:4:Read",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/libs/Ada_Drivers_Library/boards/MicroBit_v2/src/full/microbit-ultrasonic.adb:38:4:Sendtriggerpulse",
+          "reported_frame_bytes": 8,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/libs/Ada_Drivers_Library/boards/MicroBit_v2/src/full/microbit-ultrasonic.adb:46:4:Waitforecho",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/libs/Ada_Drivers_Library/boards/MicroBit_v2/src/full/microbit-ultrasonic.adb:63:4:Wait_For_End_Blocking_Using_Polling_With_Timeout",
+          "reported_frame_bytes": 32,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/libs/Ada_Drivers_Library/boards/MicroBit_v2/src/full/microbit-ultrasonic.adb:77:4:Wait_For_Start_Blocking_Using_Polling_With_Timeout",
+          "reported_frame_bytes": 24,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/libs/Ada_Drivers_Library/boards/MicroBit_v2/src/full/microbit-ultrasonic.adb:7:4:Initialize",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/libs/Ada_Drivers_Library/boards/MicroBit_v2/src/full/microbit-ultrasonic.adb:29:4:Read",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/libs/Ada_Drivers_Library/boards/MicroBit_v2/src/full/microbit-ultrasonic.adb:38:4:Sendtriggerpulse",
+          "reported_frame_bytes": 8,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/libs/Ada_Drivers_Library/boards/MicroBit_v2/src/full/microbit-ultrasonic.adb:46:4:Waitforecho",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/libs/Ada_Drivers_Library/boards/MicroBit_v2/src/full/microbit-ultrasonic.adb:63:4:Wait_For_End_Blocking_Using_Polling_With_Timeout",
+          "reported_frame_bytes": 32,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/libs/Ada_Drivers_Library/boards/MicroBit_v2/src/full/microbit-ultrasonic.adb:77:4:Wait_For_Start_Blocking_Using_Polling_With_Timeout",
+          "reported_frame_bytes": 24,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/libs/Ada_Drivers_Library/boards/MicroBit_v2/src/full/microbit-ultrasonic.adb:7:4:Initialize",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/libs/Ada_Drivers_Library/boards/MicroBit_v2/src/full/microbit-ultrasonic.adb:29:4:Read",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/libs/Ada_Drivers_Library/boards/MicroBit_v2/src/full/microbit-ultrasonic.adb:38:4:Sendtriggerpulse",
+          "reported_frame_bytes": 8,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/libs/Ada_Drivers_Library/boards/MicroBit_v2/src/full/microbit-ultrasonic.adb:46:4:Waitforecho",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/libs/Ada_Drivers_Library/boards/MicroBit_v2/src/full/microbit-ultrasonic.adb:63:4:Wait_For_End_Blocking_Using_Polling_With_Timeout",
+          "reported_frame_bytes": 32,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/libs/Ada_Drivers_Library/boards/MicroBit_v2/src/full/microbit-ultrasonic.adb:77:4:Wait_For_Start_Blocking_Using_Polling_With_Timeout",
+          "reported_frame_bytes": 24,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_sensors.adb:11:4:Raw",
+          "reported_frame_bytes": 32,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_sensors.adb:26:4:Filtered",
+          "reported_frame_bytes": 296,
+          "qualifier": "dynamic",
+          "frame_is_static": false
+        },
+        {
+          "location": "Code/src/adaptive_sensors.adb:36:4:Read_All",
+          "reported_frame_bytes": 40,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_sensors.adb:6:1:Adaptive_Sensors",
+          "reported_frame_bytes": 8,
+          "qualifier": "static",
+          "frame_is_static": true
+        }
+      ]
+    },
+    {
+      "file": "b__main.su",
+      "sha256": "c9d88b7a8f5daa8cf5db17464232336e5b2cfb4bf721edd11eb2d384ce78d4cb",
+      "entries": [
+        {
+          "location": "<built-in>:Tsec_default_sized_stacksBIP",
+          "reported_frame_bytes": 40,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "b__main.adb:71:4:adafinal",
+          "reported_frame_bytes": 8,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "b__main.adb:87:4:adainit",
+          "reported_frame_bytes": 8,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "b__main.adb:264:4:main",
+          "reported_frame_bytes": 24,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "b__main.adb:7:1:ada_main",
+          "reported_frame_bytes": 8,
+          "qualifier": "static",
+          "frame_is_static": true
+        }
+      ]
+    },
+    {
+      "file": "main.su",
+      "sha256": "c0e36d0b61811b58d0f890bdae8ae58db274d07a525a55d03c8c76fd63b2557d",
+      "entries": [
+        {
+          "location": "Code/src/main.adb:12:1:Main",
+          "reported_frame_bytes": 472,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "<built-in>:B32b",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_fault_handler.adb:7:4:Handle",
+          "reported_frame_bytes": 704,
+          "qualifier": "dynamic",
+          "frame_is_static": false
+        },
+        {
+          "location": "<built-in>:B34b",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "<built-in>:B56b",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_controller.adb:8:4:Check_Stop",
+          "reported_frame_bytes": 40,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_controller.adb:16:4:Initialize",
+          "reported_frame_bytes": 96,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_controller.adb:34:4:Reject_Motion",
+          "reported_frame_bytes": 24,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/adaptive_controller.adb:40:4:Step",
+          "reported_frame_bytes": 120,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/main.adb:13:4:Latch_Fault",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/main.adb:18:4:Aim_Center",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/main.adb:22:4:Pause",
+          "reported_frame_bytes": 56,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/main.adb:26:4:Start_Requested",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        },
+        {
+          "location": "Code/src/main.adb:27:4:Stop_Requested",
+          "reported_frame_bytes": 16,
+          "qualifier": "static",
+          "frame_is_static": true
+        }
+      ]
+    }
+  ],
+  "binder": {
+    "file": "b__main.adb",
+    "sha256": "2d41c7be769f3f66a516737796ec96a29f3c9fa2e3f203b6506233e474e69af2",
+    "elaboration_calls": [
+      "ada_main",
+      "Ada.Strings.Text_Buffers",
+      "System.Bb.Timing_Events",
+      "Ada.Exceptions",
+      "System.Soft_Links",
+      "Ada.Tags",
+      "System.Exception_Table",
+      "Ada.Streams",
+      "System.Finalization_Root",
+      "Ada.Finalization",
+      "System.Storage_Pools",
+      "Ada.Real_Time",
+      "Ada.Real_Time.Timing_Events",
+      "Ada.Strings.Maps",
+      "Ada.Strings.Unbounded",
+      "System.Pool_Global",
+      "System.Tasking.Protected_Objects",
+      "System.Tasking.Restricted.Stages",
+      "Adaptive_Lamp_Control",
+      "HAL.GPIO",
+      "HAL.I2C",
+      "HAL.SPI",
+      "HAL.UART",
+      "Nrf.Gpio",
+      "Nrf.Gpio",
+      "Nrf.Spi_Master",
+      "Nrf.Spi_Master",
+      "Nrf.Timers",
+      "Nrf.Timers",
+      "Nrf.Twi",
+      "Nrf.Twi",
+      "Nrf.Uart",
+      "Nrf.Uart",
+      "Nrf.Device",
+      "Nrf.Device",
+      "Microbit.Displayrt",
+      "Adaptive_Display",
+      "Microbit.Timehighspeed",
+      "Microbit.Timewithrtc1",
+      "Microbit.Timewithrtc1",
+      "Microbit.Buttons",
+      "Adaptive_Lights",
+      "Adaptive_Motion",
+      "Adaptive_Sensors"
+    ]
+  },
+  "hex": {
+    "file": "main.hex",
+    "sha256": "c99d5c02cb50257c477faf99d40577179c9d80715e54166c5da71a27544b99ea",
+    "checksums_valid": true,
+    "records": 14156,
+    "data_bytes": 226376,
+    "lowest_address": 0,
+    "highest_address": 226379,
+    "elf_load_bytes": 226376,
+    "elf_segment_file_bytes": 226380,
+    "elf_segment_padding_bytes": 4,
+    "padding_bytes_present_in_hex": 0,
+    "padding_bytes_missing_from_hex": 4,
+    "different_padding_bytes": 0,
+    "missing_bytes": 0,
+    "extra_bytes": 0,
+    "different_bytes": 0,
+    "matches_elf_load_bytes": true,
+    "scope": "allocated section bytes at PT_LOAD physical addresses; omitted segment padding permitted; no device readback"
+  },
+  "stack_and_binder_provenance_matches_elf": null,
+  "whole_program_stack_upper_bound_bytes": null,
+  "measured_stack_high_water_bytes": null,
+  "limitations": [
+    "Individual .su frames cannot be summed into a call-chain bound.",
+    "Dynamic frames, dispatch calls, compiler helpers and runtime frames require further analysis.",
+    "Compiler stack files may be cached: their identity is recorded, not their freshness certified.",
+    "Binder and .su hashes identify files but do not prove they belong to this ELF build.",
+    "Primary, secondary, interrupt and per-task stacks are distinct budgets.",
+    "Reserved stack bytes are not evidence of adequate measured margin.",
+    "Binder elaboration runs before the application main exception handler."
+  ],
+  "largest_reported_individual_frame_bytes": 704,
+  "dynamic_frame_count": 6
+}

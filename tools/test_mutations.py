@@ -44,7 +44,7 @@ def main():
             replace_once(work / 'src' / unit, old, new)
             adl = REPO / 'Code/libs/Ada_Drivers_Library'
             command = [compiler, '-q', '-gnat2022', '-gnata', '-gnato',
-                       '-I' + str(work / 'src'), '-I' + str(REPO / 'tests/stubs'),
+                       '-I' + str(REPO / 'tests/stubs'), '-I' + str(work / 'src'),
                        '-I' + str(adl / 'hal/src'),
                        '-I' + str(adl / 'components/src/dfrobot/dfr0548'),
                        str(REPO / f'tests/{suite}.adb'), '-o', str(work / suite)]

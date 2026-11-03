@@ -1,0 +1,6754 @@
+{
+  "kind": "offline replay of historical data",
+  "hardware_access": false,
+  "distance_source": "legacy_cm; invalid ECHO status maps to unknown (0)",
+  "policy_sha256": "826741045ffe4c8b0085a14b86843d24b7a19d0f2232c46fa29a9af09987375b",
+  "limitations": [
+    "Nonoverlapping triples within each phase/sensor; not a timed vehicle simulation.",
+    "No servo-angle or simultaneous clearance evidence; no turn permission is inferred.",
+    "The historical 60 cm reference is not applied as a calibration correction.",
+    "Accepted filter triples do not prove fresh evidence or a clear swept path."
+  ],
+  "files": [
+    {
+      "source": "docs/evidence/2026-10-23-reference60/run-02/samples.csv",
+      "source_sha256": "c70ae4a37b584531a544b60e91e18b4d5028027bf68a5734577ba08252e0d01b",
+      "samples": 320,
+      "valid_raw": 320,
+      "valid_fraction": 1.0,
+      "triples": 104,
+      "accepted_triples": 104,
+      "discarded_tail_by_group": {
+        "ALL_100/F": 1,
+        "ALL_100/L": 1,
+        "ALL_100/R": 1,
+        "ALL_65/F": 1,
+        "ALL_65/L": 1,
+        "ALL_65/R": 1,
+        "LEFT_100/L": 1,
+        "LEFT_65/L": 1
+      },
+      "trace": [
+        {
+          "group": "ALL_100/F",
+          "sequence": [
+            121,
+            124,
+            127
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            77,
+            76,
+            77
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_100/F",
+          "sequence": [
+            130,
+            133,
+            136
+          ],
+          "span_us": 600189,
+          "valid_raw": 3,
+          "values": [
+            77,
+            77,
+            76
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_100/F",
+          "sequence": [
+            139,
+            142,
+            145
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            77,
+            77,
+            76
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_100/F",
+          "sequence": [
+            148,
+            151,
+            154
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            76,
+            77,
+            76
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_100/F",
+          "sequence": [
+            157,
+            160,
+            163
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            76,
+            76,
+            77
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_100/F",
+          "sequence": [
+            166,
+            169,
+            172
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            76,
+            76,
+            77
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_100/F",
+          "sequence": [
+            175,
+            178,
+            181
+          ],
+          "span_us": 600219,
+          "valid_raw": 3,
+          "values": [
+            77,
+            77,
+            76
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_100/F",
+          "sequence": [
+            184,
+            187,
+            190
+          ],
+          "span_us": 600190,
+          "valid_raw": 3,
+          "values": [
+            77,
+            76,
+            76
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_100/F",
+          "sequence": [
+            193,
+            196,
+            199
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            76,
+            76,
+            76
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_100/F",
+          "sequence": [
+            202,
+            205,
+            208
+          ],
+          "span_us": 600189,
+          "valid_raw": 3,
+          "values": [
+            77,
+            77,
+            77
+          ],
+          "filtered_legacy_cm": 77
+        },
+        {
+          "group": "ALL_100/F",
+          "sequence": [
+            211,
+            214,
+            217
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            77,
+            76,
+            76
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_100/F",
+          "sequence": [
+            220,
+            223,
+            226
+          ],
+          "span_us": 600189,
+          "valid_raw": 3,
+          "values": [
+            76,
+            77,
+            77
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_100/F",
+          "sequence": [
+            229,
+            232,
+            235
+          ],
+          "span_us": 600219,
+          "valid_raw": 3,
+          "values": [
+            76,
+            76,
+            76
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_100/L",
+          "sequence": [
+            122,
+            125,
+            128
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_100/L",
+          "sequence": [
+            131,
+            134,
+            137
+          ],
+          "span_us": 600190,
+          "valid_raw": 3,
+          "values": [
+            53,
+            54,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_100/L",
+          "sequence": [
+            140,
+            143,
+            146
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            54,
+            54,
+            54
+          ],
+          "filtered_legacy_cm": 54
+        },
+        {
+          "group": "ALL_100/L",
+          "sequence": [
+            149,
+            152,
+            155
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            54
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_100/L",
+          "sequence": [
+            158,
+            161,
+            164
+          ],
+          "span_us": 600219,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_100/L",
+          "sequence": [
+            167,
+            170,
+            173
+          ],
+          "span_us": 600219,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_100/L",
+          "sequence": [
+            176,
+            179,
+            182
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_100/L",
+          "sequence": [
+            185,
+            188,
+            191
+          ],
+          "span_us": 600189,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_100/L",
+          "sequence": [
+            194,
+            197,
+            200
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_100/L",
+          "sequence": [
+            203,
+            206,
+            209
+          ],
+          "span_us": 600189,
+          "valid_raw": 3,
+          "values": [
+            53,
+            54,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_100/L",
+          "sequence": [
+            212,
+            215,
+            218
+          ],
+          "span_us": 600219,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_100/L",
+          "sequence": [
+            221,
+            224,
+            227
+          ],
+          "span_us": 600189,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_100/L",
+          "sequence": [
+            230,
+            233,
+            236
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_100/R",
+          "sequence": [
+            123,
+            126,
+            129
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            23,
+            23,
+            23
+          ],
+          "filtered_legacy_cm": 23
+        },
+        {
+          "group": "ALL_100/R",
+          "sequence": [
+            132,
+            135,
+            138
+          ],
+          "span_us": 600219,
+          "valid_raw": 3,
+          "values": [
+            22,
+            23,
+            23
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_100/R",
+          "sequence": [
+            141,
+            144,
+            147
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            22,
+            22,
+            22
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_100/R",
+          "sequence": [
+            150,
+            153,
+            156
+          ],
+          "span_us": 600219,
+          "valid_raw": 3,
+          "values": [
+            22,
+            23,
+            22
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_100/R",
+          "sequence": [
+            159,
+            162,
+            165
+          ],
+          "span_us": 600190,
+          "valid_raw": 3,
+          "values": [
+            23,
+            23,
+            22
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_100/R",
+          "sequence": [
+            168,
+            171,
+            174
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            22,
+            23,
+            22
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_100/R",
+          "sequence": [
+            177,
+            180,
+            183
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            23,
+            23,
+            23
+          ],
+          "filtered_legacy_cm": 23
+        },
+        {
+          "group": "ALL_100/R",
+          "sequence": [
+            186,
+            189,
+            192
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            23,
+            23,
+            23
+          ],
+          "filtered_legacy_cm": 23
+        },
+        {
+          "group": "ALL_100/R",
+          "sequence": [
+            195,
+            198,
+            201
+          ],
+          "span_us": 600219,
+          "valid_raw": 3,
+          "values": [
+            23,
+            23,
+            23
+          ],
+          "filtered_legacy_cm": 23
+        },
+        {
+          "group": "ALL_100/R",
+          "sequence": [
+            204,
+            207,
+            210
+          ],
+          "span_us": 600219,
+          "valid_raw": 3,
+          "values": [
+            23,
+            23,
+            23
+          ],
+          "filtered_legacy_cm": 23
+        },
+        {
+          "group": "ALL_100/R",
+          "sequence": [
+            213,
+            216,
+            219
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            23,
+            23,
+            23
+          ],
+          "filtered_legacy_cm": 23
+        },
+        {
+          "group": "ALL_100/R",
+          "sequence": [
+            222,
+            225,
+            228
+          ],
+          "span_us": 600189,
+          "valid_raw": 3,
+          "values": [
+            23,
+            23,
+            23
+          ],
+          "filtered_legacy_cm": 23
+        },
+        {
+          "group": "ALL_100/R",
+          "sequence": [
+            231,
+            234,
+            237
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            22,
+            23,
+            23
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_65/F",
+          "sequence": [
+            1,
+            4,
+            7
+          ],
+          "span_us": 390197,
+          "valid_raw": 3,
+          "values": [
+            76,
+            76,
+            77
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_65/F",
+          "sequence": [
+            10,
+            13,
+            16
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            77,
+            76,
+            76
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_65/F",
+          "sequence": [
+            19,
+            22,
+            25
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            77,
+            77,
+            77
+          ],
+          "filtered_legacy_cm": 77
+        },
+        {
+          "group": "ALL_65/F",
+          "sequence": [
+            28,
+            31,
+            34
+          ],
+          "span_us": 390167,
+          "valid_raw": 3,
+          "values": [
+            76,
+            77,
+            77
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_65/F",
+          "sequence": [
+            37,
+            40,
+            43
+          ],
+          "span_us": 390197,
+          "valid_raw": 3,
+          "values": [
+            77,
+            77,
+            76
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_65/F",
+          "sequence": [
+            46,
+            49,
+            52
+          ],
+          "span_us": 390137,
+          "valid_raw": 3,
+          "values": [
+            77,
+            76,
+            76
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_65/F",
+          "sequence": [
+            55,
+            58,
+            61
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            77,
+            76,
+            77
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_65/F",
+          "sequence": [
+            64,
+            67,
+            70
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            77,
+            77,
+            77
+          ],
+          "filtered_legacy_cm": 77
+        },
+        {
+          "group": "ALL_65/F",
+          "sequence": [
+            73,
+            76,
+            79
+          ],
+          "span_us": 390197,
+          "valid_raw": 3,
+          "values": [
+            76,
+            76,
+            76
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_65/F",
+          "sequence": [
+            82,
+            85,
+            88
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            77,
+            77,
+            76
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_65/F",
+          "sequence": [
+            91,
+            94,
+            97
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            77,
+            77,
+            77
+          ],
+          "filtered_legacy_cm": 77
+        },
+        {
+          "group": "ALL_65/F",
+          "sequence": [
+            100,
+            103,
+            106
+          ],
+          "span_us": 390167,
+          "valid_raw": 3,
+          "values": [
+            77,
+            77,
+            77
+          ],
+          "filtered_legacy_cm": 77
+        },
+        {
+          "group": "ALL_65/F",
+          "sequence": [
+            109,
+            112,
+            115
+          ],
+          "span_us": 390197,
+          "valid_raw": 3,
+          "values": [
+            77,
+            76,
+            76
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_65/L",
+          "sequence": [
+            2,
+            5,
+            8
+          ],
+          "span_us": 390197,
+          "valid_raw": 3,
+          "values": [
+            53,
+            54,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_65/L",
+          "sequence": [
+            11,
+            14,
+            17
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            54
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_65/L",
+          "sequence": [
+            20,
+            23,
+            26
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            53,
+            54,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_65/L",
+          "sequence": [
+            29,
+            32,
+            35
+          ],
+          "span_us": 390167,
+          "valid_raw": 3,
+          "values": [
+            54,
+            54,
+            54
+          ],
+          "filtered_legacy_cm": 54
+        },
+        {
+          "group": "ALL_65/L",
+          "sequence": [
+            38,
+            41,
+            44
+          ],
+          "span_us": 390167,
+          "valid_raw": 3,
+          "values": [
+            53,
+            54,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_65/L",
+          "sequence": [
+            47,
+            50,
+            53
+          ],
+          "span_us": 390137,
+          "valid_raw": 3,
+          "values": [
+            54,
+            53,
+            54
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_65/L",
+          "sequence": [
+            56,
+            59,
+            62
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            54,
+            54,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_65/L",
+          "sequence": [
+            65,
+            68,
+            71
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            54,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_65/L",
+          "sequence": [
+            74,
+            77,
+            80
+          ],
+          "span_us": 390197,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_65/L",
+          "sequence": [
+            83,
+            86,
+            89
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            54,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_65/L",
+          "sequence": [
+            92,
+            95,
+            98
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_65/L",
+          "sequence": [
+            101,
+            104,
+            107
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            54,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_65/L",
+          "sequence": [
+            110,
+            113,
+            116
+          ],
+          "span_us": 390197,
+          "valid_raw": 3,
+          "values": [
+            54,
+            54,
+            54
+          ],
+          "filtered_legacy_cm": 54
+        },
+        {
+          "group": "ALL_65/R",
+          "sequence": [
+            3,
+            6,
+            9
+          ],
+          "span_us": 390197,
+          "valid_raw": 3,
+          "values": [
+            22,
+            23,
+            23
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_65/R",
+          "sequence": [
+            12,
+            15,
+            18
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            22,
+            22,
+            23
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_65/R",
+          "sequence": [
+            21,
+            24,
+            27
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            23,
+            23,
+            23
+          ],
+          "filtered_legacy_cm": 23
+        },
+        {
+          "group": "ALL_65/R",
+          "sequence": [
+            30,
+            33,
+            36
+          ],
+          "span_us": 390167,
+          "valid_raw": 3,
+          "values": [
+            22,
+            22,
+            22
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_65/R",
+          "sequence": [
+            39,
+            42,
+            45
+          ],
+          "span_us": 390167,
+          "valid_raw": 3,
+          "values": [
+            22,
+            22,
+            22
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_65/R",
+          "sequence": [
+            48,
+            51,
+            54
+          ],
+          "span_us": 390136,
+          "valid_raw": 3,
+          "values": [
+            23,
+            23,
+            22
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_65/R",
+          "sequence": [
+            57,
+            60,
+            63
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            22,
+            22,
+            23
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_65/R",
+          "sequence": [
+            66,
+            69,
+            72
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            22,
+            22,
+            23
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_65/R",
+          "sequence": [
+            75,
+            78,
+            81
+          ],
+          "span_us": 390197,
+          "valid_raw": 3,
+          "values": [
+            22,
+            23,
+            23
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_65/R",
+          "sequence": [
+            84,
+            87,
+            90
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            22,
+            22,
+            22
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_65/R",
+          "sequence": [
+            93,
+            96,
+            99
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            22,
+            22,
+            22
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_65/R",
+          "sequence": [
+            102,
+            105,
+            108
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            22,
+            22,
+            23
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_65/R",
+          "sequence": [
+            111,
+            114,
+            117
+          ],
+          "span_us": 390197,
+          "valid_raw": 3,
+          "values": [
+            23,
+            23,
+            23
+          ],
+          "filtered_legacy_cm": 23
+        },
+        {
+          "group": "LEFT_100/L",
+          "sequence": [
+            281,
+            282,
+            283
+          ],
+          "span_us": 200073,
+          "valid_raw": 3,
+          "values": [
+            54,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_100/L",
+          "sequence": [
+            284,
+            285,
+            286
+          ],
+          "span_us": 200073,
+          "valid_raw": 3,
+          "values": [
+            54,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_100/L",
+          "sequence": [
+            287,
+            288,
+            289
+          ],
+          "span_us": 200073,
+          "valid_raw": 3,
+          "values": [
+            54,
+            54,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_100/L",
+          "sequence": [
+            290,
+            291,
+            292
+          ],
+          "span_us": 200073,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            54
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_100/L",
+          "sequence": [
+            293,
+            294,
+            295
+          ],
+          "span_us": 200074,
+          "valid_raw": 3,
+          "values": [
+            53,
+            54,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_100/L",
+          "sequence": [
+            296,
+            297,
+            298
+          ],
+          "span_us": 200074,
+          "valid_raw": 3,
+          "values": [
+            53,
+            54,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_100/L",
+          "sequence": [
+            299,
+            300,
+            301
+          ],
+          "span_us": 200073,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            54
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_100/L",
+          "sequence": [
+            302,
+            303,
+            304
+          ],
+          "span_us": 200073,
+          "valid_raw": 3,
+          "values": [
+            54,
+            54,
+            54
+          ],
+          "filtered_legacy_cm": 54
+        },
+        {
+          "group": "LEFT_100/L",
+          "sequence": [
+            305,
+            306,
+            307
+          ],
+          "span_us": 200073,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_100/L",
+          "sequence": [
+            308,
+            309,
+            310
+          ],
+          "span_us": 200073,
+          "valid_raw": 3,
+          "values": [
+            54,
+            53,
+            54
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_100/L",
+          "sequence": [
+            311,
+            312,
+            313
+          ],
+          "span_us": 200073,
+          "valid_raw": 3,
+          "values": [
+            54,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_100/L",
+          "sequence": [
+            314,
+            315,
+            316
+          ],
+          "span_us": 200074,
+          "valid_raw": 3,
+          "values": [
+            54,
+            54,
+            54
+          ],
+          "filtered_legacy_cm": 54
+        },
+        {
+          "group": "LEFT_100/L",
+          "sequence": [
+            317,
+            318,
+            319
+          ],
+          "span_us": 200074,
+          "valid_raw": 3,
+          "values": [
+            54,
+            54,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_65/L",
+          "sequence": [
+            241,
+            242,
+            243
+          ],
+          "span_us": 130066,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            54
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_65/L",
+          "sequence": [
+            244,
+            245,
+            246
+          ],
+          "span_us": 130066,
+          "valid_raw": 3,
+          "values": [
+            54,
+            53,
+            54
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_65/L",
+          "sequence": [
+            247,
+            248,
+            249
+          ],
+          "span_us": 130066,
+          "valid_raw": 3,
+          "values": [
+            54,
+            54,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_65/L",
+          "sequence": [
+            250,
+            251,
+            252
+          ],
+          "span_us": 130066,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_65/L",
+          "sequence": [
+            253,
+            254,
+            255
+          ],
+          "span_us": 130066,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_65/L",
+          "sequence": [
+            256,
+            257,
+            258
+          ],
+          "span_us": 130065,
+          "valid_raw": 3,
+          "values": [
+            54,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_65/L",
+          "sequence": [
+            259,
+            260,
+            261
+          ],
+          "span_us": 130066,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_65/L",
+          "sequence": [
+            262,
+            263,
+            264
+          ],
+          "span_us": 130066,
+          "valid_raw": 3,
+          "values": [
+            54,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_65/L",
+          "sequence": [
+            265,
+            266,
+            267
+          ],
+          "span_us": 130066,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            54
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_65/L",
+          "sequence": [
+            268,
+            269,
+            270
+          ],
+          "span_us": 130066,
+          "valid_raw": 3,
+          "values": [
+            53,
+            54,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_65/L",
+          "sequence": [
+            271,
+            272,
+            273
+          ],
+          "span_us": 130066,
+          "valid_raw": 3,
+          "values": [
+            53,
+            54,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_65/L",
+          "sequence": [
+            274,
+            275,
+            276
+          ],
+          "span_us": 130066,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_65/L",
+          "sequence": [
+            277,
+            278,
+            279
+          ],
+          "span_us": 130066,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        }
+      ]
+    },
+    {
+      "source": "docs/evidence/2026-10-23-reference60/run-03/samples.csv",
+      "source_sha256": "ea220db6f846463c05f5833a1df808e7bb0a83de2b2a15ea4de3133495b97be8",
+      "samples": 320,
+      "valid_raw": 320,
+      "valid_fraction": 1.0,
+      "triples": 104,
+      "accepted_triples": 104,
+      "discarded_tail_by_group": {
+        "ALL_100/F": 1,
+        "ALL_100/L": 1,
+        "ALL_100/R": 1,
+        "ALL_65/F": 1,
+        "ALL_65/L": 1,
+        "ALL_65/R": 1,
+        "LEFT_100/L": 1,
+        "LEFT_65/L": 1
+      },
+      "trace": [
+        {
+          "group": "ALL_100/F",
+          "sequence": [
+            121,
+            124,
+            127
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            77,
+            76,
+            76
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_100/F",
+          "sequence": [
+            130,
+            133,
+            136
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            77,
+            77,
+            76
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_100/F",
+          "sequence": [
+            139,
+            142,
+            145
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            77,
+            76,
+            76
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_100/F",
+          "sequence": [
+            148,
+            151,
+            154
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            77,
+            76,
+            77
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_100/F",
+          "sequence": [
+            157,
+            160,
+            163
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            77,
+            77,
+            78
+          ],
+          "filtered_legacy_cm": 77
+        },
+        {
+          "group": "ALL_100/F",
+          "sequence": [
+            166,
+            169,
+            172
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            77,
+            77,
+            76
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_100/F",
+          "sequence": [
+            175,
+            178,
+            181
+          ],
+          "span_us": 600219,
+          "valid_raw": 3,
+          "values": [
+            76,
+            76,
+            76
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_100/F",
+          "sequence": [
+            184,
+            187,
+            190
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            77,
+            77,
+            77
+          ],
+          "filtered_legacy_cm": 77
+        },
+        {
+          "group": "ALL_100/F",
+          "sequence": [
+            193,
+            196,
+            199
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            77,
+            77,
+            77
+          ],
+          "filtered_legacy_cm": 77
+        },
+        {
+          "group": "ALL_100/F",
+          "sequence": [
+            202,
+            205,
+            208
+          ],
+          "span_us": 600189,
+          "valid_raw": 3,
+          "values": [
+            77,
+            77,
+            77
+          ],
+          "filtered_legacy_cm": 77
+        },
+        {
+          "group": "ALL_100/F",
+          "sequence": [
+            211,
+            214,
+            217
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            76,
+            77,
+            77
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_100/F",
+          "sequence": [
+            220,
+            223,
+            226
+          ],
+          "span_us": 600189,
+          "valid_raw": 3,
+          "values": [
+            77,
+            76,
+            77
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_100/F",
+          "sequence": [
+            229,
+            232,
+            235
+          ],
+          "span_us": 600219,
+          "valid_raw": 3,
+          "values": [
+            77,
+            76,
+            76
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_100/L",
+          "sequence": [
+            122,
+            125,
+            128
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            54
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_100/L",
+          "sequence": [
+            131,
+            134,
+            137
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            53,
+            54,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_100/L",
+          "sequence": [
+            140,
+            143,
+            146
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            53,
+            54,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_100/L",
+          "sequence": [
+            149,
+            152,
+            155
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            54,
+            53,
+            54
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_100/L",
+          "sequence": [
+            158,
+            161,
+            164
+          ],
+          "span_us": 600219,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_100/L",
+          "sequence": [
+            167,
+            170,
+            173
+          ],
+          "span_us": 600219,
+          "valid_raw": 3,
+          "values": [
+            53,
+            54,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_100/L",
+          "sequence": [
+            176,
+            179,
+            182
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            53,
+            54,
+            54
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_100/L",
+          "sequence": [
+            185,
+            188,
+            191
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            54,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_100/L",
+          "sequence": [
+            194,
+            197,
+            200
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            53,
+            54,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_100/L",
+          "sequence": [
+            203,
+            206,
+            209
+          ],
+          "span_us": 600189,
+          "valid_raw": 3,
+          "values": [
+            53,
+            54,
+            54
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_100/L",
+          "sequence": [
+            212,
+            215,
+            218
+          ],
+          "span_us": 600219,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_100/L",
+          "sequence": [
+            221,
+            224,
+            227
+          ],
+          "span_us": 600189,
+          "valid_raw": 3,
+          "values": [
+            54,
+            53,
+            54
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_100/L",
+          "sequence": [
+            230,
+            233,
+            236
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            54
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_100/R",
+          "sequence": [
+            123,
+            126,
+            129
+          ],
+          "span_us": 600190,
+          "valid_raw": 3,
+          "values": [
+            22,
+            22,
+            22
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_100/R",
+          "sequence": [
+            132,
+            135,
+            138
+          ],
+          "span_us": 600219,
+          "valid_raw": 3,
+          "values": [
+            22,
+            22,
+            22
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_100/R",
+          "sequence": [
+            141,
+            144,
+            147
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            22,
+            22,
+            22
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_100/R",
+          "sequence": [
+            150,
+            153,
+            156
+          ],
+          "span_us": 600219,
+          "valid_raw": 3,
+          "values": [
+            22,
+            22,
+            22
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_100/R",
+          "sequence": [
+            159,
+            162,
+            165
+          ],
+          "span_us": 600190,
+          "valid_raw": 3,
+          "values": [
+            22,
+            22,
+            22
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_100/R",
+          "sequence": [
+            168,
+            171,
+            174
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            22,
+            22,
+            22
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_100/R",
+          "sequence": [
+            177,
+            180,
+            183
+          ],
+          "span_us": 600189,
+          "valid_raw": 3,
+          "values": [
+            22,
+            22,
+            22
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_100/R",
+          "sequence": [
+            186,
+            189,
+            192
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            22,
+            22,
+            22
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_100/R",
+          "sequence": [
+            195,
+            198,
+            201
+          ],
+          "span_us": 600219,
+          "valid_raw": 3,
+          "values": [
+            22,
+            22,
+            22
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_100/R",
+          "sequence": [
+            204,
+            207,
+            210
+          ],
+          "span_us": 600219,
+          "valid_raw": 3,
+          "values": [
+            22,
+            22,
+            22
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_100/R",
+          "sequence": [
+            213,
+            216,
+            219
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            22,
+            22,
+            22
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_100/R",
+          "sequence": [
+            222,
+            225,
+            228
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            22,
+            22,
+            22
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_100/R",
+          "sequence": [
+            231,
+            234,
+            237
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            22,
+            23,
+            23
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_65/F",
+          "sequence": [
+            1,
+            4,
+            7
+          ],
+          "span_us": 390197,
+          "valid_raw": 3,
+          "values": [
+            76,
+            76,
+            76
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_65/F",
+          "sequence": [
+            10,
+            13,
+            16
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            76,
+            76,
+            76
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_65/F",
+          "sequence": [
+            19,
+            22,
+            25
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            76,
+            76,
+            76
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_65/F",
+          "sequence": [
+            28,
+            31,
+            34
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            76,
+            78,
+            77
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_65/F",
+          "sequence": [
+            37,
+            40,
+            43
+          ],
+          "span_us": 390136,
+          "valid_raw": 3,
+          "values": [
+            77,
+            76,
+            76
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_65/F",
+          "sequence": [
+            46,
+            49,
+            52
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            77,
+            76,
+            76
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_65/F",
+          "sequence": [
+            55,
+            58,
+            61
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            76,
+            76,
+            76
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_65/F",
+          "sequence": [
+            64,
+            67,
+            70
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            76,
+            76,
+            77
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_65/F",
+          "sequence": [
+            73,
+            76,
+            79
+          ],
+          "span_us": 390197,
+          "valid_raw": 3,
+          "values": [
+            76,
+            76,
+            77
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_65/F",
+          "sequence": [
+            82,
+            85,
+            88
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            76,
+            77,
+            77
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_65/F",
+          "sequence": [
+            91,
+            94,
+            97
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            76,
+            76,
+            76
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_65/F",
+          "sequence": [
+            100,
+            103,
+            106
+          ],
+          "span_us": 390167,
+          "valid_raw": 3,
+          "values": [
+            77,
+            76,
+            76
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_65/F",
+          "sequence": [
+            109,
+            112,
+            115
+          ],
+          "span_us": 390197,
+          "valid_raw": 3,
+          "values": [
+            77,
+            76,
+            77
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_65/L",
+          "sequence": [
+            2,
+            5,
+            8
+          ],
+          "span_us": 390197,
+          "valid_raw": 3,
+          "values": [
+            54,
+            54,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_65/L",
+          "sequence": [
+            11,
+            14,
+            17
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_65/L",
+          "sequence": [
+            20,
+            23,
+            26
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            54
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_65/L",
+          "sequence": [
+            29,
+            32,
+            35
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            53,
+            54,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_65/L",
+          "sequence": [
+            38,
+            41,
+            44
+          ],
+          "span_us": 390106,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            54
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_65/L",
+          "sequence": [
+            47,
+            50,
+            53
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            54,
+            53,
+            54
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_65/L",
+          "sequence": [
+            56,
+            59,
+            62
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            54,
+            53,
+            54
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_65/L",
+          "sequence": [
+            65,
+            68,
+            71
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            54,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_65/L",
+          "sequence": [
+            74,
+            77,
+            80
+          ],
+          "span_us": 390197,
+          "valid_raw": 3,
+          "values": [
+            53,
+            54,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_65/L",
+          "sequence": [
+            83,
+            86,
+            89
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_65/L",
+          "sequence": [
+            92,
+            95,
+            98
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_65/L",
+          "sequence": [
+            101,
+            104,
+            107
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_65/L",
+          "sequence": [
+            110,
+            113,
+            116
+          ],
+          "span_us": 390197,
+          "valid_raw": 3,
+          "values": [
+            53,
+            54,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_65/R",
+          "sequence": [
+            3,
+            6,
+            9
+          ],
+          "span_us": 390197,
+          "valid_raw": 3,
+          "values": [
+            23,
+            22,
+            22
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_65/R",
+          "sequence": [
+            12,
+            15,
+            18
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            22,
+            23,
+            22
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_65/R",
+          "sequence": [
+            21,
+            24,
+            27
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            22,
+            22,
+            22
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_65/R",
+          "sequence": [
+            30,
+            33,
+            36
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            22,
+            22,
+            22
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_65/R",
+          "sequence": [
+            39,
+            42,
+            45
+          ],
+          "span_us": 390106,
+          "valid_raw": 3,
+          "values": [
+            22,
+            22,
+            22
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_65/R",
+          "sequence": [
+            48,
+            51,
+            54
+          ],
+          "span_us": 390197,
+          "valid_raw": 3,
+          "values": [
+            22,
+            22,
+            22
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_65/R",
+          "sequence": [
+            57,
+            60,
+            63
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            22,
+            23,
+            22
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_65/R",
+          "sequence": [
+            66,
+            69,
+            72
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            22,
+            22,
+            22
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_65/R",
+          "sequence": [
+            75,
+            78,
+            81
+          ],
+          "span_us": 390197,
+          "valid_raw": 3,
+          "values": [
+            23,
+            23,
+            22
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_65/R",
+          "sequence": [
+            84,
+            87,
+            90
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            22,
+            22,
+            22
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_65/R",
+          "sequence": [
+            93,
+            96,
+            99
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            22,
+            22,
+            22
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_65/R",
+          "sequence": [
+            102,
+            105,
+            108
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            22,
+            22,
+            22
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_65/R",
+          "sequence": [
+            111,
+            114,
+            117
+          ],
+          "span_us": 390197,
+          "valid_raw": 3,
+          "values": [
+            22,
+            22,
+            22
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "LEFT_100/L",
+          "sequence": [
+            281,
+            282,
+            283
+          ],
+          "span_us": 200073,
+          "valid_raw": 3,
+          "values": [
+            54,
+            54,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_100/L",
+          "sequence": [
+            284,
+            285,
+            286
+          ],
+          "span_us": 200073,
+          "valid_raw": 3,
+          "values": [
+            54,
+            54,
+            54
+          ],
+          "filtered_legacy_cm": 54
+        },
+        {
+          "group": "LEFT_100/L",
+          "sequence": [
+            287,
+            288,
+            289
+          ],
+          "span_us": 200073,
+          "valid_raw": 3,
+          "values": [
+            54,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_100/L",
+          "sequence": [
+            290,
+            291,
+            292
+          ],
+          "span_us": 200073,
+          "valid_raw": 3,
+          "values": [
+            54,
+            53,
+            54
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_100/L",
+          "sequence": [
+            293,
+            294,
+            295
+          ],
+          "span_us": 200074,
+          "valid_raw": 3,
+          "values": [
+            54,
+            53,
+            54
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_100/L",
+          "sequence": [
+            296,
+            297,
+            298
+          ],
+          "span_us": 200074,
+          "valid_raw": 3,
+          "values": [
+            54,
+            53,
+            54
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_100/L",
+          "sequence": [
+            299,
+            300,
+            301
+          ],
+          "span_us": 200073,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            54
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_100/L",
+          "sequence": [
+            302,
+            303,
+            304
+          ],
+          "span_us": 200073,
+          "valid_raw": 3,
+          "values": [
+            54,
+            54,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_100/L",
+          "sequence": [
+            305,
+            306,
+            307
+          ],
+          "span_us": 200073,
+          "valid_raw": 3,
+          "values": [
+            54,
+            54,
+            54
+          ],
+          "filtered_legacy_cm": 54
+        },
+        {
+          "group": "LEFT_100/L",
+          "sequence": [
+            308,
+            309,
+            310
+          ],
+          "span_us": 200073,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            54
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_100/L",
+          "sequence": [
+            311,
+            312,
+            313
+          ],
+          "span_us": 200073,
+          "valid_raw": 3,
+          "values": [
+            53,
+            54,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_100/L",
+          "sequence": [
+            314,
+            315,
+            316
+          ],
+          "span_us": 200074,
+          "valid_raw": 3,
+          "values": [
+            53,
+            54,
+            54
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_100/L",
+          "sequence": [
+            317,
+            318,
+            319
+          ],
+          "span_us": 200074,
+          "valid_raw": 3,
+          "values": [
+            54,
+            54,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_65/L",
+          "sequence": [
+            241,
+            242,
+            243
+          ],
+          "span_us": 130036,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            54
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_65/L",
+          "sequence": [
+            244,
+            245,
+            246
+          ],
+          "span_us": 130065,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            54
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_65/L",
+          "sequence": [
+            247,
+            248,
+            249
+          ],
+          "span_us": 130066,
+          "valid_raw": 3,
+          "values": [
+            53,
+            54,
+            54
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_65/L",
+          "sequence": [
+            250,
+            251,
+            252
+          ],
+          "span_us": 130066,
+          "valid_raw": 3,
+          "values": [
+            54,
+            54,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_65/L",
+          "sequence": [
+            253,
+            254,
+            255
+          ],
+          "span_us": 130066,
+          "valid_raw": 3,
+          "values": [
+            54,
+            54,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_65/L",
+          "sequence": [
+            256,
+            257,
+            258
+          ],
+          "span_us": 130066,
+          "valid_raw": 3,
+          "values": [
+            54,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_65/L",
+          "sequence": [
+            259,
+            260,
+            261
+          ],
+          "span_us": 130066,
+          "valid_raw": 3,
+          "values": [
+            54,
+            53,
+            54
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_65/L",
+          "sequence": [
+            262,
+            263,
+            264
+          ],
+          "span_us": 130066,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_65/L",
+          "sequence": [
+            265,
+            266,
+            267
+          ],
+          "span_us": 130066,
+          "valid_raw": 3,
+          "values": [
+            53,
+            54,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_65/L",
+          "sequence": [
+            268,
+            269,
+            270
+          ],
+          "span_us": 130065,
+          "valid_raw": 3,
+          "values": [
+            54,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_65/L",
+          "sequence": [
+            271,
+            272,
+            273
+          ],
+          "span_us": 130066,
+          "valid_raw": 3,
+          "values": [
+            54,
+            54,
+            54
+          ],
+          "filtered_legacy_cm": 54
+        },
+        {
+          "group": "LEFT_65/L",
+          "sequence": [
+            274,
+            275,
+            276
+          ],
+          "span_us": 130066,
+          "valid_raw": 3,
+          "values": [
+            54,
+            54,
+            54
+          ],
+          "filtered_legacy_cm": 54
+        },
+        {
+          "group": "LEFT_65/L",
+          "sequence": [
+            277,
+            278,
+            279
+          ],
+          "span_us": 130066,
+          "valid_raw": 3,
+          "values": [
+            54,
+            54,
+            54
+          ],
+          "filtered_legacy_cm": 54
+        }
+      ]
+    },
+    {
+      "source": "docs/evidence/2026-10-23-reference60/run-04/samples.csv",
+      "source_sha256": "bcbd0a1addfe30e78bd1ca6dc5eaa59ed6818951407e44899df86f928271db56",
+      "samples": 320,
+      "valid_raw": 320,
+      "valid_fraction": 1.0,
+      "triples": 104,
+      "accepted_triples": 104,
+      "discarded_tail_by_group": {
+        "ALL_100/F": 1,
+        "ALL_100/L": 1,
+        "ALL_100/R": 1,
+        "ALL_65/F": 1,
+        "ALL_65/L": 1,
+        "ALL_65/R": 1,
+        "LEFT_100/L": 1,
+        "LEFT_65/L": 1
+      },
+      "trace": [
+        {
+          "group": "ALL_100/F",
+          "sequence": [
+            121,
+            124,
+            127
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            77,
+            76,
+            77
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_100/F",
+          "sequence": [
+            130,
+            133,
+            136
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            76,
+            76,
+            76
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_100/F",
+          "sequence": [
+            139,
+            142,
+            145
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            77,
+            77,
+            76
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_100/F",
+          "sequence": [
+            148,
+            151,
+            154
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            77,
+            76,
+            76
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_100/F",
+          "sequence": [
+            157,
+            160,
+            163
+          ],
+          "span_us": 600189,
+          "valid_raw": 3,
+          "values": [
+            76,
+            76,
+            77
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_100/F",
+          "sequence": [
+            166,
+            169,
+            172
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            77,
+            76,
+            76
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_100/F",
+          "sequence": [
+            175,
+            178,
+            181
+          ],
+          "span_us": 600219,
+          "valid_raw": 3,
+          "values": [
+            76,
+            76,
+            76
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_100/F",
+          "sequence": [
+            184,
+            187,
+            190
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            77,
+            76,
+            77
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_100/F",
+          "sequence": [
+            193,
+            196,
+            199
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            76,
+            77,
+            76
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_100/F",
+          "sequence": [
+            202,
+            205,
+            208
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            77,
+            77,
+            77
+          ],
+          "filtered_legacy_cm": 77
+        },
+        {
+          "group": "ALL_100/F",
+          "sequence": [
+            211,
+            214,
+            217
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            76,
+            76,
+            77
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_100/F",
+          "sequence": [
+            220,
+            223,
+            226
+          ],
+          "span_us": 600189,
+          "valid_raw": 3,
+          "values": [
+            77,
+            77,
+            77
+          ],
+          "filtered_legacy_cm": 77
+        },
+        {
+          "group": "ALL_100/F",
+          "sequence": [
+            229,
+            232,
+            235
+          ],
+          "span_us": 600219,
+          "valid_raw": 3,
+          "values": [
+            77,
+            77,
+            76
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_100/L",
+          "sequence": [
+            122,
+            125,
+            128
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_100/L",
+          "sequence": [
+            131,
+            134,
+            137
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_100/L",
+          "sequence": [
+            140,
+            143,
+            146
+          ],
+          "span_us": 600219,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_100/L",
+          "sequence": [
+            149,
+            152,
+            155
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_100/L",
+          "sequence": [
+            158,
+            161,
+            164
+          ],
+          "span_us": 600189,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_100/L",
+          "sequence": [
+            167,
+            170,
+            173
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_100/L",
+          "sequence": [
+            176,
+            179,
+            182
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_100/L",
+          "sequence": [
+            185,
+            188,
+            191
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_100/L",
+          "sequence": [
+            194,
+            197,
+            200
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_100/L",
+          "sequence": [
+            203,
+            206,
+            209
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_100/L",
+          "sequence": [
+            212,
+            215,
+            218
+          ],
+          "span_us": 600219,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_100/L",
+          "sequence": [
+            221,
+            224,
+            227
+          ],
+          "span_us": 600189,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_100/L",
+          "sequence": [
+            230,
+            233,
+            236
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_100/R",
+          "sequence": [
+            123,
+            126,
+            129
+          ],
+          "span_us": 600190,
+          "valid_raw": 3,
+          "values": [
+            22,
+            22,
+            22
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_100/R",
+          "sequence": [
+            132,
+            135,
+            138
+          ],
+          "span_us": 600219,
+          "valid_raw": 3,
+          "values": [
+            22,
+            22,
+            22
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_100/R",
+          "sequence": [
+            141,
+            144,
+            147
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            23,
+            22,
+            22
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_100/R",
+          "sequence": [
+            150,
+            153,
+            156
+          ],
+          "span_us": 600219,
+          "valid_raw": 3,
+          "values": [
+            22,
+            22,
+            22
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_100/R",
+          "sequence": [
+            159,
+            162,
+            165
+          ],
+          "span_us": 600190,
+          "valid_raw": 3,
+          "values": [
+            22,
+            22,
+            22
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_100/R",
+          "sequence": [
+            168,
+            171,
+            174
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            22,
+            22,
+            22
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_100/R",
+          "sequence": [
+            177,
+            180,
+            183
+          ],
+          "span_us": 600189,
+          "valid_raw": 3,
+          "values": [
+            22,
+            22,
+            22
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_100/R",
+          "sequence": [
+            186,
+            189,
+            192
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            22,
+            22,
+            22
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_100/R",
+          "sequence": [
+            195,
+            198,
+            201
+          ],
+          "span_us": 600189,
+          "valid_raw": 3,
+          "values": [
+            23,
+            22,
+            22
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_100/R",
+          "sequence": [
+            204,
+            207,
+            210
+          ],
+          "span_us": 600219,
+          "valid_raw": 3,
+          "values": [
+            22,
+            23,
+            22
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_100/R",
+          "sequence": [
+            213,
+            216,
+            219
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            23,
+            23,
+            23
+          ],
+          "filtered_legacy_cm": 23
+        },
+        {
+          "group": "ALL_100/R",
+          "sequence": [
+            222,
+            225,
+            228
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            23,
+            23,
+            23
+          ],
+          "filtered_legacy_cm": 23
+        },
+        {
+          "group": "ALL_100/R",
+          "sequence": [
+            231,
+            234,
+            237
+          ],
+          "span_us": 600220,
+          "valid_raw": 3,
+          "values": [
+            23,
+            22,
+            22
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_65/F",
+          "sequence": [
+            1,
+            4,
+            7
+          ],
+          "span_us": 390197,
+          "valid_raw": 3,
+          "values": [
+            77,
+            77,
+            76
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_65/F",
+          "sequence": [
+            10,
+            13,
+            16
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            77,
+            77,
+            76
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_65/F",
+          "sequence": [
+            19,
+            22,
+            25
+          ],
+          "span_us": 390167,
+          "valid_raw": 3,
+          "values": [
+            77,
+            76,
+            77
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_65/F",
+          "sequence": [
+            28,
+            31,
+            34
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            77,
+            76,
+            77
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_65/F",
+          "sequence": [
+            37,
+            40,
+            43
+          ],
+          "span_us": 390167,
+          "valid_raw": 3,
+          "values": [
+            76,
+            76,
+            76
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_65/F",
+          "sequence": [
+            46,
+            49,
+            52
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            76,
+            76,
+            77
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_65/F",
+          "sequence": [
+            55,
+            58,
+            61
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            76,
+            76,
+            76
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_65/F",
+          "sequence": [
+            64,
+            67,
+            70
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            76,
+            77,
+            76
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_65/F",
+          "sequence": [
+            73,
+            76,
+            79
+          ],
+          "span_us": 390197,
+          "valid_raw": 3,
+          "values": [
+            77,
+            76,
+            76
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_65/F",
+          "sequence": [
+            82,
+            85,
+            88
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            77,
+            76,
+            77
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_65/F",
+          "sequence": [
+            91,
+            94,
+            97
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            77,
+            76,
+            76
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_65/F",
+          "sequence": [
+            100,
+            103,
+            106
+          ],
+          "span_us": 390167,
+          "valid_raw": 3,
+          "values": [
+            77,
+            76,
+            76
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_65/F",
+          "sequence": [
+            109,
+            112,
+            115
+          ],
+          "span_us": 390197,
+          "valid_raw": 3,
+          "values": [
+            76,
+            76,
+            77
+          ],
+          "filtered_legacy_cm": 76
+        },
+        {
+          "group": "ALL_65/L",
+          "sequence": [
+            2,
+            5,
+            8
+          ],
+          "span_us": 390197,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_65/L",
+          "sequence": [
+            11,
+            14,
+            17
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_65/L",
+          "sequence": [
+            20,
+            23,
+            26
+          ],
+          "span_us": 390167,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_65/L",
+          "sequence": [
+            29,
+            32,
+            35
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_65/L",
+          "sequence": [
+            38,
+            41,
+            44
+          ],
+          "span_us": 390167,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_65/L",
+          "sequence": [
+            47,
+            50,
+            53
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_65/L",
+          "sequence": [
+            56,
+            59,
+            62
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_65/L",
+          "sequence": [
+            65,
+            68,
+            71
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_65/L",
+          "sequence": [
+            74,
+            77,
+            80
+          ],
+          "span_us": 390197,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_65/L",
+          "sequence": [
+            83,
+            86,
+            89
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_65/L",
+          "sequence": [
+            92,
+            95,
+            98
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_65/L",
+          "sequence": [
+            101,
+            104,
+            107
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_65/L",
+          "sequence": [
+            110,
+            113,
+            116
+          ],
+          "span_us": 390197,
+          "valid_raw": 3,
+          "values": [
+            54,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "ALL_65/R",
+          "sequence": [
+            3,
+            6,
+            9
+          ],
+          "span_us": 390197,
+          "valid_raw": 3,
+          "values": [
+            22,
+            22,
+            22
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_65/R",
+          "sequence": [
+            12,
+            15,
+            18
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            22,
+            22,
+            22
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_65/R",
+          "sequence": [
+            21,
+            24,
+            27
+          ],
+          "span_us": 390167,
+          "valid_raw": 3,
+          "values": [
+            22,
+            22,
+            22
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_65/R",
+          "sequence": [
+            30,
+            33,
+            36
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            22,
+            22,
+            22
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_65/R",
+          "sequence": [
+            39,
+            42,
+            45
+          ],
+          "span_us": 390167,
+          "valid_raw": 3,
+          "values": [
+            22,
+            22,
+            22
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_65/R",
+          "sequence": [
+            48,
+            51,
+            54
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            22,
+            22,
+            22
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_65/R",
+          "sequence": [
+            57,
+            60,
+            63
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            22,
+            22,
+            22
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_65/R",
+          "sequence": [
+            66,
+            69,
+            72
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            22,
+            23,
+            23
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_65/R",
+          "sequence": [
+            75,
+            78,
+            81
+          ],
+          "span_us": 390197,
+          "valid_raw": 3,
+          "values": [
+            23,
+            23,
+            23
+          ],
+          "filtered_legacy_cm": 23
+        },
+        {
+          "group": "ALL_65/R",
+          "sequence": [
+            84,
+            87,
+            90
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            22,
+            23,
+            22
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_65/R",
+          "sequence": [
+            93,
+            96,
+            99
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            22,
+            23,
+            22
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_65/R",
+          "sequence": [
+            102,
+            105,
+            108
+          ],
+          "span_us": 390198,
+          "valid_raw": 3,
+          "values": [
+            22,
+            22,
+            22
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "ALL_65/R",
+          "sequence": [
+            111,
+            114,
+            117
+          ],
+          "span_us": 390197,
+          "valid_raw": 3,
+          "values": [
+            22,
+            22,
+            22
+          ],
+          "filtered_legacy_cm": 22
+        },
+        {
+          "group": "LEFT_100/L",
+          "sequence": [
+            281,
+            282,
+            283
+          ],
+          "span_us": 200073,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_100/L",
+          "sequence": [
+            284,
+            285,
+            286
+          ],
+          "span_us": 200073,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_100/L",
+          "sequence": [
+            287,
+            288,
+            289
+          ],
+          "span_us": 200073,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_100/L",
+          "sequence": [
+            290,
+            291,
+            292
+          ],
+          "span_us": 200073,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_100/L",
+          "sequence": [
+            293,
+            294,
+            295
+          ],
+          "span_us": 200074,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_100/L",
+          "sequence": [
+            296,
+            297,
+            298
+          ],
+          "span_us": 200074,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_100/L",
+          "sequence": [
+            299,
+            300,
+            301
+          ],
+          "span_us": 200073,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_100/L",
+          "sequence": [
+            302,
+            303,
+            304
+          ],
+          "span_us": 200073,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_100/L",
+          "sequence": [
+            305,
+            306,
+            307
+          ],
+          "span_us": 200073,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_100/L",
+          "sequence": [
+            308,
+            309,
+            310
+          ],
+          "span_us": 200073,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_100/L",
+          "sequence": [
+            311,
+            312,
+            313
+          ],
+          "span_us": 200073,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_100/L",
+          "sequence": [
+            314,
+            315,
+            316
+          ],
+          "span_us": 200073,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_100/L",
+          "sequence": [
+            317,
+            318,
+            319
+          ],
+          "span_us": 200074,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_65/L",
+          "sequence": [
+            241,
+            242,
+            243
+          ],
+          "span_us": 130066,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_65/L",
+          "sequence": [
+            244,
+            245,
+            246
+          ],
+          "span_us": 130065,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_65/L",
+          "sequence": [
+            247,
+            248,
+            249
+          ],
+          "span_us": 130066,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_65/L",
+          "sequence": [
+            250,
+            251,
+            252
+          ],
+          "span_us": 130066,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_65/L",
+          "sequence": [
+            253,
+            254,
+            255
+          ],
+          "span_us": 130066,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_65/L",
+          "sequence": [
+            256,
+            257,
+            258
+          ],
+          "span_us": 130066,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_65/L",
+          "sequence": [
+            259,
+            260,
+            261
+          ],
+          "span_us": 130066,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_65/L",
+          "sequence": [
+            262,
+            263,
+            264
+          ],
+          "span_us": 130066,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_65/L",
+          "sequence": [
+            265,
+            266,
+            267
+          ],
+          "span_us": 130066,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_65/L",
+          "sequence": [
+            268,
+            269,
+            270
+          ],
+          "span_us": 130065,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_65/L",
+          "sequence": [
+            271,
+            272,
+            273
+          ],
+          "span_us": 130066,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_65/L",
+          "sequence": [
+            274,
+            275,
+            276
+          ],
+          "span_us": 130066,
+          "valid_raw": 3,
+          "values": [
+            53,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        },
+        {
+          "group": "LEFT_65/L",
+          "sequence": [
+            277,
+            278,
+            279
+          ],
+          "span_us": 130066,
+          "valid_raw": 3,
+          "values": [
+            54,
+            53,
+            53
+          ],
+          "filtered_legacy_cm": 53
+        }
+      ]
+    },
+    {
+      "source": "docs/evidence/2026-11-02-lights-scan/gpio-baseline/samples.csv",
+      "source_sha256": "6e358902e498599f86acedeb0b972a37c7a3c876ff5db5da9f671cc4e147b935",
+      "samples": 320,
+      "valid_raw": 0,
+      "valid_fraction": 0.0,
+      "triples": 104,
+      "accepted_triples": 0,
+      "discarded_tail_by_group": {
+        "ALL_100/F": 1,
+        "ALL_100/L": 1,
+        "ALL_100/R": 1,
+        "ALL_65/F": 1,
+        "ALL_65/L": 1,
+        "ALL_65/R": 1,
+        "LEFT_100/L": 1,
+        "LEFT_65/L": 1
+      },
+      "trace": [
+        {
+          "group": "ALL_100/F",
+          "sequence": [
+            121,
+            124,
+            127
+          ],
+          "span_us": 600220,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_100/F",
+          "sequence": [
+            130,
+            133,
+            136
+          ],
+          "span_us": 600220,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_100/F",
+          "sequence": [
+            139,
+            142,
+            145
+          ],
+          "span_us": 600220,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_100/F",
+          "sequence": [
+            148,
+            151,
+            154
+          ],
+          "span_us": 600220,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_100/F",
+          "sequence": [
+            157,
+            160,
+            163
+          ],
+          "span_us": 600189,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_100/F",
+          "sequence": [
+            166,
+            169,
+            172
+          ],
+          "span_us": 600098,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_100/F",
+          "sequence": [
+            175,
+            178,
+            181
+          ],
+          "span_us": 600158,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_100/F",
+          "sequence": [
+            184,
+            187,
+            190
+          ],
+          "span_us": 600189,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_100/F",
+          "sequence": [
+            193,
+            196,
+            199
+          ],
+          "span_us": 600189,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_100/F",
+          "sequence": [
+            202,
+            205,
+            208
+          ],
+          "span_us": 600189,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_100/F",
+          "sequence": [
+            211,
+            214,
+            217
+          ],
+          "span_us": 600159,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_100/F",
+          "sequence": [
+            220,
+            223,
+            226
+          ],
+          "span_us": 600129,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_100/F",
+          "sequence": [
+            229,
+            232,
+            235
+          ],
+          "span_us": 600129,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_100/L",
+          "sequence": [
+            122,
+            125,
+            128
+          ],
+          "span_us": 600220,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_100/L",
+          "sequence": [
+            131,
+            134,
+            137
+          ],
+          "span_us": 600220,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_100/L",
+          "sequence": [
+            140,
+            143,
+            146
+          ],
+          "span_us": 600219,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_100/L",
+          "sequence": [
+            149,
+            152,
+            155
+          ],
+          "span_us": 600189,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_100/L",
+          "sequence": [
+            158,
+            161,
+            164
+          ],
+          "span_us": 600189,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_100/L",
+          "sequence": [
+            167,
+            170,
+            173
+          ],
+          "span_us": 600098,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_100/L",
+          "sequence": [
+            176,
+            179,
+            182
+          ],
+          "span_us": 600189,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_100/L",
+          "sequence": [
+            185,
+            188,
+            191
+          ],
+          "span_us": 600189,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_100/L",
+          "sequence": [
+            194,
+            197,
+            200
+          ],
+          "span_us": 600220,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_100/L",
+          "sequence": [
+            203,
+            206,
+            209
+          ],
+          "span_us": 600190,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_100/L",
+          "sequence": [
+            212,
+            215,
+            218
+          ],
+          "span_us": 600128,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_100/L",
+          "sequence": [
+            221,
+            224,
+            227
+          ],
+          "span_us": 600158,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_100/L",
+          "sequence": [
+            230,
+            233,
+            236
+          ],
+          "span_us": 600128,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_100/R",
+          "sequence": [
+            123,
+            126,
+            129
+          ],
+          "span_us": 600220,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_100/R",
+          "sequence": [
+            132,
+            135,
+            138
+          ],
+          "span_us": 600219,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_100/R",
+          "sequence": [
+            141,
+            144,
+            147
+          ],
+          "span_us": 600220,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_100/R",
+          "sequence": [
+            150,
+            153,
+            156
+          ],
+          "span_us": 600190,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_100/R",
+          "sequence": [
+            159,
+            162,
+            165
+          ],
+          "span_us": 600159,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_100/R",
+          "sequence": [
+            168,
+            171,
+            174
+          ],
+          "span_us": 600098,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_100/R",
+          "sequence": [
+            177,
+            180,
+            183
+          ],
+          "span_us": 600220,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_100/R",
+          "sequence": [
+            186,
+            189,
+            192
+          ],
+          "span_us": 600190,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_100/R",
+          "sequence": [
+            195,
+            198,
+            201
+          ],
+          "span_us": 600189,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_100/R",
+          "sequence": [
+            204,
+            207,
+            210
+          ],
+          "span_us": 600189,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_100/R",
+          "sequence": [
+            213,
+            216,
+            219
+          ],
+          "span_us": 600128,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_100/R",
+          "sequence": [
+            222,
+            225,
+            228
+          ],
+          "span_us": 600159,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_100/R",
+          "sequence": [
+            231,
+            234,
+            237
+          ],
+          "span_us": 600159,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_65/F",
+          "sequence": [
+            1,
+            4,
+            7
+          ],
+          "span_us": 390197,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_65/F",
+          "sequence": [
+            10,
+            13,
+            16
+          ],
+          "span_us": 390198,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_65/F",
+          "sequence": [
+            19,
+            22,
+            25
+          ],
+          "span_us": 390198,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_65/F",
+          "sequence": [
+            28,
+            31,
+            34
+          ],
+          "span_us": 390197,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_65/F",
+          "sequence": [
+            37,
+            40,
+            43
+          ],
+          "span_us": 390198,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_65/F",
+          "sequence": [
+            46,
+            49,
+            52
+          ],
+          "span_us": 390198,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_65/F",
+          "sequence": [
+            55,
+            58,
+            61
+          ],
+          "span_us": 390197,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_65/F",
+          "sequence": [
+            64,
+            67,
+            70
+          ],
+          "span_us": 390198,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_65/F",
+          "sequence": [
+            73,
+            76,
+            79
+          ],
+          "span_us": 390198,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_65/F",
+          "sequence": [
+            82,
+            85,
+            88
+          ],
+          "span_us": 390198,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_65/F",
+          "sequence": [
+            91,
+            94,
+            97
+          ],
+          "span_us": 390198,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_65/F",
+          "sequence": [
+            100,
+            103,
+            106
+          ],
+          "span_us": 390197,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_65/F",
+          "sequence": [
+            109,
+            112,
+            115
+          ],
+          "span_us": 390198,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_65/L",
+          "sequence": [
+            2,
+            5,
+            8
+          ],
+          "span_us": 390197,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_65/L",
+          "sequence": [
+            11,
+            14,
+            17
+          ],
+          "span_us": 390198,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_65/L",
+          "sequence": [
+            20,
+            23,
+            26
+          ],
+          "span_us": 390198,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_65/L",
+          "sequence": [
+            29,
+            32,
+            35
+          ],
+          "span_us": 390197,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_65/L",
+          "sequence": [
+            38,
+            41,
+            44
+          ],
+          "span_us": 390198,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_65/L",
+          "sequence": [
+            47,
+            50,
+            53
+          ],
+          "span_us": 390198,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_65/L",
+          "sequence": [
+            56,
+            59,
+            62
+          ],
+          "span_us": 390198,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_65/L",
+          "sequence": [
+            65,
+            68,
+            71
+          ],
+          "span_us": 390198,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_65/L",
+          "sequence": [
+            74,
+            77,
+            80
+          ],
+          "span_us": 390197,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_65/L",
+          "sequence": [
+            83,
+            86,
+            89
+          ],
+          "span_us": 390198,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_65/L",
+          "sequence": [
+            92,
+            95,
+            98
+          ],
+          "span_us": 390198,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_65/L",
+          "sequence": [
+            101,
+            104,
+            107
+          ],
+          "span_us": 390197,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_65/L",
+          "sequence": [
+            110,
+            113,
+            116
+          ],
+          "span_us": 390198,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_65/R",
+          "sequence": [
+            3,
+            6,
+            9
+          ],
+          "span_us": 390197,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_65/R",
+          "sequence": [
+            12,
+            15,
+            18
+          ],
+          "span_us": 390198,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_65/R",
+          "sequence": [
+            21,
+            24,
+            27
+          ],
+          "span_us": 390198,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_65/R",
+          "sequence": [
+            30,
+            33,
+            36
+          ],
+          "span_us": 390197,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_65/R",
+          "sequence": [
+            39,
+            42,
+            45
+          ],
+          "span_us": 390198,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_65/R",
+          "sequence": [
+            48,
+            51,
+            54
+          ],
+          "span_us": 390198,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_65/R",
+          "sequence": [
+            57,
+            60,
+            63
+          ],
+          "span_us": 390198,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_65/R",
+          "sequence": [
+            66,
+            69,
+            72
+          ],
+          "span_us": 390198,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_65/R",
+          "sequence": [
+            75,
+            78,
+            81
+          ],
+          "span_us": 390197,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_65/R",
+          "sequence": [
+            84,
+            87,
+            90
+          ],
+          "span_us": 390198,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_65/R",
+          "sequence": [
+            93,
+            96,
+            99
+          ],
+          "span_us": 390198,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_65/R",
+          "sequence": [
+            102,
+            105,
+            108
+          ],
+          "span_us": 390197,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "ALL_65/R",
+          "sequence": [
+            111,
+            114,
+            117
+          ],
+          "span_us": 390198,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "LEFT_100/L",
+          "sequence": [
+            281,
+            282,
+            283
+          ],
+          "span_us": 200042,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "LEFT_100/L",
+          "sequence": [
+            284,
+            285,
+            286
+          ],
+          "span_us": 200073,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "LEFT_100/L",
+          "sequence": [
+            287,
+            288,
+            289
+          ],
+          "span_us": 200074,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "LEFT_100/L",
+          "sequence": [
+            290,
+            291,
+            292
+          ],
+          "span_us": 200074,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "LEFT_100/L",
+          "sequence": [
+            293,
+            294,
+            295
+          ],
+          "span_us": 200043,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "LEFT_100/L",
+          "sequence": [
+            296,
+            297,
+            298
+          ],
+          "span_us": 200074,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "LEFT_100/L",
+          "sequence": [
+            299,
+            300,
+            301
+          ],
+          "span_us": 200043,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "LEFT_100/L",
+          "sequence": [
+            302,
+            303,
+            304
+          ],
+          "span_us": 200073,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "LEFT_100/L",
+          "sequence": [
+            305,
+            306,
+            307
+          ],
+          "span_us": 200073,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "LEFT_100/L",
+          "sequence": [
+            308,
+            309,
+            310
+          ],
+          "span_us": 200073,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "LEFT_100/L",
+          "sequence": [
+            311,
+            312,
+            313
+          ],
+          "span_us": 200073,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "LEFT_100/L",
+          "sequence": [
+            314,
+            315,
+            316
+          ],
+          "span_us": 200042,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "LEFT_100/L",
+          "sequence": [
+            317,
+            318,
+            319
+          ],
+          "span_us": 200043,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "LEFT_65/L",
+          "sequence": [
+            241,
+            242,
+            243
+          ],
+          "span_us": 130066,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "LEFT_65/L",
+          "sequence": [
+            244,
+            245,
+            246
+          ],
+          "span_us": 130066,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "LEFT_65/L",
+          "sequence": [
+            247,
+            248,
+            249
+          ],
+          "span_us": 130066,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "LEFT_65/L",
+          "sequence": [
+            250,
+            251,
+            252
+          ],
+          "span_us": 130066,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "LEFT_65/L",
+          "sequence": [
+            253,
+            254,
+            255
+          ],
+          "span_us": 130066,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "LEFT_65/L",
+          "sequence": [
+            256,
+            257,
+            258
+          ],
+          "span_us": 130066,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "LEFT_65/L",
+          "sequence": [
+            259,
+            260,
+            261
+          ],
+          "span_us": 130066,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "LEFT_65/L",
+          "sequence": [
+            262,
+            263,
+            264
+          ],
+          "span_us": 130066,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "LEFT_65/L",
+          "sequence": [
+            265,
+            266,
+            267
+          ],
+          "span_us": 130066,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "LEFT_65/L",
+          "sequence": [
+            268,
+            269,
+            270
+          ],
+          "span_us": 130066,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "LEFT_65/L",
+          "sequence": [
+            271,
+            272,
+            273
+          ],
+          "span_us": 130066,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "LEFT_65/L",
+          "sequence": [
+            274,
+            275,
+            276
+          ],
+          "span_us": 130066,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        },
+        {
+          "group": "LEFT_65/L",
+          "sequence": [
+            277,
+            278,
+            279
+          ],
+          "span_us": 130066,
+          "valid_raw": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "filtered_legacy_cm": 0
+        }
+      ]
+    }
+  ]
+}

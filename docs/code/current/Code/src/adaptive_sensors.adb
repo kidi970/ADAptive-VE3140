@@ -1,7 +1,7 @@
 with Ada.Real_Time; use Ada.Real_Time;
 with MicroBit; use MicroBit;
 with MicroBit.Ultrasonic;
-with MicroBit.Console; use MicroBit.Console;
+with Adaptive_Log; use Adaptive_Log;
 with Adaptive_Safety;
 package body Adaptive_Sensors is
    package Front_Sensor is new MicroBit.Ultrasonic (MB_P13, MB_P1);

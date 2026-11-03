@@ -17,7 +17,7 @@ forsøk. Adaptiv skanning prøver høyst fire sideposisjoner og avslutter ved
 første kandidat som består geometrisk kontroll, ny sensorkontroll og et
 ferskhetskrav helt frem til svingkommandoen.
 
-Den siste programvarekontrollen består av 2599 Ada-kontroller, 40
+Programvarebaselinen fra 2. november består av 2599 Ada-kontroller, 40
 Python-tester, bevisst feilinjeksjon og bygg av fire ARM-programmer.
 GNATprove verifiserer kontrakten og tilhørende kjøretidssjekk for den faktiske
 lyspolicyen. Dette er et avgrenset bevis, ikke en verifikasjon av hele bilen.
@@ -30,7 +30,8 @@ Full autonom funksjon, fysisk I2C-oppstart, stopplengde og deadlines gjenstår
 å dokumentere. Sanntidskapitlet gir en analyse som følger den faktiske
 arkitekturen og angir hvilke målinger som mangler. Tidligere
 utviklingshistorikk er bevart separat i \kode{development-history.tex};
-hovedteksten beskriver gjeldende løsning per 2. november 2026.
+hovedteksten beskriver løsningen med et eget kapittel om programvarearbeidet
+3. november 2026.
 
 \textbf{Nøkkelord:} Ada, exceptions, tasking, protected objects, micro:bit,
 Mecanum, ultralyd, responstid og SPARK.
@@ -45,6 +46,7 @@ Mecanum, ultralyd, responstid og SPARK.
 \input{sections/06-timing}
 \input{sections/07-results}
 \input{sections/08-process}
+\input{software-only-2026-11-03}
 \input{sections/09-discussion}
 \input{sections/10-conclusion}
 \label{last-main-page}
@@ -58,7 +60,7 @@ Mecanum, ultralyd, responstid og SPARK.
 \chapter{Gjeldende Ada-kode}
 Dette vedlegget er generert fra \kode{Code/src/} og kontrolleres byte for byte
 av \kode{tools/sync_report_sources.py --check}. Det omfatter alle
-applikasjonens Ada-enheter. Kode for egne diagnostikkprogrammer, prosjektfiler,
+applikasjonens Ada-enheter. Kode for egne diagnostikk- og standalone-programmer, prosjektfiler,
 driverpatch og SHA-256-manifest ligger også i rapportpakkens
 \kode{code/current/}. Tredjepartsdriverne hentes som den låste Git-undermodulen
 beskrevet i kapittel~\ref{ch:process}; denne dokumentasjonspakken erstatter

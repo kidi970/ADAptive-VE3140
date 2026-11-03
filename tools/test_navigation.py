@@ -12,7 +12,9 @@ if not compiler:
 env = os.environ.copy()
 env['PATH'] = str(Path(compiler).parent) + os.pathsep + env.get('PATH', '')
 with tempfile.TemporaryDirectory(prefix='adaptive-tests-') as scratch:
-    for suite in ('policy_tests', 'range_tests', 'fault_tests', 'lamp_tests', 'scan_tests', 'controller_tests'):
+    for suite in ('policy_tests', 'range_tests', 'fault_tests', 'lamp_tests', 'scan_tests',
+                  'controller_tests', 'offline_model_tests', 'logger_tests', 'bench_tests',
+                  'usb_io_tests'):
         subprocess.run([compiler, '-q', '-gnat2022', '-gnata', '-gnato', '-g',
                         '-I' + str(repo / 'Code/src'), str(repo / f'tests/{suite}.adb'),
                         '-o', str(Path(scratch) / suite)], cwd=scratch, env=env, check=True)

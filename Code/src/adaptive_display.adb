@@ -1,4 +1,4 @@
-with MicroBit.Console; use MicroBit.Console;
+with Adaptive_Log; use Adaptive_Log;
 with MicroBit.DisplayRT;
 with MicroBit.I2C;
 with HAL; use HAL;
