@@ -1,0 +1,22 @@
+{
+  "zip_crc_valid": true,
+  "clean_extract_build_exit": 0,
+  "hex_comparison": {
+    "checksums_valid": true,
+    "records": 14456,
+    "data_bytes": 231196,
+    "lowest_address": 0,
+    "highest_address": 231195,
+    "elf_load_bytes": 231196,
+    "elf_segment_file_bytes": 231196,
+    "elf_segment_padding_bytes": 0,
+    "padding_bytes_present_in_hex": 0,
+    "padding_bytes_missing_from_hex": 0,
+    "different_padding_bytes": 0,
+    "missing_bytes": 0,
+    "extra_bytes": 0,
+    "different_bytes": 0,
+    "matches_elf_load_bytes": true,
+    "scope": "allocated section bytes at PT_LOAD physical addresses; omitted segment padding permitted; no device readback"
+  }
+}

@@ -1,3 +1,13 @@
+# ADAptive – VE3140
+
+**Siste samlede leveranse: [11. november 2026](leveranser/2026-11-11/).**
+
+[Last ned HEX](leveranser/2026-11-11/ADAptive-siste.hex), [komplett kildekodepakke](leveranser/2026-11-11/ADAptive-kildekode.zip) eller [koblingsplan PDF](leveranser/2026-11-11/ADAptive-komplett-koblingsplan.pdf). [Se kildekoden direkte](leveranser/2026-11-11/src/).
+
+Leveransen inneholder siste bilkode fra Pi-en, nybygd og filkontrollert firmware og oppdatert motormerking i koblingsplanen. Byggeinstruksjoner og kontrollresultater ligger i leveransemappen. Den eldre prosjektstrukturen nedenfor er bevart; bruk kildekodepakken i leveransemappen for dette bygget.
+
+---
+
 <!-- No build badge here on purpose: a template is copied verbatim, so a badge
      pointing at the upstream repository would report the lecturer's build
      status inside every student's project. Check your own build under the
