@@ -4,7 +4,7 @@ with MicroBit.DisplayRT;
 with MicroBit.Types;   use MicroBit.Types;
 with MicroBit.Console; use MicroBit.Console;
 with MicroBit.I2C;
-with MicroBit.IOs;
+with MicroBit.IOsForTasking;
 with HAL;              use HAL;
 with HAL.I2C;          use HAL.I2C;
 with MicroBit.MotorDriver;
@@ -14,8 +14,8 @@ with Ada.Real_Time; use Ada.Real_Time;
 procedure Main is
    package Front_Sensor is new MicroBit.Ultrasonic (MB_P13, MB_P1);
 
-   Left_Indicator  : constant MicroBit.IOs.Pin_Id := 12;
-   Right_Indicator : constant MicroBit.IOs.Pin_Id := 16 ;
+   Left_Indicator  : constant MicroBit.IOsForTasking.Pin_Id := 12;
+   Right_Indicator : constant MicroBit.IOsForTasking.Pin_Id := 16 ;
 
    -- Distance measurements from servo scanning
    Front_Distance : Distance_cm := 0;
@@ -390,9 +390,9 @@ procedure Main is
 
 begin
    -- Keep all three external lights on for the power test.
-   MicroBit.IOs.Set (0, True);
-   MicroBit.IOs.Set (Left_Indicator, True);
-   MicroBit.IOs.Set (Right_Indicator, True);
+   MicroBit.IOsForTasking.Set (0, True);
+   MicroBit.IOsForTasking.Set (Left_Indicator, True);
+   MicroBit.IOsForTasking.Set (Right_Indicator, True);
 
    Put_Line ("ADAptive - OLED Clean Text Test");
 
