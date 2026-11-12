@@ -59,11 +59,22 @@ jobs:
       # mb.py builds and stages build/main.elf/.hex/.bin, asserting the hex is
       # valid Intel HEX. DAPLink drag-and-drop takes hex or raw binary, not ELF.
       - name: Build and package firmware
-        run: python3 tools/mb.py build
+        run: python3 tools/mb.py build --use template
 
       - uses: actions/upload-artifact@v4
         with:
           name: ITRS
+          path: |
+            build/main.hex
+            build/main.bin
+            build/main.elf
+
+      - name: Build sensor and beep test
+        run: python3 tools/mb.py build --use flash-test
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Pipetest
           path: |
             build/main.hex
             build/main.bin
