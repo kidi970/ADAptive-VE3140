@@ -8,8 +8,7 @@ with MicroBit.IOsForTasking;
 with HAL;              use HAL;
 with HAL.I2C;          use HAL.I2C;
 with MicroBit.MotorDriver;
-with MicroBit.Music; use MicroBit.Music;
-with Ada.Real_Time; use Ada.Real_Time;
+with Proximity_Alert;
 
 procedure Main is
    package Front_Sensor is new MicroBit.Ultrasonic (MB_P13, MB_P1);
@@ -19,9 +18,6 @@ procedure Main is
 
    -- Distance measurements from servo scanning
    Front_Distance : Distance_cm := 0;
-   Pip : constant Melody := (1 => (C6, 70));
-   Pipintervall : Duration;
-   Sist_Pip : Time := Time_First;
 
    Distance_A     : Distance_cm := 0;
    Distance_Front : Distance_cm := 0;
@@ -162,21 +158,6 @@ procedure Main is
 
       return Result;
    end Median;
-
-   function FareIndikasjon (Distance : Distance_cm) return Duration is
-   begin
-      if Distance = 0 then
-         return 0.0; -- sensor plukker ikke opp noe
-      elsif Distance <= 15 then
-         return 0.14; -- stor fare for kollisjon om noe ikke blir gjort
-      elsif Distance <= 30 then
-         return 0.40; -- moderat fare for kollisjon om noe ikke blir gjort
-      elsif Distance <= 45 then
-         return 0.82; -- liten fare for kollisjon om noe ikke blir gjort
-      else
-         return 0.0; -- ingen fare for kollisjon
-      end if;
-   end FareIndikasjon;
 
    procedure Draw_Char (C : Character) is
       Pixels : I2C_Data (1 .. 7) := (1 => 16#40#, others => 0);
@@ -631,16 +612,8 @@ begin
 
                Front_Distance := Median (Reading_1, Reading_2, Reading_3);
 
-               Pipintervall := FareIndikasjon (Front_Distance);
-                  if Pipintervall = 0.0 then
-                     Sist_Pip := Time_First;
-                  elsif Sist_Pip = Time_First 
-                     or else Clock >= Sist_pip + To_Time_Span (Pipintervall)
-                  then
-                     Sist_Pip := Clock;
-                     Play (27, Pip);
-                  end if;
-                  
+               Proximity_Alert.Set_Distance (Front_Distance);
+
                Put_Line
                  ("VERIFY RAW:"
                   & Distance_cm'Image (Reading_1)
@@ -689,6 +662,7 @@ begin
 
       MicroBit.MotorDriver.Drive (Direction => MicroBit.MotorDriver.Stop);
 
+      Proximity_Alert.Set_Distance (0);
       Show_Status ("STATUS: STOP");
       Put_Line ("ADAptive - FSM TEST COMPLETE");
 
