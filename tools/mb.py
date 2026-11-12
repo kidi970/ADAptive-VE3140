@@ -102,10 +102,13 @@ def is_buildable(gpr: Path) -> bool:
 
 
 def discover() -> dict[str, Path]:
-    """id -> .gpr path. 'template' plus every micro:bit v2 example."""
+    """id -> .gpr path for local projects and micro:bit v2 examples."""
     found: dict[str, Path] = {}
     if TEMPLATE_GPR.is_file():
         found["template"] = TEMPLATE_GPR
+    flash_test_gpr = TEMPLATE_GPR.parent / "flash_test" / "flash_test.gpr"
+    if flash_test_gpr.is_file():
+        found["flash-test"] = flash_test_gpr
 
     if EXAMPLES.is_dir():
         for gpr in sorted(EXAMPLES.rglob("*.gpr")):
