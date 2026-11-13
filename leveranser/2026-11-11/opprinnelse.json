@@ -1,0 +1,21 @@
+{
+  "pakket_dato": "2026-11-11",
+  "tidssone": "Europe/Oslo",
+  "opprinnelig_prosjekt": "/home/kidi970/Documents/ChatGPT/ADAptive",
+  "kildekode": "/home/kidi970/Documents/ChatGPT/ADAptive/build/zip-lysintegrasjon/src",
+  "git_gren": "codex/pi-integration-exceptions-2026-11-02",
+  "git_commit": "a764c159f5d79bbbb26c30b8940a8e6414b5db6a",
+  "kildekode_filer_identiske": 34,
+  "driverfiler_identiske": 2743,
+  "samme_lastbare_program_som_room_range": true,
+  "opprinnelig_room_range_elf_sha256": "33c4f08b55d1aec36a9cad0474a8ffe8c6c26db71e32d3a780fcf09f77752711",
+  "ny_elf_sha256": "2ee099012e0c947626e6d7d2675749aa3a546a5de7fb5ae340943a2a62f62bf7",
+  "hex_sha256": "4fbd4d9484fad09cea783fa4d794571dd04def04dd40d746166636966895e5e1",
+  "nytt_bygg": true,
+  "maskinvare_kontaktet": false,
+  "koblingsplan_endring": "Side 1 og 6: motorplassering rettet til M1 bak H, M2 foran H, M3 bak V, M4 foran V. Øvrig pinneplan beholdt.",
+  "byggeverktøy": {
+    "gnat_arm_elf": "15.1.2",
+    "gprbuild": "25.0.1"
+  }
+}

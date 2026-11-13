@@ -1,3 +1,27 @@
+# ADAptive – VE3140
+
+**Siste samlede leveranse: [11. november 2026](leveranser/2026-11-11/).**
+
+[Last ned HEX](leveranser/2026-11-11/ADAptive-siste.hex), [komplett kildekodepakke](leveranser/2026-11-11/ADAptive-kildekode.zip) eller [koblingsplan PDF](leveranser/2026-11-11/ADAptive-komplett-koblingsplan.pdf). [Se kildekoden direkte](leveranser/2026-11-11/src/).
+
+Den daterte pakken inneholder kildekode fra Pi-en, firmware og koblingsplan kontrollert 11. november 2026. Senere endringer i hovedprogrammet ligger i `Code/src/`. Byggeinstruksjoner og kontrollresultater for pakken ligger i leveransemappen.
+
+## Kode og versjoner
+
+| Kilde | Hva den inneholder |
+|---|---|
+| [`Code/src/`](Code/src/) | Hovedprogrammet som bygges av `Code/itrs.gpr`. Ved revisjon `7fe1674` er dette en automatisk prøve på 60 trinn, med servoskanning og lydvarsling. |
+| [`Code/flash_test/`](Code/flash_test/) | Separat sensor- og pipetest uten motorstyring. Bygges med `python3 tools/mb.py build --use flash-test`. |
+| [`leveranser/2026-11-11/`](leveranser/2026-11-11/) | Datert pakke med modulær bilkode, firmware, koblingsplan og kontrollfiler. Den er et eget versjonsgrunnlag og har andre kildefiler enn rotnivåets `Code/src/`. |
+| [Rapportens programvaregrunnlag, `a764c159`](https://github.com/kidi970/ADAptive-VE3140/tree/a764c159f5d79bbbb26c30b8940a8e6414b5db6a) | Fast revisjon for rapportens programvarekontroller. Benkresultater fra andre arbeidskopier må leses med versjonen og filmanifestet som er oppgitt i rapporten. |
+| [`ADAptive Rapport.docx`](ADAptive%20Rapport.docx) | Historisk rapportutkast fra 7. oktober 2026. Den gjeldende rapporten bearbeides i Overleaf. |
+
+## Medfølgende undervisningsmal
+
+Dokumentasjonen nedenfor fulgte malen `Ada-Embedded-Project-MicroBitV2`. Henvisninger til foreleser, malvedlikehold, utvidelser og eierskap til driverforken gjelder originalprosjektet. `CLAUDE.md`, `SKILLS.md` og `.claude/` fulgte også malen og beskriver dens utviklingsverktøy. ADAptive er prosjektgruppens videreutvikling av dette grunnlaget.
+
+---
+
 <!-- No build badge here on purpose: a template is copied verbatim, so a badge
      pointing at the upstream repository would report the lecturer's build
      status inside every student's project. Check your own build under the
@@ -87,10 +111,11 @@ closing the folder.
 
 ## Automation in this template
 
-* GitHub Actions builds your code on every push and publishes `main.hex` as a
-  downloadable artifact.
-* The same workflow checks the build on Linux, macOS and Windows, builds all 47
-  projects, and proves the SPARK examples.
+* In ADAptive, GitHub Actions builds the main program and the separate sensor
+  and beep test on Linux. It publishes the **ITRS** and **Pipetest** artifacts.
+* The template's checks for multiple operating systems, all examples, SPARK
+  proofs and extension regression tests are configured to run only in
+  `aiunderstand/Ada-Embedded-Project-MicroBitV2`. They do not run in ADAptive.
 * Dependabot keeps the drivers submodule up to date, monthly.
 
 ## This template uses

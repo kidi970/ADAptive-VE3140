@@ -4,12 +4,17 @@ with MicroBit.DisplayRT;
 with MicroBit.Types;   use MicroBit.Types;
 with MicroBit.Console; use MicroBit.Console;
 with MicroBit.I2C;
+with MicroBit.IOsForTasking;
 with HAL;              use HAL;
 with HAL.I2C;          use HAL.I2C;
 with MicroBit.MotorDriver;
+with Proximity_Alert;
 
 procedure Main is
    package Front_Sensor is new MicroBit.Ultrasonic (MB_P13, MB_P1);
+
+   Left_Indicator  : constant MicroBit.IOsForTasking.Pin_Id := 12;
+   Right_Indicator : constant MicroBit.IOsForTasking.Pin_Id := 16 ;
 
    -- Distance measurements from servo scanning
    Front_Distance : Distance_cm := 0;
@@ -284,7 +289,7 @@ procedure Main is
          Send ("CLEAR", Zero_Block);
       end loop;
 
-      -- IMPORTANT: Select page 6 AGAIN after clearing
+      -- Restore page 6 before writing the status text.
       Send ("STATUS PAGE", (16#00#, 16#B6#));
 
       -- Start at column 20
@@ -365,6 +370,11 @@ procedure Main is
       0);
 
 begin
+   -- Keep outputs P0, P12 and P16 high during the power test.
+   MicroBit.IOsForTasking.Set (0, True);
+   MicroBit.IOsForTasking.Set (Left_Indicator, True);
+   MicroBit.IOsForTasking.Set (Right_Indicator, True);
+
    Put_Line ("ADAptive - OLED Clean Text Test");
 
    MicroBit.I2C.InitializeExt (MicroBit.I2C.S100kbps);
@@ -412,7 +422,7 @@ begin
    Show_Status ("STATUS: " & State_Text (Current_State));
 
       -- ADAptive FSM test
-   -- Forward motor movement is disabled during this test.
+   -- The test permits 0.2 s forward pulses after a clear front check.
 
    declare
       Max_Test_Steps : constant Natural := 60;
@@ -602,6 +612,8 @@ begin
 
                Front_Distance := Median (Reading_1, Reading_2, Reading_3);
 
+               Proximity_Alert.Set_Distance (Front_Distance);
+
                Put_Line
                  ("VERIFY RAW:"
                   & Distance_cm'Image (Reading_1)
@@ -650,6 +662,7 @@ begin
 
       MicroBit.MotorDriver.Drive (Direction => MicroBit.MotorDriver.Stop);
 
+      Proximity_Alert.Set_Distance (0);
       Show_Status ("STATUS: STOP");
       Put_Line ("ADAptive - FSM TEST COMPLETE");
 
@@ -660,4 +673,3 @@ begin
    end;
 
 end Main;
-
