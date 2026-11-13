@@ -289,7 +289,7 @@ procedure Main is
          Send ("CLEAR", Zero_Block);
       end loop;
 
-      -- IMPORTANT: Select page 6 AGAIN after clearing
+      -- Restore page 6 before writing the status text.
       Send ("STATUS PAGE", (16#00#, 16#B6#));
 
       -- Start at column 20
@@ -370,7 +370,7 @@ procedure Main is
       0);
 
 begin
-   -- Keep all three external lights on for the power test.
+   -- Keep outputs P0, P12 and P16 high during the power test.
    MicroBit.IOsForTasking.Set (0, True);
    MicroBit.IOsForTasking.Set (Left_Indicator, True);
    MicroBit.IOsForTasking.Set (Right_Indicator, True);
@@ -422,7 +422,7 @@ begin
    Show_Status ("STATUS: " & State_Text (Current_State));
 
       -- ADAptive FSM test
-   -- Forward motor movement is disabled during this test.
+   -- The test permits 0.2 s forward pulses after a clear front check.
 
    declare
       Max_Test_Steps : constant Natural := 60;
