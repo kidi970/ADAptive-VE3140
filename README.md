@@ -1,20 +1,21 @@
 # ADAptive – VE3140
 
-**Siste samlede leveranse: [11. november 2026](leveranser/2026-11-11/).**
+**Siste versjon for bilen er [leveransen 18. november 2026](leveranser/2026-11-18/).**
 
-[Last ned HEX](leveranser/2026-11-11/ADAptive-siste.hex), [komplett kildekodepakke](leveranser/2026-11-11/ADAptive-kildekode.zip) eller [koblingsplan PDF](leveranser/2026-11-11/ADAptive-komplett-koblingsplan.pdf). [Se kildekoden direkte](leveranser/2026-11-11/src/).
+[Last ned HEX](leveranser/2026-11-18/ADAptive-siste.hex) · [Last ned byggepakken](leveranser/2026-11-18/ADAptive-kildekode.zip) · [Se Ada-koden](leveranser/2026-11-18/src/) · [Se pinneplanen](leveranser/2026-11-18/PINNEPLAN.md)
 
-Den daterte pakken inneholder kildekode fra Pi-en, firmware og koblingsplan kontrollert 11. november 2026. Senere endringer i hovedprogrammet ligger i `Code/src/`. Byggeinstruksjoner og kontrollresultater for pakken ligger i leveransemappen.
+Denne versjonen er installert på ADAptive-bilen og prøvd på gulvet med powerbank. Leveransemappen beskriver oppkobling, bruk, byggekommando og kontrollene som hører til versjonen.
 
 ## Kode og versjoner
 
-| Kilde | Hva den inneholder |
+| Kilde | Innhold |
 |---|---|
-| [`Code/src/`](Code/src/) | Hovedprogrammet som bygges av `Code/itrs.gpr`. Ved revisjon `7fe1674` er dette en automatisk prøve på 60 trinn, med servoskanning og lydvarsling. |
-| [`Code/flash_test/`](Code/flash_test/) | Separat sensor- og pipetest uten motorstyring. Bygges med `python3 tools/mb.py build --use flash-test`. |
-| [`leveranser/2026-11-11/`](leveranser/2026-11-11/) | Datert pakke med modulær bilkode, firmware, koblingsplan og kontrollfiler. Den er et eget versjonsgrunnlag og har andre kildefiler enn rotnivåets `Code/src/`. |
-| [Rapportens programvaregrunnlag, `a764c159`](https://github.com/kidi970/ADAptive-VE3140/tree/a764c159f5d79bbbb26c30b8940a8e6414b5db6a) | Fast revisjon for rapportens programvarekontroller. Benkresultater fra andre arbeidskopier må leses med versjonen og filmanifestet som er oppgitt i rapporten. |
-| [`ADAptive Rapport.docx`](ADAptive%20Rapport.docx) | Historisk rapportutkast fra 7. oktober 2026. Den gjeldende rapporten bearbeides i Overleaf. |
+| [18. november 2026](leveranser/2026-11-18/) | Gjeldende bilfirmware, Ada-kode, selvstendig byggepakke og koblingsoversikt. |
+| [11. november 2026](leveranser/2026-11-11/) | Tidligere datert leveranse med kildekode fra 4. november, HEX og koblingsplan. |
+| [`Code/src/`](Code/src/) | Den tidligere 60-trinnsprøven med servoskanning og lydvarsling, som bygges av `Code/itrs.gpr`. |
+| [`Code/flash_test/`](Code/flash_test/) | Separat sensor- og pipetest. Bygges med `python3 tools/mb.py build --use flash-test`. |
+| [Rapportens programvaregrunnlag, `a764c159`](https://github.com/kidi970/ADAptive-VE3140/tree/a764c159f5d79bbbb26c30b8940a8e6414b5db6a) | Fast revisjon for rapportens programvarekontroller. Les benkresultater sammen med versjonen og filmanifestet som oppgis i rapporten. |
+| [`ADAptive Rapport.docx`](ADAptive%20Rapport.docx) | Historisk rapportutkast fra 7. oktober 2026. Gjeldende rapport bearbeides i Overleaf. |
 
 ## Medfølgende undervisningsmal
 

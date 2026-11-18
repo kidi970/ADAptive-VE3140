@@ -1,0 +1,18 @@
+PASS 2750 checks
+PASS range model: 24 checks
+PASS open range: 38 checks
+PASS 60 fault checks
+PASS 31 stop UI recovery checks
+PASS 6006 proximity alert checks
+PASS 94 lamp checks
+PASS 57 adaptive scan checks
+PASS 43 wide scan checks
+PASS 572 integrated controller checks
+PASS 140 offline mathematical model checks
+PASS 24 bounded logger checks (mock transport)
+PASS bench model/OLED: 866 checks
+PASS 75 USB status IO checks (mock GPIO)
+PASS 106 motion checks (mock I2C)
+PASS 32 display checks (mock I2C)
+PASS 6 safety button checks
+PASS 122 navigation checks (mock sensors/I2C)
